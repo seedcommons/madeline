@@ -1,83 +1,83 @@
 fr:
   number:
     nth:
-      num_1: ""
-      num_2: ""
-      num_3: ""
-      num_4: ""
-      num_5: "" # This reflects the actual behavior of the repeat function
-    nth_weekday: ""
-    the_day: ""
+      num_1: "first"
+      num_2: "second"
+      num_3: "third"
+      num_4: "fourth"
+      num_5: "last" # This reflects the actual behavior of the repeat function
+    nth_weekday: "The %{nth} %{weekday}"
+    the_day: "The %{day}"
   data_export:
-    attachments: ""
-    info: ""
-    file: ""
-    status: ""
-    task: ""
-    task_id: ""
-    task_id_num: ""
-    task_error_details: ""
-    type: ""
-    download: ""
+    attachments: "Attachments"
+    info: "Details"
+    file: "File %{n}"
+    status: "Export Status"
+    task: "Associated Task"
+    task_id: "Task ID"
+    task_id_num: "Task #%{number}"
+    task_error_details: "Task Error Details"
+    type: "Data Export Type"
+    download: "Download CSV"
   data_exports:
-    choose_type: ""
-    create_success: ""
-    default_name: ""
-    index_heading: ""
+    choose_type: "Choose Data Export Type"
+    create_success: "Successfully queued data export."
+    default_name: "%{type} on %{current_time}"
+    index_heading: "Data Exports"
     new_export:
-      general: ""
-      standard_loan_data_export: ""
-      enhanced_loan_data_export: ""
+      general: "New Data Export"
+      standard_loan_data_export: "New Standard Loan Data Export"
+      enhanced_loan_data_export: "Enhanced Loan Data Export"
     types:
-      data_export: ""
-      standard_loan_data_export: ""
-      enhanced_loan_data_export: ""
+      data_export: "Data Export"
+      standard_loan_data_export: "Standard Loan Data Export"
+      enhanced_loan_data_export: "Enhanced Loan Data Export"
   standard_loan_data_exports:
     headers:
-      actual_end_date: ""
-      actual_first_interest_payment_date: ""
-      actual_first_payment_date: ""
-      actual_return: ""
-      address: ""
-      amount: ""
-      change_in_interest: ""
-      change_in_principal: ""
-      city: ""
-      cooperative: ""
-      country: ""
-      currency: ""
-      division: ""
-      final_repayment_formula: ""
-      length_months: ""
-      loan_id: ""
-      loan_type: ""
-      name: ""
-      num_accounting_warnings: ""
-      num_accounting_errors: ""
-      postal_code: ""
-      primary_agent: ""
-      projected_end_date: ""
-      projected_first_interest_payment_date: ""
-      projected_first_payment_date: ""
-      projected_return: ""
-      question_id: ""
-      rate: ""
-      secondary_agent: ""
-      signing_date: ""
-      state: ""
-      status: ""
-      sum_of_disbursements: ""
-      sum_of_repayments: ""
+      actual_end_date: "Actual End Date"
+      actual_first_interest_payment_date: "Actual First Interest Payment Date"
+      actual_first_payment_date: "Actual First Payment Date"
+      actual_return: "Actual Return"
+      address: "Street Address"
+      amount: "Amount"
+      change_in_interest: "Change in Interest"
+      change_in_principal: "Change in Principal"
+      city: "City"
+      cooperative: "Co-op"
+      country: "Country"
+      currency: "Currency"
+      division: "Division"
+      final_repayment_formula: "Final Repayment Formula"
+      length_months: "Length (months)"
+      loan_id: "Loan ID"
+      loan_type: "Loan Type"
+      name: "Name"
+      num_accounting_warnings: "Accounting Warning Count"
+      num_accounting_errors: "Accounting Error Count"
+      postal_code: "Zip"
+      primary_agent: "Primary Agent"
+      projected_end_date: "Projected End Date"
+      projected_first_interest_payment_date: "Projected First Interest Payment Date"
+      projected_first_payment_date: "Projected First Payment Date"
+      projected_return: "Projected Return"
+      question_id: "Question ID"
+      rate: "Rate"
+      secondary_agent: "Secondary Agent"
+      signing_date: "Signing Date"
+      state: "State"
+      status: "Status"
+      sum_of_disbursements: "Sum of Disbursements"
+      sum_of_repayments: "Sum of Repayments"
   notification_mailer:
     new_log:
-      contact: ""
-      created: ""
-      logs: ""
-      subject: ""
-      timeline: ""
+      contact: "Reply to this email to contact the author of the log."
+      created: "A new log has been created on %{project} by %{agent}"
+      logs: "Journaux"
+      subject: "[Madeline] New log on %{project}"
+      timeline: "Timeline"
       view_on_site:
-        html: ""
-        plain_text: ""
+        html: "View the log on Madeline"
+        plain_text: "To view the log's details, additional notes, and private notes, view the log on Madeline"
   time:
     formats:
       default: '%b %e, %Y'
@@ -90,32 +90,32 @@ fr:
       my_only: '%b %Y'
   date:
     formats:
-      default: ''
-      short: ''
-      long: ''
-      md_only: ''
-      my_only: ''
+      default: '%b %e, %Y'
+      short: '%-m-%-d-%Y'
+      long: '%B %e, %Y'
+      md_only: '%b %e'
+      my_only: '%b %Y'
     # Syntax: see https://momentjs.com/docs/#/displaying/
     # Should match the above strftime style formats.
     moment_formats:
-      default: ''
+      default: 'MMM D, YYYY'
   calendar:
-    calendar: ""
-    check_in: ""
-    draft: ""
-    finalized: ""
-    has_precedent: ""
-    legend: ""
-    milestone: ""
-    num_of_logs: ""
-    original_date: ""
+    calendar: "Calendar"
+    check_in: "Check in"
+    draft: "Draft"
+    finalized: "Finalized"
+    has_precedent: "Depends on another step"
+    legend: "Legend"
+    milestone: "Milestone"
+    num_of_logs: "Number of logs"
+    original_date: "Original date"
     status:
-      early: ""
-      incomplete: ""
-      late: ""
-      on_time: ""
-      super_late: ""
-      very_late: ""
+      early: "Completed Early"
+      incomplete: "Incomplete"
+      late: "Late"
+      on_time: "Completed on time"
+      super_late: "Super late"
+      very_late: "Very late"
   project_step:
     add: "Ajouter Étape"
     add_dependent_step: "Ajouter une Étape Dépendante"
@@ -157,7 +157,7 @@ fr:
     logs: "Journaux"
     months: "Moi(s)"
     move: "Étape de Déplacement"
-    no_status: ""
+    no_status: "[No status]"
     no_steps: "Ce calendrier n'a pas encore de pas."
     no_steps_match: "Aucune étape de chronologie ne correspond aux filtres ci-dessus."
     occurrences: "occurrence(s)"
@@ -195,105 +195,105 @@ fr:
     view_logs: "Regardes les connexions"
     weeks: "Semaine(s)"
   project_group:
-    add: ""
-    edit: ""
-    delete: ""
-    delete_confirmation: ""
+    add: "New Group"
+    edit: "Edit Group"
+    delete: "Delete Group"
+    delete_confirmation: "Are you sure you want to remove this group?"
   project_groups:
-    delete_error: ""
+    delete_error: "The group could not be deleted due to an error"
   organization:
-    active_loans: ""
-    confirm_deletion: ""
-    media: ""
-    delete: ""
-    edit: ""
-    new: ""
-    people: ""
+    active_loans: "Active Loans"
+    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Co-op? If it has any associated loans, they will be deleted as well!"
+    media: "Co-op Media"
+    delete: "Delete Co-op"
+    edit: "Edit Co-op"
+    new: "New Co-op"
+    people: "Members"
   locale_name:
     en: Anglais
     es: Espanol
     fr: Français
   task:
     activity_message:
-      completed: ""
-      error_data_reset_required: ""
-      error_quickbooks_not_connected: ""
-      error_quickbooks_accounts_not_selected: ""
-      failed: ""
-      fetching_quickbooks_data: ""
-      finished_with_custom_error_data: ""
-      in_progress: ""
-      syncing_with_quickbooks: ""
-      task_enqueued: ""
-      updating_loans: ""
+      completed: "Complete"
+      error_data_reset_required: "Error: QuickBooks data reset required"
+      error_quickbooks_not_connected: "Error: QuickBooks not connected"
+      error_quickbooks_accounts_not_selected: "Error: QuickBooks accounts not set. Select QuickBooks accounts on the Accounting Settings page."
+      failed: "Task failed with an internal error. An administrator has been notified."
+      fetching_quickbooks_data: "Fetching QuickBooks Data"
+      finished_with_custom_error_data: "This task completed with errors. See task error details."
+      in_progress: "In progress"
+      syncing_with_quickbooks: "Syncing with QuickBooks"
+      task_enqueued: "This task has been enqueued"
+      updating_loans: "Updating %{total} loans. %{so_far} loans updated so far."
     custom_error_data:
-      help: ""
-      link_to_details: ""
-      loan_id: ""
-      loan_error: ""
-      not_applicable: ""
+      help: "See loan, its co-op, or its transactions for more information."
+      link_to_details: "Click here to see error details"
+      loan_id: "Loan ID"
+      loan_error: "Loan Error"
+      not_applicable: "N/A"
     header:
-      activity_message: ""
-      created_at: ""
-      custom_error_data: ""
-      id: ""
-      job_first_started_at: ""
-      job_last_failed_at: ""
-      status: ""
-      related: ""
-      type: ""
+      activity_message: "Message"
+      created_at: "Created At"
+      custom_error_data: "Error Details"
+      id: "ID"
+      job_first_started_at: "Job First Started At"
+      job_last_failed_at: "Job Last Failed At"
+      status: "Status"
+      related: "Related"
+      type: "Task Type"
     index:
-      title: ""
+      title: "Tasks"
     show:
-      title: ""
+      title: "%{type} Task #%{id}"
     status:
-      failed: ""
-      in_progress: ""
-      pending: ""
-      succeeded: ""
+      failed: "Failed"
+      in_progress: "In progress"
+      pending: "Pending"
+      succeeded: "Succeeded"
     taskable:
       type:
-        data_export: ""
+        data_export: "Data Export"
       type_with_id:
-        data_export: ""
+        data_export: "Data Export #%{number}"
     type:
-      full_fetcher: ""
-      data_export: ""
-      data_export_task_job: ""
-      update_all_loans: ""
-      update_all_loans_job: ""
-      fetch_quickbooks_changes: ""
-      fetch_quickbooks_changes_job: ""
+      full_fetcher: "QuickBooks Import"
+      data_export: "Data Export"
+      data_export_task_job: "Data Export"
+      update_all_loans: "Update All Loans"
+      update_all_loans_job: "Update All Loans"
+      fetch_quickbooks_changes: "Fetch QuickBooks Changes"
+      fetch_quickbooks_changes_job: "Fetch QuickBooks Changes"
   questions:
     active: "Actif"
     confirm_deletion: "AVERTISSEMENT: Si cet élément a des questions ou des groupes lui appartenant, ils seront également supprimés! Êtes-vous sûr de vouloir supprimer ceci?"
     confirm_deletion_no_descendants: "Êtes-vous sûr de vouloir supprimer ceci?"
     confirm_deletion_descendants: "AVERTISSEMENT: Cet élément a des questions ou des groupes lui appartenant, qui seront également supprimés! Êtes-vous sûr de vouloir supprimer ceci?"
-    currently_editing: ""
+    currently_editing: "Now editing"
     delete_error: "L'élément n'a pas pu être supprimé en raison d'une erreur"
-    edit_all: ""
-    edit_rich_text: ""
+    edit_all: "Enter Edit Mode"
+    edit_rich_text: "Edit Answer"
     explanation: "Explication"
     manage: "Gérer les questions de prêt"
-    missing_required_answer: ""
+    missing_required_answer: "This is a required question."
     move_error: "L'élément n'a pas pu être déplacé en raison d'une erreur"
     not_editable: "Cette question ou ce groupe est hérité d'une division parente, il ne peut donc pas être modifié."
     progress:
-      complete: ""
-      normal: ""
-      optional: ""
+      complete: "Complete"
+      normal: "Required"
+      optional: "Optional"
     table:
-      caption: ""
+      caption: "Question number %{number} question and response"
     text: "Titre"
-    none_for_loan_division: ""
-    none_for_current_division: ""
+    none_for_loan_division: "There are no question sets for this Loan's division (%{division_name}). Please contact the Madeline support team to rectify this."
+    none_for_current_division: "There are no question sets for the currently selected division. Please contact the Madeline support team to rectify this."
     inheritance_tag:
-      ancestor: ""
-      descendant: ""
+      ancestor: "Inherited from %{division_name}"
+      descendant: "Created by %{division_name}"
 
   question_sets:
-    loan_criteria: ""
-    loan_post_analysis: ""
+    loan_criteria: "Credit Memo"
+    loan_post_analysis: "Post-Analysis"
 
   linked_document:
     cell_end: Cellule d'extrémité
@@ -310,78 +310,78 @@ fr:
   # style shortcuts.
   people:
     shared:
-      has_system_access: ""
-      invalid_division_role: ""
-      media: ""
-      new: ""
-      people: ""
-      person: ""
+      has_system_access: "System access"
+      invalid_division_role: "Invalid access role"
+      media: "Member Media"
+      new: "New Member"
+      people: "Members"
+      person: "Member"
   activerecord:
     models:
-      data_export: ""
-      documentation: ""
-      log: ""
-      organization: ""
-      loan: ""
-      person: ""
+      data_export: "Data Export"
+      documentation: Documentation
+      log: "Log"
+      organization: "Organization"
+      loan: "Loan"
+      person: "Member"
       project_step:
-        one: ""
-        other: ""
-      media: ""
+        one: "Project Step"
+        other: "Project Steps"
+      media: Media
     attributes:
       media:
-        item: ""
-        kind_value: ""
-        featured: ""
+        item: "Item"
+        kind_value: "Kind"
+        featured: "Featured Image"
       basic_project:
-        division: ""
-        length_months: ""
-        name: ""
-        primary_agent: ""
-        secondary_agent: ""
-        signing_date: ""
-        status: ""
+        division: "Division"
+        length_months: "Length (months)"
+        name: "Name"
+        primary_agent: "Primary Agent"
+        secondary_agent: "Secondary Agent"
+        signing_date: "Start Date"
+        status: "Status"
       data_export:
-        created_at: ""
-        end_date: ""
-        locale_code: ""
-        name: ""
-        start_date: ""
+        created_at: "Created"
+        end_date: "Data Export End Date"
+        locale_code: "Language"
+        name: "Name"
+        start_date: "Data Export Start Date"
       division:
-        description: ""
-        default_currency: ""
-        homepage: ""
-        name: ""
-        parent_id: ""
-        notify_on_new_logs: ""
-        public: ""
-        public_url: ""
-        logo: ""
-        logo_text: ""
-        banner_fg_color: ""
-        banner_bg_color: ""
-        accent_main_color: ""
-        public_primary_color: ""
-        public_secondary_color: ""
-        public_accent_color: ""
-        closed_books_date: ""
-        qb_read_only: ""
-        connection_status: ""
-        connect: ""
-        last_updated_at: ""
-        data_reset: ""
-        disconnect: ""
-        data_import_status: ""
-        fetch_from_quickbooks: ""
-        principal_account_id: ""
-        qb_department_id: ""
-        short_name: ""
-        interest_receivable_account_id: ""
-        interest_income_account_id: ""
+        description: "Description"
+        default_currency: "Default Currency"
+        homepage: "Division Homepage"
+        name: "Name"
+        parent_id: "Parent Division"
+        notify_on_new_logs: "Notify on New Logs"
+        public: "Public"
+        public_url: "Public URL"
+        logo: "Logo"
+        logo_text: "Logo Text"
+        banner_fg_color: "Madeline Secondary Color"
+        banner_bg_color: "Madeline Primary Color"
+        accent_main_color: "Madeline Accent Color"
+        public_primary_color: "Public Division Page Primary Color"
+        public_secondary_color: "Public Division Page Secondary Color"
+        public_accent_color: "Public Division Page Accent Color"
+        closed_books_date: "Closed Books Date"
+        qb_read_only: "Treat QB Data as Read-Only"
+        connection_status: "QuickBooks Status"
+        connect: "Connect to QuickBooks"
+        last_updated_at: "QuickBooks Data Last Imported"
+        data_reset: "Reset Cached QuickBooks Data"
+        disconnect: "Disconnect from QuickBooks"
+        data_import_status: "Data Import Status"
+        fetch_from_quickbooks: "QuickBooks Fetch"
+        principal_account_id: "Principal Account"
+        qb_department_id: "QB Division"
+        short_name: "Short Name"
+        interest_receivable_account_id: "Interest Receivable Account"
+        interest_income_account_id: "Interest Income Account"
       documentation:
-        calling_action: ""
-        calling_controller: ""
-        html_identifier: ""
+        calling_action: "Calling Action"
+        calling_controller: "Calling Controller"
+        html_identifier: "HTML Identifier"
       loan:
         division: "Division"
         organization: "Les Coopérative"
@@ -395,72 +395,73 @@ fr:
         primary_agent: "Personne Point"
         secondary_agent: "Seconde"
         length_months: "Durée (mois)"
-        actual_end_date: ""
-        actual_return: ""
-        actual_first_interest_payment_date: ""
-        actual_first_payment_date: ""
-        projected_first_interest_payment_date: ""
-        projected_first_payment_date: ""
-        projected_end_date: ""
+        actual_end_date: "Actual End Date"
+        actual_return: "Actual Return"
+        actual_first_interest_payment_date: "Actual First Interest Payment Date"
+        actual_first_payment_date: "Actual First Payment Date"
+        projected_first_interest_payment_date: "Projected First Interest Payment Date"
+        projected_first_payment_date: "Projected First Payment Date"
+        projected_end_date: "Projected End Date"
         projected_return: "Retour Projeté"
         details: "Détails"
         public_level: "Niveau Public"
-        txn_handling_mode: ""
-        automatic: ""
-        read_only: ""
+        txn_handling_mode: "Transaction Mode"
+        automatic: "Automatic"
+        read_only: "Read-Only"
         rate: "Taux"
         signing_date: "Date de Signature"
         summary: "Résumé"
-        final_repayment_formula: ""
+        final_repayment_formula: "Final Repayment Formula"
       note:
-        text: ""
+        text: "Note"
       organization:
-        active_loans: ""
-        additional_people: ""
-        alias: ""
-        city: ""
-        contact_notes: ""
-        division: ""
-        email: ""
-        fax: ""
-        industry: ""
-        legal_name: ""
-        name: ""
-        neighborhood: ""
-        people: ""
-        postal_code: ""
-        primary_contact: ""
-        primary_phone: ""
-        referral_source: ""
-        secondary_phone: ""
-        street_address: ""
-        sector: ""
-        state: ""
-        tax_no: ""
-        country: ""
-        website: ""
-        inception: ""
+        active_loans: "Active Loans"
+        additional_people: "Additional Members"
+        alias: "Alias"
+        city: "City"
+        contact_notes: "Contact Notes"
+        division: "Division"
+        email: "E-mail"
+        fax: "Fax"
+        industry: "Industry"
+        legal_name: "Legal Name"
+        name: "Name"
+        neighborhood: "Neighborhood"
+        people: "Members"
+        postal_code: "Postal Code"
+        primary_contact: "Primary Contact"
+        primary_phone: "Phone"
+        referral_source: "Referral Source"
+        secondary_phone: "Mobile"
+        street_address: "Street Address"
+        sector: "Sector"
+        state: "State"
+        tax_no: "Tax ID"
+        country: "Country"
+        website: "Website"
+        inception: "Inception"
       person:
-        birth_date: ""
-        city: ""
-        contact_notes: ""
-        country: ""
-        division: ""
-        email: ""
-        first_name: ""
-        has_system_access: ""
-        last_name: ""
-        access_role: ""
-        postal_code: ""
-        password: ""
-        password_confirmation: ""
-        primary_organization: ""
-        primary_phone: ""
-        secondary_phone: ""
-        street_address: ""
-        state: ""
-        tax_no: ""
-        website: ""
+        birth_date: "Birth Date"
+        city: "City"
+        contact_notes: "Contact Notes"
+        country: "Country"
+        division: "Division"
+        email: "E-mail"
+        first_name: "First Name"
+        has_system_access: "Has System Access"
+        last_name: "Last Name"
+        access_role: "Access Role"
+        postal_code: "Zip Code"
+        password: "Password"
+        password_confirmation: "Password Confirmation"
+        primary_organization: "Co-op"
+        primary_phone: "Phone"
+        secondary_phone: "Mobile"
+        street_address: "Street Address"
+        state: "State"
+        tax_no: "National ID"
+        website: "Website"
+        notification_source: "Notifications"
       project:
         length_months: "Durée (mois)"
         name: "Prénom"
@@ -471,74 +472,74 @@ fr:
         status: "Statut"
         health_check: "Bilan de Santé"
       project_log:
-        step: ""
-        date: ""
-        agent: ""
-        progress_metric_value: ""
+        step: "Step"
+        date: "Log Date"
+        agent: "Member"
+        progress_metric_value: "Status"
       project_step:
-        agent_id: ""
-        parent_id: ""
-        schedule_parent_id: ""
-        actual_end_date: ""
-        duration: ""
-        is_finalized: ""
-        is_finalized?: ""
-        old_duration_days: ""
-        old_start_date: ""
-        scheduled_duration_days: ""
-        scheduled_start_date: ""
-        scheduled_end_date: ""
-        step_type_value: ""
+        agent_id: "Assignee"
+        parent_id: "Group"
+        schedule_parent_id: "Preceding Step"
+        actual_end_date: "Completed Date"
+        duration: "Scheduled Duration"
+        is_finalized: "Finalized"
+        is_finalized?: "Finalized"
+        old_duration_days: "Original Duration"
+        old_start_date: "Original Start Date"
+        scheduled_duration_days: "Scheduled Duration"
+        scheduled_start_date: "Scheduled Start Date"
+        scheduled_end_date: "Scheduled End Date"
+        step_type_value: "Type"
       accounting:
         transaction:
-          amount: ""
-          change_in_interest: ""
-          change_in_principal: ""
-          description: ""
-          interest_balance: ""
-          principal_balance: ""
-          private_note: ""
-          qb_id: ""
-          txn_date: ""
-          total: ""
-          total_balance: ""
-          type: ""
+          amount: "Amount"
+          change_in_interest: "Change in Interest"
+          change_in_principal: "Change in Principal"
+          description: "Description"
+          interest_balance: "Interest Balance"
+          principal_balance: "Principal Balance"
+          private_note: "Memo"
+          qb_id: "Id"
+          txn_date: "Date"
+          total: "Total"
+          total_balance: "Total Balance"
+          type: "Type"
     errors:
       models:
         accounting/transaction:
           attributes:
             txn_date:
-              closed_books_date: ""
+              closed_books_date: "Date must be after the Closed Books Date, %{date}, in Accounting Settings."
         basic_project:
           attributes:
             primary_agent:
-              same_as_secondary: ''
+              same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         division:
           attributes:
             name:
-              same_as_parent: ''
+              same_as_parent: 'Division and Parent Division names cannot be the same'
         loan:
           attributes:
             primary_agent:
-              same_as_secondary: ''
+              same_as_secondary: 'The point person for this project cannot be the same as the second point person'
         media:
           attributes:
             item:
-              reattach: ""
+              reattach: "please reattach your image"
             featured:
-              non_image: ""
+              non_image: "only image attachments can be set to featured"
         project_group:
-          no_summary: ""
+          no_summary: "Summary is required."
         question:
-          invalid_parent_division_depth: ""
+          invalid_parent_division_depth: "Parent must be in same or ancestor division."
         organization:
           attributes:
             primary_contact:
-              invalid: ''
+              invalid: 'Primary Contact needs to belong to organization'
         timeline_entry:
           attributes:
             scheduled_end_date:
-              less_than_1: ""
+              less_than_1: "The scheduled duration of a step cannot be less than 1 day."
   dashboard:
     assigned_steps: "Etapes du projet qui m'ont été attribuées"
     logs: "Journaux"
@@ -560,8 +561,8 @@ fr:
     confirm_deletion: "Êtes-vous sûr de vouloir supprimer cet élément multimédia?"
     caption: "%{locale_name} Légende"
     documents: "Documents"
-    duplication_warning: ""
-    featured_image: ""
+    duplication_warning: "There is already a featured image. You will be overwriting it if you continue."
+    featured_image: "Featured Image"
     add: "Ajouter des médias"
     edit: "Modifier les médias"
     delete: "Supprimer le média"
@@ -569,97 +570,97 @@ fr:
     media: "Médias"
     visual_media: "Média Visuel"
     block:
-      id: ""
-      kind: ""
-      filename: ""
-      date_uploaded: ""
-      source: ""
+      id: ID
+      kind: Kind
+      filename: File name
+      date_uploaded: Uploaded
+      source: Source
   project:
-    months: ""
+    months: "%{number} mo."
 
   health_status:
-    healthy: ""
-    unhealthy: ""
+    healthy: "All status checks passed."
+    unhealthy: "Status checks are failing:"
     warnings:
-      active_without_signed_contract: ""
-      active_without_recent_logs: ""
-      late_steps: ""
-      incomplete_loan_questions: ""
-      sporadic_loan_updates: ""
+      active_without_signed_contract: "No contract attached"
+      active_without_recent_logs: "No logs in longer than a month"
+      late_steps: "A step more than a day late and incomplete"
+      incomplete_loan_questions: "Less than 80% of the required questions answered"
+      sporadic_loan_updates: "Less than one step every month"
   sync_issue:
-    authorization_failure: ""
-    unprocessable_account: ""
-    journal_entry_type_other_account_not_set: ""
-    has_multiple_loans: ""
-    attempted_change_before_closed_books_date: ""
-    no_end_of_month_int_txn_before_closed_books_date: ""
-    attempted_new_int_txn_before_closed_books_date: ""
-    data_reset_required: ""
-    matched_transaction: ""
-    quickbooks_not_connected: ""
-    quickbooks_accounts_not_selected: ""
-    quickbooks_unavailable_fetch: ""
-    quickbooks_unavailable_recalc: ""
-    service_unavailable: ""
-    system_error_fetch: ""
-    system_error_recalc: ""
-    unknown_intuit_request_exception: ""
+    authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to Accounting Settings to connect."
+    unprocessable_account: "Transaction contains line item with unprocessable account. Please review and fix in QuickBooks."
+    journal_entry_type_other_account_not_set: "Transaction of type Other does not have account set. Please review line items in QuickBooks for accuracy."
+    has_multiple_loans: "Transaction associated with multiple loans"
+    attempted_change_before_closed_books_date: "Madeline would have altered this transaction (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    no_end_of_month_int_txn_before_closed_books_date: "Madeline would have added an end-of-month interest transaction after this one (dated %{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    attempted_new_int_txn_before_closed_books_date: "Madeline would have added an interest transaction on same date as this one (%{txn_date}) if it were not before the closed books date %{cbd}. Please review books for accuracy."
+    data_reset_required: "QuickBooks data reset required. Please go to Accounting Settings to perform a reset."
+    matched_transaction: "QuickBooks reports that a transaction (dated %{date} with QB id %{qb_id}) has a matched transaction in QB and therefore Madeline was unable to complete your action. Please try unmatching this transaction in QB, syncing data, and retrying your action."
+    quickbooks_not_connected: "QuickBooks not connected. Please connect on the Accounting Settings page."
+    quickbooks_accounts_not_selected: "QuickBooks accounts not set. Please select QuickBooks accounts on the Accounting Settings page."
+    quickbooks_unavailable_fetch: "QuickBooks was temporarily unavailable. Your transaction data may be out of date. Please try syncing again later."
+    quickbooks_unavailable_recalc: "QuickBooks was temporarily unavailable during calcuations for this loan, so transaction data may be partially incorrect. Please try syncing again later to correct this."
+    service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
+    system_error_fetch: "There was an unexpected system error during fetching of QuickBooks data. The Madeline support team has been notified. Your transaction data may be out of date."
+    system_error_recalc: "There was an unexpected system error during calculations for this loan. The Madeline support team has been notified."
+    unknown_intuit_request_exception: "An unexpected error occurred between QB and Madeline on transaction (dated %{date} with QB id %{qb_id}). Due to this error, Madeline is unable to complete your action at this time. The Madeline support team has been notified."
     index:
-      title: ""
+      title: "Accounting Sync Issues For Loan %{loan_id}"
     index_by_loan:
-      title: ""
+      title: Accounting Sync Issues
     show:
-      title: ""
-    id: ""
-    txn_id: ""
-    qb_id: ""
-    date: ""
-    loan_id: ""
+      title: "Accounting Sync Issue #%{id}"
+    id: ID
+    txn_id: TXN ID
+    qb_id: QB ID
+    date: Date
+    loan_id: Loan ID
     level:
-      header: ""
-      error: ""
-      warning: ""
+      header: Level
+      error: Error
+      warning: Warning
     message:
-      header: ""
-    num_txns_with_message: ""
-    associated_loans: ""
-    quickbooks_data: ""
+      header: Message
+    num_txns_with_message: Number of Issues with Similar Messages for this Loan
+    associated_loans: Associated Loans
+    quickbooks_data: Raw QuickBooks Data
     error_msg_link:
-      one: ''
-      other: ''
+      one: review the error
+      other: review the errors
     error_msg_admin_html:
-      one: ''
-      other: ''
-    error_msg_member: ""
+      one: There was a sync error for this loan. Transaction data is hidden. Please %{link}.
+      other: There were %{count} sync errors for this loan. Transaction data is hidden. Please %{link}.
+    error_msg_member: "Transaction data is hidden due to sync issues."
     warning_msg_link:
-      one: ''
-      other: ''
+      one: review the warning
+      other: review the warnings
     warning_msg_html:
-      one: ''
-      other: ''
+      one: There is a sync warning for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.
+      other: There are %{count} sync warnings for this loan. Your loan balances may not be correct. Please %{link}, and only proceed once you have confirmed they are correct.
   # Overwrite rails default of using the table name in the action labels
   helpers:
     submit:
       organization:
-        create: ""
-        update: ""
+        create: "Create Co-op"
+        update: "Update Co-op"
   # The admin top level group is used here to allow t(".xxx") style shortcuts from views
   admin:
     timeline:
       list_header:
-        cancel_edit: ""
-        edit_all: ""
-        new_step: ""
-        save_all: ""
+        cancel_edit: "Cancel Edit"
+        edit_all: "Edit All"
+        new_step: "New Step"
+        save_all: "Save All"
       top_controls:
-        new_group: ""
-        new_step: ""
+        new_group: "Add Group"
+        new_step: "Add Step"
       table:
-        add_child_group: ""
-        add_child_step: ""
+        add_child_group: "Add Child Group"
+        add_child_step: "Add Child Step"
     organizations:
       loans:
-        view_all_loans: ""
+        view_all_loans: "View All Loans"
     questions:
       index:
         title: "Questions de prêt"
@@ -672,48 +673,48 @@ fr:
     people:
       show:
         with_logs_or_notes:
-          confirm_deletion: ""
-        confirm_deletion: ""
-        delete: ""
-        edit: ""
+          confirm_deletion: "WARNING: This member has logs and/or notes. If you choose to delete the member, the logs and/or notes will remain with no author. If you wish to keep the member as the author of the logs and/or notes, do not delete this member. Instead, if the member is no longer active, uncheck the 'Has system access' option."
+        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Member?"
+        delete: "Delete Member"
+        edit: "Edit Member"
     timeline_step_moves:
       new:
-        move: ""
-        orig_date_remembered: ""
-        please_log: ""
-        add_log: ""
+        move: "Change Step Date"
+        orig_date_remembered: "The original date for this step will be remembered."
+        please_log: "Please add a log entry for this change below before continuing."
+        add_log: "Add Log"
     notes:
       form:
-        edit_item: ""
-        new_item: ""
+        edit_item: "Edit Note"
+        new_item: "New Note"
     divisions:
       show:
-        confirm_deletion: ""
-        delete: ""
-        edit: ""
+        confirm_deletion: "WARNING: Are you sure you want to permanently delete this Division? If it has any custom fields or option sets, they will also be deleted."
+        delete: "Delete Division"
+        edit: "Edit Division"
       form:
-        notify_on_new_logs: ""
-        public: ""
-        public_url_info: ""
+        notify_on_new_logs: "Send notifications for new logs"
+        public: "Show this division's loans on the public website"
+        public_url_info: "To change this division's public url, please update this division's Short Name below. The short name is the last portion of the url."
     loans:
       questions:
         delete: "Supprimer toutes les réponses"
         outline:
-          header: ""
-          optional: ""
-          miscellaneous: ""
+          header: "Outline"
+          optional: "Optional Qs"
+          miscellaneous: "Miscellaneous"
       transactions:
         create_success: "Transaction créée avec succès."
-        update_success: ""
-        sync_complete: ""
+        update_success: "Transaction successfully updated."
+        sync_complete: "Loan successfully sync'd with QuickBooks."
         new_transaction: "Ajouter une Transaction"
-        edit_transaction: ""
-        sync_data: ""
+        edit_transaction: "Edit Transaction"
+        sync_data: "Sync Data"
         update: "Transaction de Mise à Jour"
     project_logs:
       index:
-        title: ""
-        logs_for: ""
+        title: "Logs"
+        logs_for: "Logs for %{thing}"
   # Strings used in general template stuff like header.
   template:
     profile: "Profil"
@@ -721,83 +722,83 @@ fr:
     select_division: "Sélectionner une Division"
   devise:
     confirmations:
-      confirmed: ""
-      send_instructions: ""
-      send_paranoid_instructions: ""
+      confirmed: "Your email address has been successfully confirmed."
+      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
-      already_authenticated: ""
-      inactive: ""
-      invalid: ""
-      locked: ""
-      last_attempt: ""
-      not_found_in_database: ""
-      timeout: ""
-      unauthenticated: ""
-      unconfirmed: ""
+      already_authenticated: "You are already signed in."
+      inactive: "Your account is not activated yet."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "Invalid %{authentication_keys} or password."
+      timeout: "Your session expired. Please sign in again to continue."
+      unauthenticated: "You need to sign in before continuing."
+      unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: ""
+        subject: "Confirmation instructions"
       reset_password_instructions:
-        subject: ""
+        subject: "Reset password instructions"
       unlock_instructions:
-        subject: ""
+        subject: "Unlock instructions"
       password_change:
-        subject: ""
+        subject: "Password Changed"
     omniauth_callbacks:
-      failure: ""
-      success: ""
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
     passwords:
-      no_token: ""
-      send_instructions: ""
-      send_paranoid_instructions: ""
-      updated: ""
-      updated_not_active: ""
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password has been changed successfully. You are now signed in."
+      updated_not_active: "Your password has been changed successfully."
     registrations:
-      destroyed: ""
-      signed_up: ""
-      signed_up_but_inactive: ""
-      signed_up_but_locked: ""
-      signed_up_but_unconfirmed: ""
-      update_needs_confirmation: ""
-      updated: ""
+      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
+      updated: "Your account has been updated successfully."
     sessions:
-      signed_in: ""
-      signed_out: ""
-      already_signed_out: ""
+      signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully."
+      already_signed_out: "Signed out successfully."
     unlocks:
-      send_instructions: ""
-      send_paranoid_instructions: ""
-      unlocked: ""
+      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
   errors:
     messages:
-      already_confirmed: ""
-      confirmation_period_expired: ""
-      expired: ""
-      not_found: ""
-      not_locked: ""
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
       not_saved:
-        one: ""
-        other: ""
+        one: "1 error:"
+        other: "%{count} errors:"
   notes:
-    confirm_deletion: ''
-    delete: ""
-    new: ""
+    confirm_deletion: 'Are you sure you want to delete this note?'
+    delete: "Delete Note"
+    new: "New Note"
   documentation:
-    index: ""
+    index: "Documentation"
     edit: "Modifier la documentation"
     learn_more: "Apprendre encore plus »"
     new: 'Nouvelle documentation'
     no_documentations: "Pas de documentations."
-    location: ""
+    location: Location
   divisions:
     # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
     # style shortcuts.
     shared:
-      new: ""
-      parent: ""
-      all: ""
+      new: "New Division"
+      parent: "Parent Division"
+      all: "All Divisions"
   loan:
-    actual_end_date: ""
+    actual_end_date: "Actual End Date"
     adjust_dates: "Ajuster les Dates"
     adjust_scheduled_dates: "Ajuster les Dates Programmées"
     agent:
@@ -809,7 +810,7 @@ fr:
     batch_actions: "Actions par Lots"
     cancel_edit: "Annuler Modifier"
     confirm_deletion: "AVERTISSEMENT: Etes-vous sûr de vouloir supprimer définitivement ce prêt?"
-    confirm_duplication: ""
+    confirm_duplication: "This will duplicate the loan and all associated timeline entries, logs, and questionnaire responses. Do you want to continue?"
     confirm_response_deletion: "AVERTISSEMENT: Etes-vous sûr de vouloir supprimer définitivement ces réponses?"
     criteria: "Note de Crédit"
     criteria_not_entered: "Les critères n'ont pas encore été saisis."
@@ -825,7 +826,7 @@ fr:
     end: "Fin %{name}"
     end_date: "Date de Fin"
     errors:
-      transaction_data_missing: ""
+      transaction_data_missing: "Loan has transactions missing data. Either there were errors updating the loan, or the loan needs to be updated."
     finalize: "Finaliser"
     forward: "+ vers l'avant"
     id: "ID de Prêt"
@@ -833,7 +834,7 @@ fr:
     loan_type: "Type de Prêt"
     media: "Médias de Prêt"
     memo: "Note de prêt"
-    txn_mode_tooltip: ""
+    txn_mode_tooltip: "When automatic, Madeline will calculate interest and admins may create transactions. When read-only, transaction creation and automatic interest calculation is disabled, but QB data will still be imported and available to view."
     months: "%{number} mo."
     move_date_confirm:
       title: "Date de déménagement?"
@@ -849,8 +850,8 @@ fr:
       one: "Cliquez pour ouvrir le document dans un nouvel onglet."
       other: "Cliquez pour ouvrir chaque document dans un nouvel onglet."
     optional_amount: "Montant optionnel"
-    pending_changes: ""
-    pending_changes_short: ""
+    pending_changes: "You have pending changes in this form. Please remember to save your changes."
+    pending_changes_short: "You have pending changes. Please remember to save."
     popup_blocker: "Vous devrez peut-être désactiver votre bloqueur de popup ou activer tous les popups de ce site pour voir vos documents."
     post_analysis: "Post-Analyse"
     primary_agent: "Personne Point"
@@ -859,12 +860,12 @@ fr:
     print_details: "Détails Seulement"
     print_header_title: "Profil d'Investissement et Note de Crédit"
     print_memo: "Imprimer un Mémo de Prêt"
-    projected_end_date: ""
+    projected_end_date: "Projected End Date"
     public:
-      not_authorized: ""
+      not_authorized: "You are not authorized to view the loan you requested."
     question:
-      current_response: ""
-      edit: ""
+      current_response: "Current Response"
+      edit: "Update Response"
     rating: "But"
     save_responses: "Enregistrer les réponses"
     shared:
@@ -881,7 +882,7 @@ fr:
       frozen: "Congelé"
       liquidated: "Liquidé"
     steps_notice: "Certaines étapes sélectionnées dépendent d'autres étapes que vous n'avez pas sélectionnées. Les dates de ces étapes ne seront pas ajustées."
-    summary: ""
+    summary: "Summary"
     tab:
       details: "Détails"
       questions: "Planning d'affaires"
@@ -935,7 +936,7 @@ fr:
       net_margin: "La Marge Nette"
       placeholders:
         unit: "Par exemple. litres, boisseaux, articles"
-        unit_short: ""
+        unit_short: "unit name"
       price: "Prix"
       product: "Produit"
       products: "Des Produits"
@@ -996,213 +997,213 @@ fr:
   questionnaires:
     optional_questions: "Questions Optionnelles"
   user:
-    account: ""
-    change_password: ""
-    confirm_new_password: ""
-    current_password: ""
-    current_password_instructions: ""
-    edit_user: ""
-    forgot_password: ""
-    forgot_password_instructions: ""
-    leave_blank: ""
-    minimum_password_length: ""
-    new_password: ""
-    no_division_access: ""
-    no_person: ""
-    no_system_access: ""
-    send_instructions: ""
-    waiting_confirmation: ""
+    account: "Account"
+    change_password: "Change Password"
+    confirm_new_password: "Confirm new password"
+    current_password: "Current password"
+    current_password_instructions: "(we need your current password to confirm your changes)"
+    edit_user: "Edit %{user}"
+    forgot_password: "Forgot Password"
+    forgot_password_instructions: "Enter your email to receive reset instructions"
+    leave_blank: "(leave blank if you don't want to change your password)"
+    minimum_password_length: "(%{minimum_length} characters minimum)"
+    new_password: "New password"
+    no_division_access: "User is not permissioned with access to any divisions."
+    no_person: "User is not associated with a Person."
+    no_system_access: "User does not have system access."
+    send_instructions: "Send instructions"
+    waiting_confirmation: "Currently waiting confirmation for: %{email}"
   member:
-    system_access: ""
-    access_role: ""
+    system_access: "System access allows a user to log into Madeline and view the loans and projects they have access to based on their division."
+    access_role: "Administrators have the ability to edit specific content not available to a regular member, such as managing divisions and editing loan questions."
   log:
-    additional_notes: ""
-    edit: ""
-    empty_log_error: ""
-    delete: ""
-    hide_logs: ""
-    hide_logs_n: ""
-    log: ""
-    logs: ""
-    new: ""
-    create: ""
-    no_logs: ""
-    notify: ""
-    private_notes: ""
-    save: ""
-    show_logs: ""
-    show_logs_n: ""
+    additional_notes: "Additional Notes"
+    edit: "Edit Log"
+    empty_log_error: "Error: An empty log cannot be saved. Please add a summary."
+    delete: "Delete Log"
+    hide_logs: "Hide Logs"
+    hide_logs_n: "Hide Logs (%{n})"
+    log: "project log"
+    logs: "Logs"
+    new: "New Log"
+    create: "New Log"
+    no_logs: "No Logs"
+    notify: "Send notifications"
+    private_notes: "Private Notes"
+    save: "Save Log"
+    show_logs: "Show Logs"
+    show_logs_n: "Show Logs (%{n})"
     status:
-      behind: ""
-      on_time: ""
-    step: ""
-    step_completed: ""
-    untitled_step: ""
+      behind: "Behind"
+      on_time: "On time"
+    step: "Step"
+    step_completed: "Step completed on this date"
+    untitled_step: "[Untitled step]"
   # The admin top level group is used here to allow t(".edit") style shortcuts from views
   # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
   # style shortcuts.
   project_log:
-    project_log: ""
-    name: ""
+    project_log: "Project log"
+    name: "%{project} on %{date} [#%{id}]"
   project_logs:
-    more: ""
+    more: "More..."
     shared:
-      confirm_deletion: ""
-      delete: ""
+      confirm_deletion: "Are you sure you want to delete this log?"
+      delete: "Delete Log"
   settings:
-    accounting: ""
+    accounting: "Accounting Settings"
   menu:
     accounting_settings: "Paramètres de Comptabilité"
     basic_projects: "Projets"
     calendar: "Calendrier"
     coops: "Les coopératives"
-    data_exports: ""
+    data_exports: "Data Exports"
     dashboard: "Tableau de Bord"
     divisions: "Divisions"
-    documentations: ""
+    documentations: Documentation
     loans: "Prêts"
     log: "Bûche"
-    logs: "Journaux"
-    media: ""
+    logs: "Logs"
+    media: "Media"
     questions: "Des Questions"
     manage: "Gérer"
     people: "Membres"
-    tasks: ""
+    tasks: "Tasks"
   transactions:
     disbursement_type:
-      other: ""
-      check: ""
+      other: "Wire or Credit Card"
+      check: "Check"
     default_description: "%{loan_transaction_type} pour Loan #%{loan_id}"
     interest_description: "Intérêts courus sur le prêt #%{loan_id}"
   controllers:
     admin:
-      basic_projects: ""
-      calendar: ""
-      calendar_events: ""
-      dashboard: ""
-      data_exports: ""
-      divisions: ""
-      documentations: ""
-      loans: ""
-      media: ""
-      notes: ""
-      organizations: ""
-      people: ""
-      project_logs: ""
-      project_steps: ""
-      projects: ""
-      questions: ""
-      response_sets: ""
-      settings: ""
-      tasks: ""
-      timeline_step_moves: ""
+      basic_projects: Projects
+      calendar: Calendar
+      calendar_events: Calendar Events
+      dashboard: Dashboard
+      data_exports: Data Exports
+      divisions: Divisions
+      documentations: Documentation
+      loans: Loans
+      media: Media
+      notes: Notes
+      organizations: Co-ops
+      people: Members
+      project_logs: Logs
+      project_steps: Steps
+      projects: Projects
+      questions: Questions
+      response_sets: Responses
+      settings: Settings
+      tasks: Tasks
+      timeline_step_moves: Timeline Steps
   question: "Question"
-  amount_not_set: ""
-  blank: ""
-  date_not_set: ""
-  division: ""
-  show: ""
-  show_active: ""
-  show_completed: ""
-  show_all: ""
-  loan_active: ""
-  loan_completed: ""
-  no_loans_found: ""
-  more_details: ""
-  project_with: ""
-  project_id: ""
-  back_to_loans: ""
-  about_this_project: ""
+  amount_not_set: "Amount not set"
+  blank: "-"
+  date_not_set: "Date not set"
+  division: Division
+  show: Show
+  show_active: Active
+  show_completed: Completed
+  show_all: All
+  loan_active: Active
+  loan_completed: Completed
+  no_loans_found: No loans found. Try a different search.
+  more_details: More details
+  project_with: "Project with %{name}"
+  project_id: "Project %{id}"
+  back_to_loans: Back to Loan List
+  about_this_project: About This Project
   status: Statut
-  amount: ""
-  location: ""
-  signing_date: ""
+  amount: Amount
+  location: Location
+  signing_date: Signing date
   summary: Résumé
   details: Détails
-  timeline: ""
-  other_loans: ""
-  payments: ""
-  past_loans: ""
-  no_description_found: ""
-  payment_schedule: ""
-  due_date: ""
-  first_loan: ""
-  all_loans: ""
-  gallery: ""
-  back_to: ""
-  media_gallery: ""
-  no_media_found: ""
-  images_of: ""
-  images_from_this_project: ""
-  cooperative: ""
-  cooperative_name: ""
-  not_yet_translated: ""
-  log_completed: ""
-  log_not_yet_completed: ""
-  show_logs: ""
-  hide_logs: ""
-  show_more: ""
-  show_less: ""
-  paid: ""
-  due: ""
-  overdue: ""
+  timeline: Timeline
+  other_loans: Other Loans to This Co-op
+  payments: Payments
+  past_loans: Past Loans
+  no_description_found: No description found.
+  payment_schedule: Payment Schedule
+  due_date: Due Date
+  first_loan: This is the first loan to this cooperative.
+  all_loans: All Loans to this Co-op
+  gallery: Gallery
+  back_to: "Back to %{name}"
+  media_gallery: Media Gallery
+  no_media_found: No media found.
+  images_of: "Images of %{name}"
+  images_from_this_project: Images from this project
+  cooperative: Cooperative
+  cooperative_name: "%{name} Cooperative"
+  not_yet_translated: "This text has not yet been translated. <a href=\"https://www.theworkingworld.org/us/contact-us\">Contact us</a> if you'd like to help with translation."
+  log_completed: Completed
+  log_not_yet_completed: Not yet completed
+  show_logs: Show Logs
+  hide_logs: Hide Logs
+  show_more: More
+  show_less: Less
+  paid: Paid
+  due: Due
+  overdue: Overdue
   loading: "Chargement..."
   error: "Erreur"
   error_notification: "Nous sommes désolés, mais une erreur s'est produite lors du traitement de votre demande."
-  system_error_notified: ""
+  system_error_notified: "System error. Developers have been notified."
   close: "Fermer"
-  select_prompt: ""
+  select_prompt: "Select..."
   all: "Tout"
   cancel: "Annuler"
   cancel_edit: "Annuler Modifier"
-  city: ""
+  city: "City"
   clear: "Clair"
   completed: "Terminé"
-  confirm: ""
+  confirm: "Confirm"
   coop: "Coopérative"
-  coops: ""
-  country: ""
-  created: ""
+  coops: "Co-ops"
+  country: "Country"
+  created: "Created"
   days: "days"
-  delete: ""
-  delete_record: ""
-  description: ""
+  delete: "Delete"
+  delete_record: "Delete Record"
+  description: "Description"
   dropdown_toggle: "Toggle Dropdown"
-  edit: ""
-  email: ""
+  edit: "Edit"
+  email: "Email"
   export_to_csv: "Exporter au format CSV"
   filter: "Filtrer"
   filter_by: "Filtrer par:"
   id: "ID"
   incomplete: "Incomplet"
-  less: ""
-  locked: ""
-  login: ""
+  less: "Less"
+  locked: "Locked"
+  login: "Login"
   logout: "Connectez - Out"
-  more: ""
-  name: ""
+  more: "More"
+  name: "Name"
   none: "Aucun"
   notice_created: 'L''enregistrement a été Créé Avec Succès.'
   notice_deleted: 'L''enregistrement a été Dupprimé Avec Succès.'
   notice_updated: 'L''enregistrement a été Mis à Jour Avec Succès.'
-  notice_batch_deleted: ''
-  notice_batch_updated: ''
-  notice_batch_failures: ''
-  password: ""
-  optional: ""
+  notice_batch_deleted: '%{count} record(s) successfully deleted.'
+  notice_batch_updated: '%{count} record(s) successfully updated.'
+  notice_batch_failures: '%{failure_count} record(s) with failures.'
+  password: "Password"
+  optional: "Optional"
   page_content: "Contenu de la Page"
   page_title: "Titre de la Page"
-  print: ""
+  print: "Print"
   reply_no: "Non"
   reply_yes: "Qui"
-  save: ""
-  step: ""
-  submit: ""
+  save: "Save"
+  step: "Step"
+  submit: "Submit"
   summary_content: "Contenu Récapitulatif"
-  unauthorized_error: ""
-  unknown: ""
-  update: ""
-  updated: ""
+  unauthorized_error: "You are not authorized to perform this action."
+  unknown: "Unknown"
+  update: "Update"
+  updated: "Updated"
   # Keys in the top level scope should be gradually moved into this 'common' subgroup.
   # This will avoid collisions with top level keys matching subgroups. (Which can lead to
   # very cryptic errors)
@@ -1234,7 +1235,7 @@ fr:
     role: "Rôle"
     save: "Sauvegarder"
     second: "2ème"
-    settings: ""
+    settings: "settings"
     street_address: "Adresse de Rue"
     summary: "Résumé"
     summary_and_details: "Résumé et Détails"
@@ -1246,158 +1247,162 @@ fr:
     user: "Utilisateur"
     view_logs: "Regardes les Connexions"
   boolean:
-    'true': ''
-    'false': ''
+    'true': 'Yes'
+    'false': 'No'
   quickbooks:
     # authorization_failure message here used when txns hidden in UI
-    authorization_failure: ""
-    class_location_notice: ""
+    authorization_failure: "You must be connected to QuickBooks before you can access transactions. Please go to %{settings} to connect."
+    class_location_notice: "NOTE: Before you can add transactions, you need to make sure Classes and Locations (a.k.a. Divisions) are enabled in your QuickBooks company settings."
     # data_reset_required message here used when txns hidden in UI
-    data_reset_required: ""
-    department_not_set: ""
-    misc: ""
-    principal_account_incompatible_with_checks: ""
-    service_unavailable: ""
-    read_only_html: ""
+    data_reset_required: "A QuickBooks data reset is required before you can access transactions. Please go to %{settings} to perform a reset."
+    department_not_set: "Please set the QB division on <a href=\"%{url}\">this loan's Madeline division</a> in order to create transactions."
+    misc: "There was an error communicating with QuickBooks. An administrator has been notified. Some data may be out of date. (Error: %{msg})"
+    principal_account_incompatible_with_checks: "The principal account must have type Expenses in Quickbooks in order to create check disbursements."
+    service_unavailable: "QuickBooks is temporarily unavailable. Please try again later."
+    read_only_html: "You can't add transactions because: %{reasons}."
     read_only_reasons:
-      qb_not_connected_html: ""
-      accounts_not_selected_html: ""
-      division_transactions_read_only_html: ""
-      department_not_set_html: ""
-      loan_not_active_html: ""
-      loan_transactions_read_only_html: ""
-    unprocessable_account: ""
+      qb_not_connected_html: "QuickBooks is not connected"
+      accounts_not_selected_html: "QuickBooks accounts are not selected on the division '%{qb_division}' (see %{accounting_settings_link})"
+      division_transactions_read_only_html: "transactions are in read-only mode for the division '%{qb_division}' (see %{accounting_settings_link})"
+      department_not_set_html: "the QB department is not set on the division '%{selected_division}' (see %{qb_division_settings_link})"
+      loan_not_active_html: "this loan is not active"
+      loan_transactions_read_only_html: "transactions are in read-only mode for this loan"
+    unprocessable_account: "A transaction on date %{date} with QB id %{qb_id} on this loan has an unprocessable account. The account was probably deleted in Quickbooks. Please find the deleted account, undelete, and resync accounting data for this loan."
     there_are_issues:
-      one: ""
-      other: ""
+      one: "There is one outstanding issue."
+      other: "There are %{count} outstanding issues."
     accounts:
-      accounts: ""
-      note: ""
+      accounts: "QuickBooks Accounts"
+      note: "These account settings only apply to future transactions."
     connection:
-      connected: ""
-      connection: ""
-      disconnect: ""
-      not_connected: ""
-      never_synced: ""
-      data_reset: ""
-      disconnect_message: ""
-      data_reset_message: ""
-      data_reset_information: ""
-      import_in_progress_message: ""
-      link_message: ""
+      connected: "Connected to %{company_name}"
+      connection: "QuickBooks Connection"
+      disconnect: "Disconnect"
+      not_connected: "Not Connected"
+      never_synced: "Never"
+      data_reset: "Reset"
+      disconnect_message: "Your QuickBooks account has been successfully disconnected."
+      data_reset_message: "Your QuickBooks data cache has been reset."
+      data_reset_information: "If you're experiencing issues with QuickBooks data, click Reset to clear Madeline's cached copy and restore it from QuickBooks."
+      import_in_progress_message: "If your data import is in progress, you may need to reload the page to see the most recent status."
+      link_message: "Your QuickBooks account has been successfully linked. Note: Once data is imported, you will need to select accounts before you can add transactions."
     fetch_status:
-      failed: ""
-      in_progress: ""
-      pending: ""
-      succeeded: ""
+      failed: "QuickBooks data import failed."
+      in_progress: "QuickBooks data import in progress."
+      pending: "QuickBooks data import pending."
+      succeeded: "QuickBooks data import succeeded."
     closed_books_date:
       note:
-        date_not_set: ""
-        date_set: ""
+        date_not_set: "Madeline will not create transactions or modify QuickBooks transactions before the closed books date."
+        date_set: "Madeline will not create transactions or modify QuickBooks transactions before the closed books date, currently set to %{current_date}."
       alert:
-        date_not_set: ""
-        date_set: ""
+        date_not_set: "Attention: When a closed books date is set, Madeline will create and modify QuickBooks transactions after the closed books date. These actions cannot be undone."
+        date_set: "Attention: Setting the closed books date to before %{current_date} will cause Madeline to create new transactions and modify transactions before %{current_date} in QuickBooks. These actions cannot be undone."
     qb_read_only:
-      alert: ""
-      note: ""
-      qb_read_only: ""
+      alert: "Attention: Switching off read-only accounting will cause Madeline to add automated transactions to QuickBooks data."
+      note: "When set to read-only, transaction creation and automatic interest calculation is disabled. When not set to read-only mode, Madeline will automatically calculate interest for loans and admins may create transactions on loans. In both modes, QuickBooks data is regularly imported and available to view."
+      qb_read_only: "Read-Only Accounting Data"
     update:
-      update_changed: ""
-      update_queued_html: ""
-      update_changed_details: ""
+      update_changed: "Fetch changes from QuickBooks"
+      update_queued_html: "QuickBooks fetch queued successfully, <a href='%{url}'>view progress</a>."
+      update_changed_details: "Manually fetch data (including Accounts, Customers, Departments, Transactions, and Vendors) that has changed from QuickBooks since the last complete sync."
   basic_project:
     agent:
-      one: ""
-      other: ""
-    confirm_deletion: ""
-    confirm_duplication: ""
-    delete: ""
-    duplicate: ""
-    duplicated_message: ""
-    edit: ""
-    months: ""
-    new: ""
+      one: "Agent"
+      other: "Agents"
+    confirm_deletion: "WARNING: Are you sure you want to permanently delete this Project?"
+    confirm_duplication: "This will duplicate the project and all associated timeline entries, logs, and questionnaire responses. Do you want to continue?"
+    delete: "Delete Project"
+    duplicate: "Duplicate Project"
+    duplicated_message: "The project was successfully duplicated."
+    edit: "Edit Project"
+    months: "%{number} mo."
+    new: "New Project"
     project:
-      one: ""
-      other: ""
+      one: "Project"
+      other: "Projects"
     tabs:
-      calendar: ""
-      details: ""
-      logs: ""
-      timeline: ""
-      timeline_list: ""
+      calendar: "Calendar"
+      details: "Details"
+      logs: "Logs"
+      timeline: "Timeline"
+      timeline_list: "Timeline - List"
   simple_form:
-    "yes": ''
-    "no": ''
+    "yes": 'Yes'
+    "no": 'No'
     required:
-      text: ''
-      mark: ''
+      text: 'required'
+      mark: '*'
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      default_message: ""
+      default_message: "Errors prevented the record from being saved. Please review the problems below:"
     hints:
       division:
-        logo_text: ""
-        banner_bg_color: ""
-        banner_fg_color: ""
-        accent_main_color: ""
-        public_primary_color: ""
-        public_secondary_color: ""
-        public_accent_color: ""
+        logo_text: "Optional text to show below the logo. Logo is shorter if text is entered."
+        banner_bg_color: "Background color of site banner. Use CSS color codes, e.g. 'white' or '#eb9081'. Try <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        banner_fg_color: "Color of text in banner."
+        accent_main_color: "Color of links, buttons, etc. in Madeline system. Defaults to banner BG color."
+        public_primary_color: "Background color of banner for public division page. We recommend using a darker color. Use CSS color codes, e.g'white' or '#eb9081'. Try <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        public_secondary_color: "Color of header text, links, etc. Defaults to Madeline secondary custom color. We recommend using a darker color."
+        public_accent_color: "Color of icons and location on public division page. Defaults to Madeline accent color."
     labels:
       accounting_transaction:
-        account: ""
-        amount: ""
-        change_in_interest: ""
-        change_in_principal: ""
-        check_number: ""
-        customer: ""
-        description: ""
-        interest_balance: ""
-        loan_transaction_type_value: ""
-        principal_balance: ""
-        private_note: ""
-        qb_department: ""
-        disbursement_type: ""
-        qb_record_id: ""
-        total_balance: ""
-        txn_date: ""
-        vendor: ""
+        account: "Bank Account"
+        amount: "Amount"
+        change_in_interest: "Change in Interest"
+        change_in_principal: "Change in Principal"
+        check_number: "Check Number"
+        customer: "Co-op (QBO)"
+        description: "Description"
+        interest_balance: "Interest Balance"
+        loan_transaction_type_value: "Type of Transaction"
+        principal_balance: "Principal Balance"
+        private_note: "Memo"
+        qb_department: "QB Division"
+        disbursement_type: "Disbursement Type"
+        qb_record_id: "QuickBooks Record ID"
+        total_balance: "Total Balance"
+        txn_date: "Date"
+        vendor: "Vendor"
       timeline_step_move:
-        move_type: ""
+        move_type: "Which Date?"
       question:
         data_type: Type de données
-        display_in_summary: ""
+        display_in_summary: Display in Loan Memo Summary
         division: Division
         has_embeddable_media: Autoriser les fichiers ou les liens à être attachés
         loan_types: Obligatoire pour les types de prêt
     options:
       accounting_transaction:
         loan_transaction_type_value:
-          disbursement: ""
-          repayment: ""
+          disbursement: "Disbursement"
+          repayment: "Repayment"
       person:
         access_role:
-          admin: ""
-          member: ""
-          none: ""
+          admin: "Admin"
+          member: "Member"
+          none: "None"
+        notification_source:
+          none: "Off"
+          home_only: "Home division only"
+          home_and_sub: "Home division and subdivisions"
       timeline_step_move:
         move_type:
-          change_date: ""
-          mark_completed: ""
+          change_date: "Change step's scheduled date"
+          mark_completed: "Mark step completed on this date"
       question:
         data_type:
           boolean: Oui/Non
           breakeven: Tableau de Rentabilité
           breakeven_data: Tableau de Rentabilité
           business_canvas: Toile de Modèle d'affaires
-          currency: ""
+          currency: Currency
           group: Groupe
           list: Choix Multiple
           number: Nombre
-          percentage: ""
+          percentage: Percentage
           range: Gamme
           text: Paragraphe
           translatable: Traduisible
@@ -1406,68 +1411,68 @@ fr:
           "true": "Remplace le Groupe"
   public:
     divisions:
-      loan_header: ""
-      not_authorized: ""
-      return_to_division_homepage: ""
-      go_to_seedcommons: ""
+      loan_header: "Loans"
+      not_authorized: "You are not authorized to view this division."
+      return_to_division_homepage: "< Go to homepage"
+      go_to_seedcommons: "Go to SeedCommons >"
     loans:
-      amount: ""
-      signing_date: ""
+      amount: "Loan amount"
+      signing_date: "Signing date"
   database:
     option_sets:
       basic_project_status:
-        active: ''
-        completed: ''
-        changed: ''
-        possible: ''
+        active: 'Active'
+        completed: 'Completed'
+        changed: 'Changed'
+        possible: 'Possible'
       loan_status:
-        active: ''
-        completed: ''
-        frozen: ''
-        liquidated: ''
-        prospective: ''
-        refinanced: ''
-        relationship: ''
-        relationship_active: ''
+        active: 'Active'
+        completed: 'Completed'
+        frozen: 'Frozen'
+        liquidated: 'Liquidated'
+        prospective: 'Prospective'
+        refinanced: 'Refinanced'
+        relationship: 'Relationship'
+        relationship_active: 'Relationship Active'
       loan_transaction_type:
-        interest: ''
-        disbursement: ''
-        other: ''
-        repayment: ''
+        interest: 'Interest'
+        disbursement: 'Disbursement'
+        other: 'Other'
+        repayment: 'Repayment'
       loan_type:
-        liquidity_loc: ''
-        investment_loc: ''
-        investment: ''
-        evolving: ''
-        single_liquidity_loc: ''
-        wc_investment: ''
-        sa_investment: ''
-        community_solar: ''
-        conversion_phased: ''
+        liquidity_loc: 'Liquidity line of credit'
+        investment_loc: 'Investment line of credit'
+        investment: 'Investment loan'
+        evolving: 'Evolving loan'
+        single_liquidity_loc: 'Single liquidity line of credit'
+        wc_investment: 'Working capital investment loan'
+        sa_investment: 'Secured asset investment loan'
+        community_solar: 'Community solar'
+        conversion_phased: 'Conversion, Phased Diligence'
       media_kind:
-        image: ''
-        video: ''
-        document: ''
-        contract: ''
+        image: 'Image'
+        video: 'Video'
+        document: 'Document'
+        contract: 'Contract'
       organization_inception:
-        startup: ''
-        conversion: ''
-        recovered: ''
+        startup: 'Startup'
+        conversion: 'Conversion'
+        recovered: 'Recovered'
       progress_metric:
-        change_plan: ''
-        change_events: ''
-        behind: ''
-        on_time: ''
-        ahead: ''
+        change_plan: 'In need of changing its whole plan'
+        change_events: 'In need of changing some events'
+        behind: 'Behind'
+        on_time: 'On time'
+        ahead: 'Ahead'
       public_level:
-        featured: ''
-        hidden: ''
-        public: ''
+        featured: 'Featured'
+        hidden: 'Hidden'
+        public: 'Public'
       step_type:
-        checkin: ''
-        milestone: ''
+        checkin: 'Check-in'
+        milestone: 'Milestone'
   routes:
-    loans: ""
-    gallery: ""
-    test: ""
-    update: ""
+    loans: loans
+    gallery: gallery
+    test: test
+    update: update

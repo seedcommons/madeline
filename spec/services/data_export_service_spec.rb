@@ -46,7 +46,9 @@ describe DataExportService do
         DataExportService.run(data_export)
         data = data_export.reload.data
         headers = data[0]
-        status_index = headers.index("Estado")
+        # There are two 'Estado' headers, one for State (geographical) and one for Status.
+        # We want the last one, hence rindex.
+        status_index = headers.rindex("Estado")
         expect(data[1][status_index]).to eq "Activo"
       end
     end

@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 # Pull translations
-`tx pull --all`
+`tx pull --all --mode sourceastranslation`

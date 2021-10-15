@@ -9,65 +9,65 @@ es:
     nth_weekday: "El %{nth} %{weekday}"
     the_day: "El %{day}"
   data_export:
-    attachments: ""
-    info: ""
-    file: ""
-    status: ""
-    task: ""
-    task_id: ""
-    task_id_num: ""
-    task_error_details: ""
-    type: ""
-    download: ""
+    attachments: "Archivos Adjuntos"
+    info: "Detalles"
+    file: "Archivo %{n}"
+    status: "Estado de Exportación"
+    task: "Tarea Asociada"
+    task_id: "ID de Tarea"
+    task_id_num: "Tarea #%{number}"
+    task_error_details: "Detalles del Error de Tarea"
+    type: "Tipo de Exportación de Datos"
+    download: "Descargar CSV"
   data_exports:
-    choose_type: ""
-    create_success: ""
-    default_name: ""
-    index_heading: ""
+    choose_type: "Elija el Tipo de Exportación de Datos"
+    create_success: "Exportación de datos en cola con éxito"
+    default_name: "%{type} sobre %{current_time}"
+    index_heading: "Exportaciones de Datos"
     new_export:
-      general: ""
-      standard_loan_data_export: ""
-      enhanced_loan_data_export: ""
+      general: "Nueva Exportación de Datos"
+      standard_loan_data_export: "Nueva Exportación Estandar de Datos de Préstamos"
+      enhanced_loan_data_export: "Exportar Datos de Préstamos Mejorados"
     types:
-      data_export: ""
-      standard_loan_data_export: ""
-      enhanced_loan_data_export: ""
+      data_export: "Exportación de Datos"
+      standard_loan_data_export: "Exportación de Datos de Préstamos Estándar"
+      enhanced_loan_data_export: "Exportar Datos de Préstamos Mejorados"
   standard_loan_data_exports:
     headers:
-      actual_end_date: ""
-      actual_first_interest_payment_date: ""
-      actual_first_payment_date: ""
-      actual_return: ""
-      address: ""
-      amount: ""
-      change_in_interest: ""
-      change_in_principal: ""
-      city: ""
-      cooperative: ""
-      country: ""
-      currency: ""
-      division: ""
-      final_repayment_formula: ""
-      length_months: ""
-      loan_id: ""
-      loan_type: ""
+      actual_end_date: "Fecha de Finalización Real"
+      actual_first_interest_payment_date: "Fecha Real de Pago del Primer Interés"
+      actual_first_payment_date: "Fecha Real de Primer Pago"
+      actual_return: "Devolución Real"
+      address: "Dirección"
+      amount: "Monto"
+      change_in_interest: "Cambio de Interés"
+      change_in_principal: "Cambio en la Dirección"
+      city: "Ciudad"
+      cooperative: "Cooperativa"
+      country: "País"
+      currency: "Moneda"
+      division: "División"
+      final_repayment_formula: "Fórmula de Reembolso Final"
+      length_months: "Duración (meses)"
+      loan_id: "ID de Préstamo"
+      loan_type: "Tipo de Préstamo"
       name: "Nombre"
-      num_accounting_warnings: ""
-      num_accounting_errors: ""
-      postal_code: ""
-      primary_agent: ""
-      projected_end_date: ""
-      projected_first_interest_payment_date: ""
-      projected_first_payment_date: ""
-      projected_return: ""
-      question_id: ""
-      rate: ""
-      secondary_agent: ""
-      signing_date: ""
-      state: ""
+      num_accounting_warnings: "Recuento de adventencias contables"
+      num_accounting_errors: "Recuento de errores contables"
+      postal_code: "Código Postal"
+      primary_agent: "Agente Primario"
+      projected_end_date: "Fecha de Finalización Proyectada"
+      projected_first_interest_payment_date: "Fecha Proyectada de Pago del Primer Interés"
+      projected_first_payment_date: "Fecha Proyectada de Primer Pago"
+      projected_return: "Devolución Proyectada"
+      question_id: "ID de Pregunta"
+      rate: "Interés"
+      secondary_agent: "Agente Secundario"
+      signing_date: "Fecha de Firma"
+      state: "Estado"
       status: "Estado"
-      sum_of_disbursements: ""
-      sum_of_repayments: ""
+      sum_of_disbursements: "Suma de Desembolsos"
+      sum_of_repayments: "Suma de Reembolsos"
   notification_mailer:
     new_log:
       contact: "Responder a este mail para contactar al autor del apunte."
@@ -204,7 +204,7 @@ es:
   organization:
     active_loans: "Préstamos Activos"
     confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar esta cooperativa para siempre? Si tiene prèstamos asociados, ¡también van a borrarse!"
-    media: "Fotos de la Cooperativa"
+    media: "Registros Audiovisual de la Cooperativa"
     delete: "Borrar Cooperativa"
     edit: "Editar Cooperativa"
     new: "Nueva Cooperativa"
@@ -215,85 +215,85 @@ es:
     fr: Francés
   task:
     activity_message:
-      completed: ""
-      error_data_reset_required: ""
-      error_quickbooks_not_connected: ""
-      error_quickbooks_accounts_not_selected: ""
-      failed: ""
-      fetching_quickbooks_data: ""
-      finished_with_custom_error_data: ""
-      in_progress: ""
-      syncing_with_quickbooks: ""
-      task_enqueued: ""
-      updating_loans: ""
+      completed: "Completo"
+      error_data_reset_required: "Error: se requiere restablecer los datos de QuickBooks"
+      error_quickbooks_not_connected: "Error: QuickBooks no está conectado"
+      error_quickbooks_accounts_not_selected: "Error: cuentas de QuickBooks no configuradas. Seleccione cuentas de QuickBooks en la página Configuración de contabilidad."
+      failed: "La tarea falló por un error interno. Se ha notificado a un administrador."
+      fetching_quickbooks_data: "Obteniendo datos de QuickBooks"
+      finished_with_custom_error_data: "Esta tarea se completó con errores. Consulte los detalles del error de la tarea."
+      in_progress: "En Proceso"
+      syncing_with_quickbooks: "Sincronizando con QuickBooks"
+      task_enqueued: "Esta tarea se ha puesto en cola"
+      updating_loans: "Actualizando %{total} préstamos. %{so_far} préstamos actualizados al momento."
     custom_error_data:
-      help: ""
-      link_to_details: ""
-      loan_id: ""
-      loan_error: ""
-      not_applicable: ""
+      help: "Consulte el préstamo, su cooperativa, o sus transacciones para obtener más información."
+      link_to_details: "Haga clic aquí para ver los detalles del error"
+      loan_id: "ID de Préstamo"
+      loan_error: "Error de Préstamo"
+      not_applicable: "Falta información"
     header:
-      activity_message: ""
-      created_at: ""
-      custom_error_data: ""
-      id: ""
-      job_first_started_at: ""
-      job_last_failed_at: ""
-      status: ""
-      related: ""
-      type: ""
+      activity_message: "Mensaje"
+      created_at: "Creado en"
+      custom_error_data: "Detalles de Error"
+      id: "ID"
+      job_first_started_at: "Trabajo iniciado por primera vez en "
+      job_last_failed_at: "Ultimo trabajo fallido a las  "
+      status: "Estado"
+      related: "Relacionado a "
+      type: "Tipo de Tarea"
     index:
-      title: ""
+      title: "Tareas"
     show:
-      title: ""
+      title: "%{type}Tarea #%{id}"
     status:
-      failed: ""
-      in_progress: ""
-      pending: ""
-      succeeded: ""
+      failed: "Fallida"
+      in_progress: "En proceso"
+      pending: "Pendiente"
+      succeeded: "Tuvo éxito"
     taskable:
       type:
-        data_export: ""
+        data_export: "Exportación de Datos"
       type_with_id:
-        data_export: ""
+        data_export: "Exportación de Dato #%{number}"
     type:
-      full_fetcher: ""
-      data_export: ""
-      data_export_task_job: ""
-      update_all_loans: ""
-      update_all_loans_job: ""
-      fetch_quickbooks_changes: ""
-      fetch_quickbooks_changes_job: ""
+      full_fetcher: "Importación de QuickBooks"
+      data_export: "Exportación de datos"
+      data_export_task_job: "Exportación de datos"
+      update_all_loans: "Actualizar todos los préstamos"
+      update_all_loans_job: "Actualizar todos los préstamos"
+      fetch_quickbooks_changes: "Obtener Cambios de QuickBooks"
+      fetch_quickbooks_changes_job: "Obtener Cambios de QuickBooks"
   questions:
     active: "Activo"
     confirm_deletion: "ATENCIÓN: Si este ítem tiene preguntas o grupos que le pertenecen, ¡también serán borrados! ¿Realmente quieres borrar esto?"
     confirm_deletion_no_descendants: "¿Realmente quieres borrar esto?"
     confirm_deletion_descendants: "ATENCIÓN: ¡Este ítem tiene preguntas o grupos relacionados, que serán borrados también! ¿Realmente quieres borrar esto?"
-    currently_editing: ""
+    currently_editing: "Nueva Edición"
     delete_error: "El ítem no pudo ser borrado debido a un error"
-    edit_all: ""
-    edit_rich_text: ""
+    edit_all: "Ingresar en el modo de edición"
+    edit_rich_text: "Editar Respuesta"
     explanation: "Explicación"
     manage: "Manejar Preguntas del Préstamo"
-    missing_required_answer: ""
+    missing_required_answer: "Esta pregunta es obligatoria"
     move_error: "El ítem no pudo moverse debido a un error"
     not_editable: "Esta pregunta o grupo ha sido heredado de una división superior, por lo que no puede cambiarse."
     progress:
-      complete: ""
-      normal: ""
-      optional: ""
+      complete: "Completo"
+      normal: "Obligatoria"
+      optional: "Opcional"
     table:
       caption: "Pregunta número %{number} pregunta y respuesta"
     text: "Título"
-    none_for_loan_division: ""
-    none_for_current_division: ""
+    none_for_loan_division: "No hay conjuntos de preguntas para la división de este préstamo ( %{division_name}). Póngase en contacto con el equipo de soporte de Madeline para rectificar este problema."
+    none_for_current_division: "No hay conjuntos de preguntas para la división seleccionada actualmente. Por favor contáctese con el equipo de soporte de Madeline para solucionarlo."
     inheritance_tag:
-      ancestor: ""
-      descendant: ""
+      ancestor: "Heredado de%{division_name}"
+      descendant: "Creado por %{division_name}"
 
   question_sets:
-    loan_criteria: ""
-    loan_post_analysis: ""
+    loan_criteria: "Nota de crédito"
+    loan_post_analysis: "Post-Análisis"
 
   linked_document:
     cell_end: Celda Final
@@ -312,14 +312,14 @@ es:
     shared:
       has_system_access: "Acceso al sistema"
       invalid_division_role: "Rol de acceso inválido"
-      media: "Fotos del Miembro "
+      media: "Registros Audiovisual del Miembro "
       new: "Nuevo Miembro "
       people: "Miembros"
       person: "Miembro"
   activerecord:
     models:
       data_export: "Exportación de los Datos"
-      documentation: ""
+      documentation: Documentación
       log: "Apunte"
       organization: "Organización"
       loan: "Préstamo"
@@ -327,7 +327,7 @@ es:
       project_step:
         one: "Paso del Proyecto"
         other: "Pasos del Proyecto"
-      media: Fotos
+      media: Registros Audiovisual
     attributes:
       media:
         item: "Ítem"
@@ -350,20 +350,20 @@ es:
       division:
         description: "Descripción"
         default_currency: "Moneda Predeterminada"
-        homepage: ""
+        homepage: "Página de inicio de la división"
         name: "Nombre"
-        parent_id: ""
+        parent_id: "División Matriz"
         notify_on_new_logs: "Notificar Nuevos Apuntes"
         public: "Público"
-        public_url: ""
+        public_url: "URL Pública"
         logo: "Logo"
         logo_text: "Texto del Logo"
         banner_fg_color: "Color del Primer Plano del Banner "
         banner_bg_color: "Color de Fondo del Banner "
         accent_main_color: "Color de Acentos"
-        public_primary_color: ""
-        public_secondary_color: ""
-        public_accent_color: ""
+        public_primary_color: "Color primario de la página"
+        public_secondary_color: "Color secundario de la página"
+        public_accent_color: "Color destacado de la página"
         closed_books_date: "Fecha de Cierre de Contabilidad"
         qb_read_only: "Tratar Datos de QB como de Sólo Lectura"
         connection_status: "Estado de QuickBooks"
@@ -372,10 +372,10 @@ es:
         data_reset: "Reiniciar el Cache de los Datos de QuickBooks"
         disconnect: "Desconectar de QuickBooks"
         data_import_status: "Estado de importación de los datos"
-        fetch_from_quickbooks: ""
+        fetch_from_quickbooks: "Búsqueda de QuickBooks"
         principal_account_id: "Cuenta Prinicpal"
-        qb_department_id: ""
-        short_name: ""
+        qb_department_id: "División de QB"
+        short_name: "Denominación Breve"
         interest_receivable_account_id: "Cuenta de Interés Recibido"
         interest_income_account_id: "Cuenta de Ingreso de Interés"
       documentation:
@@ -411,7 +411,7 @@ es:
         rate: "Tasa"
         signing_date: "Fecha de Firma"
         summary: "Resumen"
-        final_repayment_formula: ""
+        final_repayment_formula: "Fórmula de reembolso final"
       note:
         text: "Nota"
       organization:
@@ -439,7 +439,7 @@ es:
         tax_no: "Nro. de identificación impositiva"
         country: "País"
         website: "Página web"
-        inception: ""
+        inception: "Comienzo"
       person:
         birth_date: "Fecha de Nacimiento"
         city: "Ciudad"
@@ -461,6 +461,7 @@ es:
         state: "Estado"
         tax_no: "Nro. de Documento"
         website: "Página web"
+        notification_source: "Notificaciones"
       project:
         length_months: "Duración (meses)"
         name: "Nombre"
@@ -516,7 +517,7 @@ es:
         division:
           attributes:
             name:
-              same_as_parent: ''
+              same_as_parent: 'La División y la División matriz no pueden tener el mismo nombre'
         loan:
           attributes:
             primary_agent:
@@ -530,7 +531,7 @@ es:
         project_group:
           no_summary: "Se requiere un resumen."
         question:
-          invalid_parent_division_depth: ""
+          invalid_parent_division_depth: "La Matriz debe estar en la misma división o en una anterior"
         organization:
           attributes:
             primary_contact:
@@ -569,11 +570,11 @@ es:
     media: "Registros Audiovisuales"
     visual_media: "Registros visuales"
     block:
-      id: ""
-      kind: ""
-      filename: ""
-      date_uploaded: ""
-      source: ""
+      id: ID
+      kind: Tipo
+      filename: Nombre del archivo
+      date_uploaded: Cargado
+      source: Origen
   project:
     months: "%{number} meses "
 
@@ -587,56 +588,56 @@ es:
       incomplete_loan_questions: "Se han respondido menos del 80% de las preguntas requeridas"
       sporadic_loan_updates: "Menos de un paso por mes"
   sync_issue:
-    authorization_failure: ""
+    authorization_failure: "Debe estar conectado a QuickBooks antes de poder acceder a las transacciones. Vaya a Configuración de contabilidad para conectarse."
     unprocessable_account: "La transacción contiene un elemento de línea con una cuenta imposible de procesar. Por favor, revisar y corregir en QuickBooks."
     journal_entry_type_other_account_not_set: "Esta transacción del tipo Otro no tiene una cuenta asignada. Por favor, revisar los elementos de línea en QuickBooks para lograr precisión."
     has_multiple_loans: "Transacción asociada a múltiples préstamos."
     attempted_change_before_closed_books_date: "Madeline habría alterado esta transacción (fechada %{txn_date}) si no fuera anterior a la fecha de cierre de la contabilidad %{cbd}. Por favor, revisar si la contabilidad es certera."
-    no_end_of_month_int_txn_before_closed_books_date: "Madeline habría agregado una transacción de interés a fin de mes luego de ésta (fechada%{txn_date}) si no fuera anterior a la fecha de cierre de la contabilidad %{cbd}. Por favor, revisar si la contabilidad es certera. "
+    no_end_of_month_int_txn_before_closed_books_date: "Madeline habría agregado una transacción de interés a fin de mes luego de ésta (fechada %{txn_date}) si no fuera anterior a la fecha de cierre de la contabilidad %{cbd}. Por favor, revisar si la contabilidad es certera. "
     attempted_new_int_txn_before_closed_books_date: "Madeline habría agregado una transacción de interés en la misma fecha que ésta (%{txn_date}) si no fuera anterior a la fecha de cierre de la contabilidad %{cbd}. Por favor, revisar si la contabilidad es certera."
-    data_reset_required: ""
-    matched_transaction: ""
-    quickbooks_not_connected: ""
-    quickbooks_accounts_not_selected: ""
-    quickbooks_unavailable_fetch: ""
-    quickbooks_unavailable_recalc: ""
-    service_unavailable: ""
-    system_error_fetch: ""
-    system_error_recalc: ""
-    unknown_intuit_request_exception: ""
+    data_reset_required: "Se requiere restablecer los datos de QuickBooks. Vaya a Configuración de contabilidad para realizar un restablecimiento."
+    matched_transaction: "QuickBooks informa que una transacción (fecha de %{date} con ID %{qb_id}) tiene una transacción coincidente en QB y, por lo tanto Madeline no pudo completar su acción. Intente deshacer esta transacción en QB, sincronice los datos y vuelva a intentarlo."
+    quickbooks_not_connected: "QuickBooks no está conectado. Conéctese en la página Configuración de contabilidad."
+    quickbooks_accounts_not_selected: "Cuentas de QuickBooks no configuradas. Seleccione cuentas de QuickBooks en la página Configuración de contabilidad."
+    quickbooks_unavailable_fetch: "QuickBooks no estaba disponible en ese momento. Los datos de su transacción pueden estar desactualizados. Intente sincronizar de nuevo más tarde."
+    quickbooks_unavailable_recalc: "QuickBooks no estaba disponible durante los cálculos de este préstamo, por lo que los datos de la transacción pueden ser parcialmente incorrectos. Intente sincronizar nuevamente más tarde para corregir esto."
+    service_unavailable: "QuickBooks no está disponible temporalmente. Por favor, intente nuevamente más tarde."
+    system_error_fetch: "Se produjo un error inesperado del sistema durante la obtención de datos de QuickBooks. Se ha notificado al equipo de soporte de Madeline. Los datos de su transacción pueden estar desactualizados."
+    system_error_recalc: "Hubo un error inesperado del sistema durante los cálculos de este préstamo. Se ha notificado al equipo de soporte de Madeline."
+    unknown_intuit_request_exception: "Ocurrió un error inesperado entre QB y Madeline en la transacción (fecha %{date}con QB ID %{qb_id}). Por esto, madeline no puede completar su acción en este momento. Se ha notificado al equipo de soporte de Madeline."
     index:
-      title: ""
+      title: "Problemas de sincronización contable para préstamo %{loan_id}"
     index_by_loan:
-      title: ""
+      title: Problemas de sincronización contable
     show:
-      title: ""
-    id: ""
-    txn_id: ""
-    qb_id: ""
-    date: ""
-    loan_id: ""
+      title: "Problemas de sincronización contable #%{id}"
+    id: ID
+    txn_id: TXN ID
+    qb_id: QB ID
+    date: Fecha
+    loan_id: ID de préstamo
     level:
-      header: ""
-      error: ""
-      warning: ""
+      header: Nivel
+      error: Error
+      warning: Advertencia
     message:
-      header: ""
-    num_txns_with_message: ""
-    associated_loans: ""
-    quickbooks_data: ""
+      header: Mensaje
+    num_txns_with_message: Número de problemas con mensajes similares para este préstamo
+    associated_loans: Préstamos asociados
+    quickbooks_data: Datos sin procesar de QuickBooks
     error_msg_link:
-      one: ''
-      other: ''
+      one: revisar el error
+      other: revisar los errores
     error_msg_admin_html:
-      one: ''
-      other: ''
-    error_msg_member: ""
+      one: Hubo un error de sincronización para este préstamo. Los datos de la transacción están ocultos. Por favor %{link}.
+      other: Hubo %{count} errores de sincronización para este préstamo. Los datos de la transacción están ocultos . Por favor %{link}.
+    error_msg_member: "Los datos de la transacción están ocultos debido a problemas de sincronización."
     warning_msg_link:
-      one: ''
-      other: ''
+      one: revisar la advertencia
+      other: revisar las advertencias
     warning_msg_html:
-      one: ''
-      other: ''
+      one: Hay una advertencia de sincronización para este préstamo. Los balances del préstamo pueden no ser correctos. Por favor %{link}, y solo proceda una vez que haya confirmado que son correctos.
+      other: Hubo %{count} advertencias de sincronización para este préstamo. Es posible que los saldos de sus préstamos no sean correctos. Por favor %{link}, y solo proceda una vez que haya confirmado que son correctos.
   # Overwrite rails default of using the table name in the action labels
   helpers:
     submit:
@@ -692,23 +693,23 @@ es:
         delete: "Borrar División"
         edit: "Editar División"
       form:
-        notify_on_new_logs: "Notificar a los usuarios de esta división cuando se crea un nuevo apunte"
+        notify_on_new_logs: "Enviar notificaciones para apuntes nuevos"
         public: "Mostrar en la pagina web pública los préstamos de esta división"
-        public_url_info: ""
+        public_url_info: "Para cambiar la URL pública de esta división, actualice el nombre corto de la misma a continuación. El nombre corto es la última parte de la URL."
     loans:
       questions:
         delete: "Borrar Todas las Respuestas"
         outline:
-          header: ""
-          optional: ""
-          miscellaneous: ""
+          header: "Esquema"
+          optional: "QS opcional"
+          miscellaneous: "Componentes"
       transactions:
         create_success: "La transacción fue creada correctamente."
-        update_success: ""
-        sync_complete: ""
+        update_success: "Transacción actualizada correctamente."
+        sync_complete: "Préstamo sincronizado correctamente con QuickBooks."
         new_transaction: "Agregar Transacción"
-        edit_transaction: ""
-        sync_data: ""
+        edit_transaction: "Editar Transacción"
+        sync_data: "Sincronizar datos"
         update: "Actualizar Transacción"
     project_logs:
       index:
@@ -783,12 +784,12 @@ es:
     delete: "Borrar nota"
     new: "Nota Nueva"
   documentation:
-    index: ""
+    index: "Documentación"
     edit: "Editar documentación"
     learn_more: "Aprender más »"
     new: 'Nueva documentación'
     no_documentations: "No se encontró documentación."
-    location: ""
+    location: Ubicación
   divisions:
     # Note, these translations are shared between the 'index' and 'new' actions, so can't use dot
     # style shortcuts.
@@ -809,7 +810,7 @@ es:
     batch_actions: "Acciones en Lotes"
     cancel_edit: "Cancelar la Edición"
     confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar este préstamo para siempre?"
-    confirm_duplication: ""
+    confirm_duplication: "Esto duplicará el préstamo y todas las entradas del cronograma, los registros y las respuestas al cuestionario. ¿Quieres continuar?"
     confirm_response_deletion: "ATENCIÓN: ¿Realmente quieres borrar permanentemente estas respuestas?"
     criteria: "Memo del Crédito"
     criteria_not_entered: "No se han ingresado criterios aún."
@@ -840,7 +841,7 @@ es:
       body: "¿Realmente quieres cambiar la fecha del préstamo?"
     move_dates: "Mover las fechas previstas"
     move_date_direction: "¿Mover la fecha hacia adelante o hacia atrás?"
-    no_answer: "Falta respuesta."
+    no_answer: "[Falta respuesta]"
     not_applicable: "No aplica"
     num_of_links:
       one: "Hay %{count} documento asociado."
@@ -849,8 +850,8 @@ es:
       one: "Hacer click para abrir el documento en una pestaña nueva."
       other: "Hacer click para abrir cada documento en una pestaña nueva."
     optional_amount: "Monto opcional"
-    pending_changes: ""
-    pending_changes_short: ""
+    pending_changes: "Tienes cambios pendientes en esta forma. Recuerde guardar."
+    pending_changes_short: "Tienes cambios pendientes. Recuerde guardar."
     popup_blocker: "Puede ser necesario desactivar tu bloqueador de popups o activar todos los popups de este sitio para poder ver tus documentos."
     post_analysis: "Post-Análisis"
     primary_agent: "Responsable"
@@ -863,8 +864,8 @@ es:
     public:
       not_authorized: "No tienes autorización para ver el prestamo solicitado."
     question:
-      current_response: ""
-      edit: ""
+      current_response: "Respuesta actual"
+      edit: "Respuesta actualizada"
     rating: "Puntuación"
     save_responses: "Guardar Respuestas"
     shared:
@@ -973,7 +974,7 @@ es:
       total_fixed_costs: "Costos Fijos Totales"
 
     response_set:
-      conflicting_changes_html: 'Advertencia: Los datos han cambiado desde la última vez que los cargaste. La última actualización fue hecha por %{updater}, %{updated_at}. Tal vez quieras confirmar con ellxs qué cambiaron o <a href="%{link}" target="_blank">abrir la información más reciente en una pestaña nueva </a> para comparar.  Puedes grabar tus cambios de todas maneras, pero todos los otros cambios desde que actualizaste la página se perderán. '
+      conflicting_changes_html: 'Advertencia: Los datos han cambiado desde la última vez que los cargaste. La última actualización fue hecha por %{updater}, %{updated_at}. Tal vez quieras confirmar con ellxs qué cambiaron o <a href="%{link}" target="_blank">abrir la información más reciente en una pestaña nueva</a> para comparar.  Puedes grabar tus cambios de todas maneras, pero todos los otros cambios desde que actualizaste la página se perderán. '
       discard_reload: "Descartar Mis Cambios y Recargar"
       overwrite_changes: "Guardar Mis Cambios y Borrar Los Otros"
 
@@ -1043,7 +1044,7 @@ es:
   # style shortcuts.
   project_log:
     project_log: "Apunte de proyecto"
-    name: ""
+    name: "%{project} en %{date} [#%{id}]"
   project_logs:
     more: "Más..."
     shared:
@@ -1059,43 +1060,43 @@ es:
     data_exports: "Exportaciones de los Datos"
     dashboard: "Tablero de mandos"
     divisions: "Divisiones"
-    documentations: ""
+    documentations: Documentación
     loans: "Préstamos"
     log: "Apunte"
     logs: "Apuntes"
-    media: ""
+    media: "Comunicación"
     questions: "Preguntas"
     manage: "Manejar"
     people: "Miembros"
     tasks: "Tareas"
   transactions:
     disbursement_type:
-      other: ""
-      check: ""
+      other: "Transferencia Bancaria o Tarjeta de Crédito"
+      check: "Cheque"
     default_description: "%{loan_transaction_type} para Préstamo #%{loan_id}"
     interest_description: "Intereses Acumulados para Préstamo #%{loan_id}"
   controllers:
     admin:
-      basic_projects: ""
-      calendar: ""
-      calendar_events: ""
-      dashboard: ""
-      data_exports: ""
-      divisions: ""
-      documentations: ""
-      loans: ""
-      media: ""
-      notes: ""
-      organizations: ""
-      people: ""
-      project_logs: ""
-      project_steps: ""
-      projects: ""
-      questions: ""
-      response_sets: ""
-      settings: ""
-      tasks: ""
-      timeline_step_moves: ""
+      basic_projects: Proyectos
+      calendar: Calendario
+      calendar_events: Eventos
+      dashboard: Tablero
+      data_exports: Datos exportados
+      divisions: División
+      documentations: Documentación
+      loans: Préstamos
+      media: Comunición
+      notes: Notas
+      organizations: Cooperativas
+      people: Miembros
+      project_logs: Apuntes
+      project_steps: Pasos
+      projects: Proyectos
+      questions: Preguntas
+      response_sets: Respuesta
+      settings: Configuraciones
+      tasks: Tareas
+      timeline_step_moves: Pasos de la línea de tiempo
   question: "Pregunta"
   amount_not_set: "Monto aún no establecido"
   blank: "-"
@@ -1149,7 +1150,7 @@ es:
   loading: "Cargando..."
   error: "Error"
   error_notification: "Lo lamentamos, pero hubo un error al procesar tu solicitud."
-  system_error_notified: ""
+  system_error_notified: "Error del sistema. Se ha notificado a los desarrolladores."
   close: "Cerrar"
   select_prompt: "Seleccionar..."
   all: "Todos"
@@ -1234,7 +1235,7 @@ es:
     role: "Rol"
     save: "Guardar"
     second: "2do"
-    settings: ""
+    settings: "Configuraciones"
     street_address: "Domicilio"
     summary: "Resumen"
     summary_and_details: "Resumen y Detalles"
@@ -1254,22 +1255,22 @@ es:
     class_location_notice: "NOTA: Antes de poder agregar transacciones, debes asegurarte de que Clases y Locaciones (alias Divisiones) estén habilitadas en la configuración de QuickBooks de tu negocio."
     # data_reset_required message here used when txns hidden in UI
     data_reset_required: "Se requiere reiniciar los datos de QuickBooks antes de poder acceder a las transacciones. Por favor ir a %{settings} para reiniciar."
-    department_not_set: ""
+    department_not_set: "Por favor, configure la división QB en <a href=\"%{url}\">la división Madeline de este préstamo</a>para crear transacciones."
     misc: "Hubo un error en la comunicacíon con QuickBooks. Se ha notificado a un administrador. Algunos datos pueden estar desactualizados. (Error: %{msg})"
-    principal_account_incompatible_with_checks: ""
+    principal_account_incompatible_with_checks: "La cuenta principal debe tener el tipo Gastos en Quickbooks para poder crear desembolsos de cheques."
     service_unavailable: "QuickBooks no está disponible temporariamente. Por favor intentar de nuevo más tarde."
-    read_only_html: ""
+    read_only_html: "No puede agregar transacciones porque: %{reasons}."
     read_only_reasons:
-      qb_not_connected_html: ""
-      accounts_not_selected_html: ""
-      division_transactions_read_only_html: ""
-      department_not_set_html: ""
-      loan_not_active_html: ""
-      loan_transactions_read_only_html: ""
-    unprocessable_account: ""
+      qb_not_connected_html: "QuickBooks no está conectado"
+      accounts_not_selected_html: "Las cuentas de QuickBooks no están seleccionadas en la división '%{qb_division}' (vea %{accounting_settings_link})"
+      division_transactions_read_only_html: "Las transacciones están en modo de solo lectura para la división '%{qb_division}' (vea %{accounting_settings_link})"
+      department_not_set_html: "El departamento de QB no está configurado en la división '%{selected_division}' (vea %{qb_division_settings_link})"
+      loan_not_active_html: "este préstamo no está activo"
+      loan_transactions_read_only_html: "las transacciones están en modo solo lectura para este préstamo"
+    unprocessable_account: "Una transacción en la fecha %{date} con ID de QB %{qb_id} en este préstamo tiene una cuenta no procesable. La cuenta probablemente se eliminó en Quickbooks. Busque la cuenta eliminada, recupérela y resincronice los datos contables de este préstamo."
     there_are_issues:
-      one: ""
-      other: ""
+      one: "Hay una cuestión pendiente."
+      other: "Hay %{count} cuestiones pendientes."
     accounts:
       accounts: "Cuentas de QuickBooks"
       note: "Esta configuración de cuentas solo se aplicarán a transacciones futuras."
@@ -1293,7 +1294,7 @@ es:
     closed_books_date:
       note:
         date_not_set: "Madeline no creará transacciones ni modificará transacciones de QuickBooks antes de la fecha de cierre de contabilidad."
-        date_set: "Madeline no creará transacciones ni modificará transacciones de QuickBooks antes de la fecha de cierre de contabilidad, que actualmente es  %{current_date}."
+        date_set: "Madeline no creará transacciones ni modificará transacciones de QuickBooks antes de la fecha de cierre de contabilidad, que actualmente es %{current_date}."
       alert:
         date_not_set: "Atención: Cuando se cree una fecha de cierre de contabilidad, Madeline creará y modificará transacciones de QuicBooks después de la fecha de cierre de contabilidad. Estas acciones no se pueden deshacer."
         date_set: "Atención: Configurar la fecha de cierre de contabilidad como anterior a  %{current_date} llevará a Madeline a crear nuevas transacciones y a modificar transacciones anteriores a  %{current_date} en QuickBooks. Estas acciones no se pueden deshacer."
@@ -1302,18 +1303,18 @@ es:
       note: "En configuración de sólo lectura, la creación de transacciones y el cálculo automático de intereses estarán desactivados. Cuando no esté configurada en modo de sólo lectura, Madeline calculará automáticamente el interés de los préstamos y los administradores pueden crear transacciones para los préstamos. En ambos modos, los datos de QuickBooks se importan regularmente y están diponibles para ver."
       qb_read_only: "Datos de Contabilidad de Sólo Lectura"
     update:
-      update_changed: ""
-      update_queued_html: ""
-      update_changed_details: ""
+      update_changed: "Obtener cambios de QuickBooks"
+      update_queued_html: "QuickBooks recupera correctamente la búsqueda, <a href='%{url}'>vea el progreso</a>."
+      update_changed_details: "Recupere manualmente los datos (incluidas cuentas, clientes, departamentos, transacciones y proveedores) que hayan cambiado de QuickBooks desde la última sincronización completa."
   basic_project:
     agent:
       one: "Agente"
       other: "Agentes"
     confirm_deletion: "ATENCIÓN: ¿Realmente quieres borrar este proyecto para siempre?"
-    confirm_duplication: ""
+    confirm_duplication: "Esto duplicará el proyecto y todas las entradas de la línea de tiempo asociadas, los registros y las respuestas al cuestionario. ¿Quieres continuar?"
     delete: "Borrar Proyecto"
-    duplicate: ""
-    duplicated_message: ""
+    duplicate: "Proyecto Duplicado"
+    duplicated_message: "El proyecto se duplicó con éxito."
     edit: "Editar Proyecto"
     months: "%{number} meses "
     new: "Nuevo Proyecto"
@@ -1340,31 +1341,31 @@ es:
     hints:
       division:
         logo_text: "Texto optativo para mostrar bajo el logo. El logo es más breve si se ingresa texto."
-        banner_bg_color: "Color de fondo del banner de la página. Usar códigos de color CSS, por ej. 'blanco' o '#eb9081'. Probar <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>this color picker</a>."
+        banner_bg_color: "Color de fondo del banner de la página. Usar códigos de color CSS, por ej. 'blanco' o '#eb9081'. Probar <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>este selector de color</a>."
         banner_fg_color: "Color del texto en el banner."
         accent_main_color: "Color de links, botones, etc. El default es el color de fondo del banner."
-        public_primary_color: ""
-        public_secondary_color: ""
-        public_accent_color: ""
+        public_primary_color: "Color de fondo del banner para la página de la división pública. Recomendamos utilizar un color más oscuro. Utilice códigos de color CSS, por ejemplo, 'white' o '# eb9081'. Prueba <a href='http://www.w3schools.com/colors/colors_picker.asp' target='_blank'>este selector de color</a>."
+        public_secondary_color: "Color del texto del encabezado, enlaces, etc. El color predeterminado es el color personalizado secundario de Madeline. Recomendamos utilizar un color más oscuro."
+        public_accent_color: "Color de los iconos y ubicación en la página de la división pública. Por defecto, se usa el color de Madeline."
     labels:
       accounting_transaction:
         account: "Cuenta Bancaria"
         amount: "Monto"
         change_in_interest: "Cambio en el interés"
         change_in_principal: "Cambio en el capital principal"
-        check_number: ""
-        customer: "Cliente de QuickBooks"
+        check_number: "Número de cheque"
+        customer: "Cliente (QuickBooks)"
         description: "Descripción"
         interest_balance: "Saldo del interés"
         loan_transaction_type_value: "Tipo de Transacción"
         principal_balance: "Saldo del capital principal"
         private_note: "Memo"
-        qb_department: ""
-        disbursement_type: ""
+        qb_department: "División QB"
+        disbursement_type: "Tipo de desembolso"
         qb_record_id: "ID del registro en QuickBooks"
         total_balance: "Saldo Total"
         txn_date: "Fecha"
-        vendor: ""
+        vendor: "Vendedor/ra"
       timeline_step_move:
         move_type: "¿Cuál Fecha?"
       question:
@@ -1383,6 +1384,10 @@ es:
           admin: "Admin"
           member: "Miembro/a"
           none: "Ninguno/a"
+        notification_source:
+          none: "Deshabilitadas"
+          home_only: "División local solamente"
+          home_and_sub: "División local y subdivisiones"
       timeline_step_move:
         move_type:
           change_date: "Cambiar la fecha prevista del paso"
@@ -1407,9 +1412,9 @@ es:
   public:
     divisions:
       loan_header: "Prestamos"
-      not_authorized: ""
-      return_to_division_homepage: ""
-      go_to_seedcommons: ""
+      not_authorized: "No está autorizado para ver esta división."
+      return_to_division_homepage: "Ir a la página principal"
+      go_to_seedcommons: "Ir a SeedCommons>"
     loans:
       amount: "Monto"
       signing_date: "Fecha de Inicio"
@@ -1450,9 +1455,9 @@ es:
         document: 'Documento'
         contract: 'Contrato'
       organization_inception:
-        startup: ''
-        conversion: ''
-        recovered: ''
+        startup: 'Puesta en marcha'
+        conversion: 'Conversión'
+        recovered: 'Recuperada'
       progress_metric:
         change_plan: 'Con necesidad de cambiar su plan completamente'
         change_events: 'Con necesidad de cambiar algunos eventos'
