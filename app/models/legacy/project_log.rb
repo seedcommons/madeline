@@ -5,7 +5,6 @@ module Legacy
     include LegacyModel
 
     DEFAULT_STEP_NAME = '[Paso para contener nota emigratada]'
-    NULLIFY_MEMBER_IDS = [0, 249, 280, 282]
 
     def self.migratable
       where("ProjectTable NOT IN ('BasicProjects', 'ProjectTemplates')")
@@ -19,7 +18,7 @@ module Legacy
     def agent_id
       return @agent_id if defined?(@agent_id)
       @agent_id =
-        if NULLIFY_MEMBER_IDS.include?(member_id)
+        if Migration::NULLIFY_MEMBER_IDS.include?(member_id)
           Migration.log << ["ProjectLog", id, "Nullified agent_id b/c member #{member_id} not found"]
           nil
         else

@@ -4,8 +4,6 @@ module Legacy
     establish_connection :legacy
     include LegacyModel
 
-    NULLIFY_MEMBER_IDS = [0, 121, 122, 123, 140, 186, 242, 243]
-
     LEGACY_MEDIA_BASE_PATH = ENV['LEGACY_MEDIA_BASE_PATH'] || '../legacymedia'
     TYPE_MAP = {
       "Cooperatives" => "Organization",
@@ -21,11 +19,10 @@ module Legacy
     end
 
     def uploader_id
-      if NULLIFY_MEMBER_IDS.include?(member_id)
+      if Migration::NULLIFY_MEMBER_IDS.include?(member_id)
         Migration.log << ["Media", id, "Nullified uploader_id b/c member #{member_id} not found"]
         nil
       else
-
         if (person_id = map_legacy_person_id(member_id))
           person_id
         else

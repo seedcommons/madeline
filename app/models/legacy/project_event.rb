@@ -6,15 +6,13 @@ module Legacy
     establish_connection :legacy
     include LegacyModel
 
-    NULLIFY_MEMBER_IDS = [0]
-
     def self.migratable
       where("ProjectTable NOT IN ('BasicProjects', 'ProjectTemplates')")
     end
 
     # note, legacy data includes 11 references to a '0' member_id, and a bunch to 247 which doesn't exist
     def agent_id
-      if NULLIFY_MEMBER_IDS.include?(member_id)
+      if Migration::NULLIFY_MEMBER_IDS.include?(member_id)
         Migration.log << ["ProjectEvent", id, "Nullified agent_id b/c member #{member_id} not found"]
         nil
       else
