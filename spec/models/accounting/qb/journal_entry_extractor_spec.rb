@@ -13,6 +13,9 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
 
   # This is example Journal entry JSON that might be returned by the QB API.
   # The data are taken from the docs/example_calculation.xlsx file, row 7.
+  # line item id  0 is by default a credit to prin_acct
+  # line item id 1 is by default a credit to int rec acct
+  # line item id 2 is by default a debit to txn acct
   let(:quickbooks_data) do
     {'line_items' =>
       [{'id' => '0',
@@ -230,6 +233,22 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
           expect(txn.loan_transaction_type_value).to eq('interest')
           expect(txn.account).to be nil
           expect(txn.managed).to be true
+        end
+
+        context "$0.00 interest journal entry remains interest" do
+          before do
+            # change 1st li to be a $0.00 debit to interest receivable
+            quickbooks_data['line_items'][0]['amount'] = '0.00'
+            # change 2nd li to be a $0.00 debit to interest income
+            quickbooks_data['line_items'][1]['amount'] = '0.00'
+            quickbooks_data['line_items'][1]['journal_entry_line_detail']['posting_type'] = "Debit"
+            quickbooks_data['total'] = '0.00'
+            update_transaction_with_new_quickbooks_data
+          end
+
+          it 'is given type interest in madeline' do
+            expect(txn.loan_transaction_type_value).to eq "interest"
+          end
         end
       end
 

@@ -41,7 +41,7 @@ module Accounting
         int_rcv_acct = qb_division.interest_receivable_account
         int_inc_acct = qb_division.interest_income_account
         prin_acct = qb_division.principal_account
-        if num_li == 2 && line_items_include_debit_to_acct(int_rcv_acct) && line_items_include_credit_to_acct(int_inc_acct)
+        if num_li == 2 && line_items_include_debit_to_acct(int_rcv_acct) && credit_or_zero_debit_to(int_inc_acct)
           :interest
         elsif num_li == 2 && line_items_contain_at_least_one('Credit') && line_items_include_debit_to_acct(prin_acct)
           :disbursement

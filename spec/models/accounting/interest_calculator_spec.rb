@@ -369,6 +369,61 @@ describe Accounting::InterestCalculator do
     end
   end
 
+  context "interest amt rounds to zero and over repayment" do
+    let(:loan) { create(:loan, :active, division: division, rate: 5.0) }
+    let!(:disbursement) do
+      create(:accounting_transaction,
+             :disbursement,
+             amount: 100.0,
+             project: loan,
+             txn_date: "2018-01-01",
+             division: division,
+             customer: customer)
+    end
+    let!(:repayment) do
+      create(:accounting_transaction,
+             :repayment,
+             amount: 99.0,
+             project: loan,
+             txn_date: "2018-01-29",
+             division: division,
+             customer: customer)
+    end
+    let!(:interest) do
+      create(:accounting_transaction,
+             :repayment,
+             amount: 0.0,
+             project: loan,
+             txn_date: "2018-01-31",
+             division: division,
+             customer: customer)
+    end
+    let!(:overrepayment) do
+      create(:accounting_transaction,
+             :repayment,
+             amount: 10,
+             project: loan,
+             txn_date: "2018-02-4",
+             division: division,
+             customer: customer)
+    end
+    let(:all_txns) { [disbursement, repayment, interest, overrepayment] }
+
+    it "does not duplicate interest txn of amount $0 in one day and handles negative balances" do
+        recalculate_and_reload
+        expect(Accounting::Transaction.interest_type.where(txn_date: "2018-01-31").count).to be 1
+        expect(disbursement.reload.interest_balance).to equal_money 0
+        expect(disbursement.reload.principal_balance).to equal_money 100
+        expect(repayment.reload.interest_balance).to equal_money 0
+        expect(repayment.reload.principal_balance).to equal_money 1.38
+        expect(interest.reload.interest_balance).to equal_money 0
+        expect(interest.reload.principal_balance).to equal_money 1.38
+        expect(interest.reload.amount).to equal_money 0
+        expect(overrepayment.reload.interest_balance).to equal_money 0
+        expect(overrepayment.reload.principal_balance).to equal_money -8.62
+    end
+  end
+
   context "negative balance" do
     let(:loan) { create(:loan, :active, division: division, rate: 5.0) }
     let!(:disbursement) do
