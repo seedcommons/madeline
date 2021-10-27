@@ -27,7 +27,8 @@ class DataExport < ApplicationRecord
       begin
         data << hash_to_row(object_data_as_hash(object))
       rescue => e
-        @child_errors << {object_id: object.id, message: e.message}
+        # TODO generalize here and in task show if non-loans exported
+        @child_errors << {loan_id: object.id, message: e.message}
         next
       end
     end

@@ -138,8 +138,8 @@ describe Accounting::QB::JournalEntryExtractor, type: :model do
       end
 
       it 'updates correctly in Madeline' do
-        expect(txn.line_items.map(&:qb_line_id)).to eq([0, 1, 2])
-        expect(txn.line_items.map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit'])
+        expect(txn.line_items.map(&:qb_line_id).sort).to eq([0, 1, 2])
+        expect(txn.line_items.order(:qb_line_id).map(&:posting_type)).to eq(['Credit', 'Credit', 'Debit'])
         expect_line_item_amounts([10.99, 0.81, 11.80])
         expect(txn.amount).to equal_money(11.80)
       end
