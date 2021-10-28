@@ -14,4 +14,10 @@ class DataExportPolicy < ApplicationPolicy
   def create?
     index?
   end
+
+  class Scope < Scope
+    def resolve
+      scope.where(division: user.division.self_and_descendants.pluck(:id))
+    end
+  end
 end
