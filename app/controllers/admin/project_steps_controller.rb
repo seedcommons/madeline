@@ -203,7 +203,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     @mode = params[:action] == "show" ? :show_and_form : :form_only
     @project = @step.project
     @parents = @step.project.timeline_groups_preordered
-    @agents = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
+    @agents = Person.by_name
     @precedents = @step.project.timeline_entries.where("type = 'ProjectStep' AND id != ?", @step.id || 0).by_date
     render partial: "/admin/project_steps/modal_content", status: status, locals: {
       context: params[:context]

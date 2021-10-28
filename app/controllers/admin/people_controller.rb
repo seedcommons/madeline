@@ -92,17 +92,13 @@ module Admin
 
     def prep_form_vars
       @countries = Country.order(:name)
-      @organization_choices = organization_choices
+      @organization_choices = Organization.order(:name)
       @roles_choices = role_choices
       @notes = @person.notes.order(created_at: :desc)
     end
 
     def role_choices
       Person::VALID_DIVISION_ROLES
-    end
-
-    def organization_choices
-      organization_policy_scope(Organization.in_division(selected_division)).order(:name)
     end
   end
 end
