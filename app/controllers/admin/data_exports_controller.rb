@@ -38,10 +38,8 @@ class Admin::DataExportsController < Admin::AdminController
   def index
     authorize sample_data_export
 
-    @data_exports = DataExport.all
-
     @data_exports_grid = initialize_grid(
-      policy_scope(DataExport),
+      policy_scope(DataExport).in_division(selected_division_or_root),
       include: [:attachments],
       order: "created_at",
       order_direction: "desc",

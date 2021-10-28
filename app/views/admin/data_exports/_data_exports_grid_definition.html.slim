@@ -7,6 +7,8 @@
     - link_to(data_export.id, admin_data_export_path(data_export.id))
   - g.column name: csv_id, attribute: 'id', in_html: false, filter: false
   - g.column name: t('activerecord.attributes.data_export.name'), attribute: 'name', filter: false
+  - g.column name: t('activerecord.attributes.data_export.division_id') do |data_export|
+    - data_export.division.name
   - g.column name: t('activerecord.attributes.data_export.created_at'), attribute: 'created_at', filter: false do |data_export|
     - ldate(data_export.created_at, format: :long)
   / - g.column name: t('activerecord.attributes.data_export.start_date'), attribute: 'start_date', filter: false

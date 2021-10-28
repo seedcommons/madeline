@@ -47,4 +47,24 @@ describe "data export flow", js: true do
     click_on "Create Data Export"
     expect(page).to have_content("Standard Loan Data Export on")
   end
+
+  context "with existing DataExports" do
+    let(:child_division) { create(:division, parent: division) }
+    let(:other_division) { create(:division) }
+    let!(:export1) { create(:data_export, :with_task, name: "Foo Export", division: division) }
+    let!(:export2) { create(:data_export, :with_task, name: "Bar Export", division: child_division) }
+    let!(:export3) { create(:data_export, :with_task, name: "Baz Export", division: other_division) }
+
+    scenario "data export index applies policy scope AND restricts to selected division and chilidren" do
+      visit(root_path)
+      select_division(division)
+      visit(admin_data_exports_path)
+      expect(page).to have_content("Foo Export")
+      expect(page).to have_content("Bar Export") # Proves child divisions are included
+      expect(page).not_to have_content("Baz Export") # Proves policy scoping is happening
+
+      select_division(child_division)
+      expect(page).not_to have_content("Foo Export") # Proves selected division is respected
+    end
+  end
 end
