@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "data export flow", js: true do
   let(:division) { create(:division) }
-  let(:user) { create_member(division) }
+  let(:user) { create_admin(division) }
   let(:start_date) { Time.zone.today.beginning_of_year }
   let(:end_date) { Time.zone.today }
 

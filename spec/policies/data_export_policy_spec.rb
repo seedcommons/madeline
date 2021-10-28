@@ -10,23 +10,28 @@ describe DataExportPolicy do
     let(:record) { create(:data_export, division: divisionB) }
     subject { described_class.new(user, record) }
 
+    context "user is admin of parent division" do
+      let(:user) { create_admin(divisionA) }
+      it { should permit_all }
+    end
+
     context "user is member of parent division" do
       let(:user) { create_member(divisionA) }
-      it { should permit_all }
-    end
-
-    context "user is member of same division" do
-      let(:user) { create_member(divisionB) }
-      it { should permit_all }
-    end
-
-    context "user is member of child division" do
-      let(:user) { create_member(divisionC) }
       it { should forbid_all }
     end
 
-    context "user is member of unrelated division" do
-      let(:user) { create_member(divisionD) }
+    context "user is admin of same division" do
+      let(:user) { create_admin(divisionB) }
+      it { should permit_all }
+    end
+
+    context "user is admin of child division" do
+      let(:user) { create_admin(divisionC) }
+      it { should forbid_all }
+    end
+
+    context "user is admin of unrelated division" do
+      let(:user) { create_admin(divisionD) }
       it { should forbid_all }
     end
   end
@@ -37,23 +42,28 @@ describe DataExportPolicy do
     let!(:exportC) { create(:data_export, division: divisionC, name: "ExportC") }
     subject(:result) { described_class::Scope.new(user, DataExport.all).resolve }
 
-    context "user is member of parent division" do
-      let(:user) { create_member(divisionA) }
+    context "user is admin of parent division" do
+      let(:user) { create_admin(divisionA) }
       it { should contain_exactly(exportA, exportB, exportC) }
     end
 
-    context "user is member of inner division" do
-      let(:user) { create_member(divisionB) }
+    context "user is member of parent division" do
+      let(:user) { create_member(divisionA) }
+      it { should be_empty }
+    end
+
+    context "user is admin of inner division" do
+      let(:user) { create_admin(divisionB) }
       it { should contain_exactly(exportB, exportC) }
     end
 
-    context "user is member of child division" do
-      let(:user) { create_member(divisionC) }
+    context "user is admin of child division" do
+      let(:user) { create_admin(divisionC) }
       it { should contain_exactly(exportC) }
     end
 
-    context "user is member of unrelated division" do
-      let(:user) { create_member(divisionD) }
+    context "user is admin of unrelated division" do
+      let(:user) { create_admin(divisionD) }
       it { should be_empty }
     end
   end
