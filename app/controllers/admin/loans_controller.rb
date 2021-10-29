@@ -150,8 +150,8 @@ module Admin
 
     def prep_form_vars
       @tab ||= "details"
-      @organization_choices = organization_policy_scope(Organization.in_division(selected_division)).order(:name)
-      @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
+      @org_choices = Organization.in_ancestor_or_descendant_division(selected_division_or_root).by_name
+      @agent_choices = Person.in_ancestor_or_descendant_division(selected_division_or_root).by_name
       @currency_choices = Currency.all.order(:name)
       @txn_mode_choices = txn_mode_options
       prep_criteria

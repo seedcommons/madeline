@@ -10,7 +10,7 @@
         => check_box_tag(:step_completed_on_date)
         = t('log.step_completed')
 
-  = f.input :agent_id, include_blank: true, collection: @people
+  = f.input :agent_id, include_blank: true, collection: @people_choices
   = f.input :progress_metric_value, collection: @progress_metrics
 
   = render 'admin/project_logs/translatable', log: @log, f: f

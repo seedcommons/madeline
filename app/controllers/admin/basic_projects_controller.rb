@@ -105,7 +105,7 @@ class Admin::BasicProjectsController < Admin::ProjectsController
 
   def prep_form_vars
     @tab ||= "details"
-    @agent_choices = policy_scope(Person).in_division(selected_division).with_system_access.order(:name)
+    @agent_choices = Person.in_ancestor_or_descendant_division(selected_division_or_root).by_name
   end
 
   def basic_project_params
