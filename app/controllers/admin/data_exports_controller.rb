@@ -1,7 +1,7 @@
 class Admin::DataExportsController < Admin::AdminController
 
   def new
-    authorize :data_export
+    authorize sample_data_export
     if params.has_key?(:type)
       set_export_class_on_new
       @data_export = @export_class.new(
@@ -18,6 +18,7 @@ class Admin::DataExportsController < Admin::AdminController
   def create
     @export_class = data_export_create_params[:type].constantize
     @data_export = @export_class.new(data_export_create_params)
+    @data_export.division = selected_division_or_root
     authorize @data_export
     if @data_export.save
       Task.create(
@@ -35,12 +36,10 @@ class Admin::DataExportsController < Admin::AdminController
   end
 
   def index
-    authorize :data_export
-
-    @data_exports = DataExport.all
+    authorize sample_data_export
 
     @data_exports_grid = initialize_grid(
-      policy_scope(DataExport),
+      policy_scope(DataExport).in_division(selected_division_or_root),
       include: [:attachments],
       order: "created_at",
       order_direction: "desc",
@@ -65,6 +64,10 @@ class Admin::DataExportsController < Admin::AdminController
 
   private
 
+  def sample_data_export
+    DataExport.new(division: selected_division_or_root)
+  end
+
   def set_export_class_on_new
     @export_class = DataExport::DATA_EXPORT_TYPES[data_export_new_params[:type]].constantize
   end
@@ -74,6 +77,6 @@ class Admin::DataExportsController < Admin::AdminController
   end
 
   def data_export_create_params
-    params.require(:data_export).permit(:type, :division_id, :locale_code, :name, :start_date, :end_date)
+    params.require(:data_export).permit(:type, :locale_code, :name, :start_date, :end_date)
   end
 end
