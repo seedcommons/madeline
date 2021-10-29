@@ -12,6 +12,8 @@ class Organization < ApplicationRecord
   has_many :loans, dependent: :destroy
   has_many :people, foreign_key: :primary_organization_id, dependent: :nullify
 
+  scope :by_name, -> { order(Arel.sql("LOWER(organizations.name)")) }
+
   attr_option_settable :inception
 
   validates :name, :division, :country, presence: true

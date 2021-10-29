@@ -74,7 +74,7 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
 
       = f.input :agent_id
         .view-element = @step.agent.try(:name)
-        = f.input_field :agent_id, collection: @agents, include_blank: true
+        = f.input_field :agent_id, collection: @agent_choices, include_blank: true
 
       // Two column details section
       br

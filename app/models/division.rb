@@ -45,7 +45,7 @@ class Division < ApplicationRecord
 
   before_validation :generate_short_name
 
-  scope :by_name, -> { Arel.sql(order("LOWER(divisions.name)")) }
+  scope :by_name, -> { order(Arel.sql("LOWER(divisions.name)")) }
   scope :published, -> { where(public: true) }
 
   delegate :connected?, to: :qb_connection, prefix: :quickbooks, allow_nil: true

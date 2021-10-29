@@ -26,7 +26,7 @@
     span = @loan.division.try(:name)
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :organization,
-    choices: @organization_choices, include_blank_choice: true, classes: 'hidden-print',
+    choices: @org_choices, include_blank_choice: true, classes: 'hidden-print',
     form_identifier: form_identifier, popover_options: popover_options)
 
   = f.input t('activerecord.attributes.loan.organization'), wrapper_html: {class: 'visible-print-block'}

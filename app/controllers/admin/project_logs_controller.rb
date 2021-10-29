@@ -68,8 +68,7 @@ class Admin::ProjectLogsController < Admin::AdminController
       render json: {summary: @log.summary, logId: @log.id}, status: 200
       LogNotificationJob.perform_later(@log) if params[:notify] == '1'
     else
-      @progress_metrics = ProjectLog.progress_metric_options
-      @people = Person.by_name
+      set_log_form_vars
       render partial: 'modal_content', status: :unprocessable_entity
     end
   end

@@ -23,7 +23,7 @@
     .view-element
       - if @person.primary_organization
         = link_to @person.primary_organization.name, admin_organization_path(@person.primary_organization)
-    = f.input_field :primary_organization_id, collection: @organization_choices, include_blank: true
+    = f.input_field :primary_organization_id, collection: @org_choices, include_blank: true
 
   = f.input :first_name
     .view-element = @person.first_name

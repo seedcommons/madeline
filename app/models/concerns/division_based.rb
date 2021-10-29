@@ -3,7 +3,11 @@ module DivisionBased
 
   included do
     def self.in_division(division)
-      division ? where(division: division.self_and_descendants) : all
+      division ? where(division_id: division.self_and_descendant_ids) : all
+    end
+
+    def self.in_ancestor_or_descendant_division(division)
+      where(division_id: division.self_and_descendant_ids + division.ancestor_ids)
     end
 
     # For wicegrid custom filters
