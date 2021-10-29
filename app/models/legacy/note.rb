@@ -1,55 +1,42 @@
 # -*- SkipSchemaAnnotations
 module Legacy
-
   class Note < ApplicationRecord
     establish_connection :legacy
     include LegacyModel
 
+    def migrate
+      data = migration_data
+      pp(data)
+
+      # Sometimes author is blank, which the DB allow, but validations don't.
+      ::Note.new(data).save(validate: false)
+    end
 
     def migration_data
       data = {
-          id: self.id,
-          notable_type: notable_type,
-          notable_id: noted_id,
-          author_id: member_id,
-          created_at: date,
+        notable_type: "Organization",
+        notable_id: noted_id, # Org IDs are same on old and new systems
+        author_id: author_id,
+        created_at: date,
+        text_es: note
       }
       data
     end
 
-    def migrate
-      begin
-        data = migration_data
-        # puts "#{data[:id]}: #{data[:notable_id]}"
-        obj = ::Note.create(data)
-        # need to save this as a second pass because it's translatable
-        obj.update({text: note})
-      rescue StandardError => e
-        $stderr.puts "Note[#{id}] w/ noted: #{noted_table}:#{noted_id} - migrate error: #{e} - skipping"
-        #JE todo: log to a special migration_errors.log
+    private
+
+    def author_id
+      if Migration::NULLIFY_MEMBER_IDS.include?(member_id)
+        Migration.log << ["Note", id, "Nullified agent_id b/c member #{member_id} not found"]
+        nil
+      else
+        if (person_id = map_legacy_person_id(member_id))
+          person_id
+        else
+          Migration.unexpected_errors << "Person not found for MemberId: #{member_id} on Note #{id}"
+          nil
+        end
       end
     end
-
-
-    def notable_type
-      return 'Organization'  if self.noted_table == 'Cooperatives'
-      raise "unexpected NotedTable value: #{noted_table}"
-    end
-
-
-    def self.migrate_all
-      puts "notes coops: #{self.where('NotedTable' => 'Cooperatives').count}"
-      self.where('NotedTable' => 'Cooperatives').each &:migrate
-      ::Note.recalibrate_sequence(gap: 1000)
-    end
-
-    def self.purge_migrated
-      # note, not complete, but sufficient for purpose
-      puts "::Note.delete_all"
-      ::Note.delete_all
-    end
-
-
   end
-
 end

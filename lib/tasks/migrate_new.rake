@@ -72,6 +72,11 @@ namespace :tww do
       media.migrate_all
     end
 
+    notes = Legacy::Note.where(noted_table: "Cooperatives", noted_id: org_ids)
+    txn_and_dump("notes") do
+      notes.migrate_all
+    end
+
     puts "Writing full log to tmp/migration-log.csv"
     CSV.open(Rails.root.join("tmp/migration-log.csv"), "wb") do |csv|
       Legacy::Migration.log.each { |r| csv << r }
