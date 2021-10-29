@@ -1,5 +1,7 @@
 module Legacy
   class Migration
+    NULLIFY_MEMBER_IDS = [0, 39, 121, 122, 123, 140, 186, 220, 242, 243, 249, 267, 280, 282]
+
     def self.log
       @log ||= []
     end
