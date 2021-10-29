@@ -5,7 +5,7 @@ module LogControllable
 
   def set_log_form_vars
     @progress_metrics = ProjectLog.progress_metric_options
-    @people_choices = Person.in_ancestor_or_descendant_division(selected_division_or_root).by_name
+    @people_choices = Person.in_ancestor_or_descendant_division(@log.division).by_name
   end
 
   def authorize_and_render_modal

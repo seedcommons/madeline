@@ -150,8 +150,8 @@ module Admin
 
     def prep_form_vars
       @tab ||= "details"
-      @org_choices = Organization.in_ancestor_or_descendant_division(selected_division_or_root).by_name
-      @agent_choices = Person.in_ancestor_or_descendant_division(selected_division_or_root).by_name
+      @org_choices = Organization.in_ancestor_or_descendant_division(@loan.division).by_name
+      @agent_choices = Person.in_ancestor_or_descendant_division(@loan.division).by_name
       @currency_choices = Currency.all.order(:name)
       @txn_mode_choices = txn_mode_options
       prep_criteria
