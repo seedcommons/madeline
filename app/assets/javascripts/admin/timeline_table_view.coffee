@@ -84,6 +84,7 @@ class MS.Views.TimelineTableView extends Backbone.View
   showStep: (e) ->
     if @$(e.target).hasClass('project-step-item')
       e.preventDefault()
+      e.stopPropagation() # Don't propagate clicks on 'Show' in dropdown up to td element.
       @stepModal.show(@stepIdFromEvent(e), @refresh.bind(@))
 
   addLog: (e) ->

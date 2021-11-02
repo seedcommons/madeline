@@ -9,9 +9,8 @@ class Admin::TimelineStepMovesController < Admin::AdminController
       days_shifted: params[:days_shifted],
       context: params[:context]
     )
-
-    set_log_form_vars
     @log = ProjectLog.new(project_step_id: params[:step_id], date: Date.today, agent: current_user.profile)
+    set_log_form_vars
     render layout: false
   end
 
