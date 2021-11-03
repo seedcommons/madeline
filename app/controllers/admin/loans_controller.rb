@@ -41,8 +41,6 @@ module Admin
         prep_questionnaire
       when "timeline"
         prep_timeline(@loan)
-      when "timeline_list"
-        raise ActionController::RoutingError.new("Not Found")
       when "logs"
         prep_logs(@loan)
       when "transactions"

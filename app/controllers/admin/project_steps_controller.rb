@@ -12,12 +12,7 @@ class Admin::ProjectStepsController < Admin::AdminController
       step_type_value: 'checkin'
     )
     authorize @step
-    if params[:context] == 'timeline_table'
-      render_modal_content
-    else
-      params[:context] = 'timeline' unless params[:context]
-      render_step_partial(:form)
-    end
+    render_modal_content
   end
 
   def edit
@@ -47,11 +42,10 @@ class Admin::ProjectStepsController < Admin::AdminController
     unless @step.parent_id
       @step.parent = @step.project.root_timeline_entry
     end
-    valid = @step.save
-    if params[:context] == 'timeline_table'
-      valid ? (head :ok) : render_modal_content(422)
+    if @step.save
+      head :ok
     else
-      render_step_partial(valid ? :show : :form)
+      render_modal_content(422)
     end
   end
 
@@ -61,32 +55,17 @@ class Admin::ProjectStepsController < Admin::AdminController
 
     @step.assign_attributes(project_step_params)
 
-     # Detect potential schedule shift.
     days_shifted = @step.pending_days_shifted
-
-    # Detect if duration was changed
     duration_changed = @step.pending_duration_change?
-
     valid = @step.save
-
-    # Ignore schedule shift if not successfully saved
     days_shifted = 0 unless valid
 
     options = {id: @step.id, days_shifted: days_shifted, duration_changed: duration_changed}
 
-    if %w(timeline_table calendar).include?(params[:context])
-      # For timeline_table and calendar contexts, this action is being called
-      # from the ProjectStepModalView, which expects a hash of JSON data on success, or
-      # the re-rendered modal content on error.
-      valid ? render(json: options) : render_modal_content(422)
+    if valid
+      render(json: options)
     else
-      # Otherwise, the context is timeline list (deprecated), which always expects a rendered partial.
-      render partial: '/admin/project_steps/project_step', locals: {
-        step: @step,
-        mode: valid ? :show : :edit,
-        days_shifted: days_shifted,
-        context: params[:context]
-      }
+      render_modal_content(422)
     end
   end
 
@@ -119,7 +98,7 @@ class Admin::ProjectStepsController < Admin::AdminController
     step = ProjectStep.find(params[:id])
     authorize step
     @steps = step.duplication.perform(params[:duplication])
-    render(layout: false)
+    head(:ok)
   end
 
   def batch_destroy
@@ -190,14 +169,6 @@ class Admin::ProjectStepsController < Admin::AdminController
   end
 
   private
-
-  def render_step_partial(mode)
-    render partial: "/admin/project_steps/project_step", locals: {
-      step: @step,
-      mode: mode,
-      context: params[:context]
-    }
-  end
 
   def render_modal_content(status = 200)
     @mode = params[:action] == "show" ? :show_and_form : :form_only

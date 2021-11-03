@@ -32,8 +32,6 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     case @tab
     when "timeline"
       prep_timeline(@basic_project)
-    when "timeline_list"
-      raise ActionController::RoutingError.new("Not Found")
     when "logs"
       prep_logs(@basic_project)
     when "calendar"
