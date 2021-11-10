@@ -20,6 +20,15 @@ describe "transaction flow", :accounting do
     login_as(user, scope: :user)
   end
 
+  context "filtering by year" do
+    # make a txn in 202
+0    # make a txn in 2021
+    # make a txn in 2022
+    # select 2020 yrs filter
+    # see only 2020 txn
+    # repeat for 2021 and 2022
+  end
+
   context "transactions for loan", js: true do
     let(:acct_one) { create(:accounting_account) }
     let(:acct_two) { create(:accounting_account) }
