@@ -71,12 +71,12 @@ task :write_branch do
 end
 after "deploy:updating", "write_branch"
 
-desc "Update the OptionSets"
-task :update_option_sets do
+desc "reload the database with seed data (used to update option sets)"
+task :seed do
   on release_roles(:all) do
     within release_path do
       with rails_env: fetch(:rails_env) do
-        execute(:bundle, :exec, :rails, :runner, 'OptionSetCreator.create_all')
+        execute(:bundle, :exec, :rake, "db:seed")
       end
     end
   end

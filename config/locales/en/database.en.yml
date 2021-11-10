@@ -8,10 +8,12 @@ en:
         possible: 'Possible'
       loan_status:
         active: 'Active'
+        approved: 'Approved'
         completed: 'Completed'
         frozen: 'Frozen'
         liquidated: 'Liquidated'
         prospective: 'Prospective'
+        ready_for_approval: 'Ready for Approval'
         refinanced: 'Refinanced'
         relationship: 'Relationship'
         relationship_active: 'Relationship Active'

@@ -1,10 +1,10 @@
 # Populates the option set table with basic values. Called by seeds.rb.
 class OptionSetCreator
-  def self.create_all
-    new.create_all
+  def self.find_or_create_all
+    new.find_or_create_all
   end
 
-  def create_all
+  def find_or_create_all
     create_loan_status
     create_basic_project_status
     create_loan_type
@@ -54,6 +54,20 @@ class OptionSetCreator
       es: I18n.t('database.option_sets.loan_status.prospective', locale: 'es')
     }
     prospective.save
+
+    ready_for_approval = loan_status.options.find_or_create_by(value: 'ready_for_approval')
+    ready_for_approval.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.ready_for_approval', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.ready_for_approval', locale: 'es')
+    }
+    ready_for_approval.save
+
+    approved = loan_status.options.find_or_create_by(value: 'approved')
+    approved.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.approved', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.approved', locale: 'es')
+    }
+    approved.save
 
     refinanced = loan_status.options.find_or_create_by(value: 'refinanced')
     refinanced.label_translations = {
