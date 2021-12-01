@@ -176,6 +176,21 @@ class Loan < Project
     transactions.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.amount }.sum
   end
 
+  def repayments_of_interest(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
+  end
+
+  def repayments_of_principal(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transaction.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.change_in_principal }.sum
+  end
+
+  def accrued_interest(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transaction.by_type("interest").in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
+  end
+
   def change_in_interest(start_date: nil, end_date: nil)
     return nil if transactions.empty?
     changes = transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_interest) }
@@ -188,6 +203,16 @@ class Loan < Project
     changes = transactions.in_date_range(start_date, end_date).map { |t| (t.change_in_principal) }
     raise Accounting::TransactionDataMissingError if changes.any?(&:blank?)
     changes.sum
+  end
+
+  def final_principal_balance(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.standard_order.in_date_range(start_date, end_date).last.principal_balance
+  end
+
+  def final_interest_balance(start_date: nil, end_date: nil)
+    return nil if transactions.empty?
+    transactions.standard_order.in_date_range(start_date, end_date).last.interest_balance
   end
 
   def default_accounting_customer_for_transaction(transaction)
