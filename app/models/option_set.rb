@@ -52,8 +52,4 @@ class OptionSet < ApplicationRecord
   def values
     options.map(&:value)
   end
-
-  def value_for_migration_id(migration_id)
-    options.find_by(migration_id: migration_id).try(:value)
-  end
 end
