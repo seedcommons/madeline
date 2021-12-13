@@ -183,12 +183,12 @@ class Loan < Project
 
   def repayments_of_principal(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transaction.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.change_in_principal }.sum
+    transactions.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.change_in_principal }.sum
   end
 
   def accrued_interest(start_date: nil, end_date: nil)
     return nil if transactions.empty?
-    transaction.by_type("interest").in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
+    transactions.by_type("interest").in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
   end
 
   def change_in_interest(start_date: nil, end_date: nil)
