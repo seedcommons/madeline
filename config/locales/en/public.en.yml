@@ -6,5 +6,5 @@ en:
       return_to_division_homepage: "< Go to homepage"
       go_to_seedcommons: "Go to SeedCommons >"
     loans:
-      amount: "Loan amount"
-      signing_date: "Signing date"
+      amount: "Loan Amount"
+      signing_date: "Signing Date"
