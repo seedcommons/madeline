@@ -31,8 +31,13 @@ class StandardLoanDataExport < DataExport
     :num_accounting_errors,
     :sum_of_disbursements,
     :sum_of_repayments,
+    :repayments_of_principal,
+    :repayments_of_interest,
+    :accrued_interest,
     :change_in_principal,
-    :change_in_interest
+    :change_in_interest,
+    :final_principal_balance,
+    :final_interest_balance
   ]
 
   protected
@@ -76,8 +81,13 @@ class StandardLoanDataExport < DataExport
       num_accounting_errors: loan.num_sync_issues_by_level(:error),
       sum_of_disbursements: loan.sum_of_disbursements(start_date: start_date, end_date: end_date),
       sum_of_repayments: loan.sum_of_repayments(start_date: start_date, end_date: end_date),
+      repayments_of_principal: loan.repayments_of_principal(start_date: start_date, end_date: end_date),
+      repayments_of_interest: loan.repayments_of_interest(start_date: start_date, end_date: end_date),
+      accrued_interest: loan.accrued_interest(start_date: start_date, end_date: end_date),
       change_in_principal: loan.change_in_principal(start_date: start_date, end_date: end_date),
-      change_in_interest: loan.change_in_interest(start_date: start_date, end_date: end_date)
+      change_in_interest: loan.change_in_interest(start_date: start_date, end_date: end_date),
+      final_principal_balance: loan.final_principal_balance(start_date: start_date, end_date: end_date),
+      final_interest_balance: loan.final_interest_balance(start_date: start_date, end_date: end_date)
     }
   end
 

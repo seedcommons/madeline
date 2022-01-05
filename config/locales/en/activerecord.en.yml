@@ -93,7 +93,7 @@ en:
         automatic: "Automatic"
         read_only: "Read-Only"
         rate: "Rate"
-        signing_date: "Signing Date"
+        signing_date: "Date of Contract"
         summary: "Summary"
         final_repayment_formula: "Final Repayment Formula"
       note:

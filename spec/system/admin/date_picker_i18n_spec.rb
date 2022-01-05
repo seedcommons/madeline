@@ -14,9 +14,9 @@ describe 'date picker i18n', js: true do
       visit admin_loan_path(loan)
       expect(page).to have_css(".loan_signing_date", text: "Apr 25, 2017")
       find("a", text: "Edit Loan").click # Not a normal link so click_link doesn't work
-      expect(page).to have_field("Signing Date", with: "2017-04-25")
+      expect(page).to have_field("Date of Contract", with: "2017-04-25")
       pick_aug_19(april_name: "April")
-      expect(page).to have_field("Signing Date", with: "2017-08-19")
+      expect(page).to have_field("Date of Contract", with: "2017-08-19")
       click_on("Update Loan")
       expect(page).to have_css(".loan_signing_date", text: "Aug 19, 2017")
     end

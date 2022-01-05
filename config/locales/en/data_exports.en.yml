@@ -25,6 +25,7 @@ en:
       enhanced_loan_data_export: "Enhanced Loan Data Export"
   standard_loan_data_exports:
     headers:
+      accrued_interest: "Accrued Interest"
       actual_end_date: "Actual End Date"
       actual_first_interest_payment_date: "Actual First Interest Payment Date"
       actual_first_payment_date: "Actual First Payment Date"
@@ -38,6 +39,8 @@ en:
       country: "Country"
       currency: "Currency"
       division: "Division"
+      final_interest_balance: "Final Interest Balance"
+      final_principal_balance: "Final Principal Balance"
       final_repayment_formula: "Final Repayment Formula"
       length_months: "Length (months)"
       loan_id: "Loan ID"
@@ -53,6 +56,8 @@ en:
       projected_return: "Projected Return"
       question_id: "Question ID"
       rate: "Rate"
+      repayments_of_interest: "Repayments of Interest"
+      repayments_of_principal: "Repayments of Principal"
       secondary_agent: "Secondary Agent"
       signing_date: "Signing Date"
       state: "State"
