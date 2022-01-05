@@ -1,5 +1,5 @@
 class EnhancedLoanDataExport < StandardLoanDataExport
-  Q_DATA_TYPES = ["boolean", "text", "number", "percentage", "rating", "currency"]
+  Q_DATA_TYPES = ["boolean", "text", "number", "percentage", "rating", "currency", "range"]
 
   private
 
