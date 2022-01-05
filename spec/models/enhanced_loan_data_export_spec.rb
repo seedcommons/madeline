@@ -33,10 +33,12 @@ describe EnhancedLoanDataExport, type: :model do
       let!(:qc1) { create(:question, qcattrs.merge(data_type: "boolean", label: "QC1")) }
       let!(:qc2) { create(:question, qcattrs.merge(data_type: "percentage", label: "QC2")) }
       let!(:qc3) { create(:question, qcattrs.merge(data_type: "text", label: "QC3")) }
+      let!(:qc4) { create(:question, qcattrs.merge(data_type: "range", label: "QC4")) }
+
 
       # This question is on a subdivision, should still be included.
-      let!(:qc4) do
-        create(:question, :with_url, qcattrs.merge(division: subdivision, data_type: "rating", label: "QC4"))
+      let!(:qc5) do
+        create(:question, :with_url, qcattrs.merge(division: subdivision, data_type: "rating", label: "QC5"))
       end
 
       let!(:r1_c) do
@@ -46,7 +48,8 @@ describe EnhancedLoanDataExport, type: :model do
                custom_data: {
                  qc1.id.to_s => {boolean: "yes", not_applicable: "no"},
                  qc2.id.to_s => {number: "10", not_applicable: "no"},
-                 qc3.id.to_s => {text: "foo\nbar", not_applicable: "no"}
+                 qc3.id.to_s => {text: "foo\nbar", not_applicable: "no"},
+                 qc4.id.to_s => {rating: "4", text: "text", not_applicable: "no"}
                })
       end
       let!(:r2_c) do
@@ -57,17 +60,18 @@ describe EnhancedLoanDataExport, type: :model do
                  qc1.id.to_s => {boolean: "", not_applicable: "yes"},
                  qc2.id.to_s => {number: "20", not_applicable: "no"},
                  qc3.id.to_s => {text: "lorp", not_applicable: "no"},
-                 qc4.id.to_s => {rating: "4", url: "https://example.com/1", not_applicable: "no"}
+                 qc4.id.to_s => {rating: nil, text: nil, not_applicable: "yes"},
+                 qc5.id.to_s => {rating: "5", url: "https://example.com/1", not_applicable: "no"}
                })
       end
 
       it "should create correct data attr" do
         export.process_data
-        expect(export.data[0]).to eq(base_headers + ["QC1", "QC2", "QC3", "QC4"])
-        expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4].map(&:id))
+        expect(export.data[0]).to eq(base_headers + ["QC1", "QC2", "QC3", "QC4", "QC5"])
+        expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qc5].map(&:id))
 
-        row1 = ["yes", "10", "foo\nbar"]
-        row2 = ["N/A", "20", "lorp", "4"]
+        row1 = ["yes", "10", "foo\nbar", "4"]
+        row2 = ["N/A", "20", "lorp", "N/A", "5"]
         row3 = []
         expect(response_data).to contain_exactly(row1, row2, row3)
       end
@@ -95,12 +99,12 @@ describe EnhancedLoanDataExport, type: :model do
 
         it "should create correct data attr" do
           export.process_data
-          expect(export.data[0]).to eq(base_headers + ["QC1", "QC2", "QC3", "QC4", "QP1"])
-          expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qp1].map(&:id))
+          expect(export.data[0]).to eq(base_headers + ["QC1", "QC2", "QC3", "QC4", "QC5", "QP1"])
+          expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qc5, qp1].map(&:id))
 
-          row1 = ["yes", "10", "foo\nbar", nil, "7"]
-          row2 = ["N/A", "20", "lorp", "4"]
-          row3 = [nil, nil, nil, nil, "99.9"]
+          row1 = ["yes", "10", "foo\nbar", "4", nil, "7"]
+          row2 = ["N/A", "20", "lorp", "N/A", "5"]
+          row3 = [nil, nil, nil, nil, nil, "99.9"]
           expect(response_data).to contain_exactly(row1, row2, row3)
         end
       end
