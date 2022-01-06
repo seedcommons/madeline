@@ -317,7 +317,6 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
-    mysql2 (0.5.2)
     nenv (0.3.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -614,7 +613,6 @@ DEPENDENCIES
   letter_opener
   mini_magick (>= 4.9.4)
   momentjs-rails
-  mysql2
   nokogiri (= 1.12.5)
   pg (~> 1.1)
   poltergeist (~> 1.0)

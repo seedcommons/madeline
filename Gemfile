@@ -5,7 +5,6 @@ gem "bundler", ">= 2.0.1"
 gem "rails", "~> 6.1.4"
 
 # Database
-gem "mysql2" # needed for migration of legacy data
 gem "pg", "~> 1.1"
 
 # Assets
