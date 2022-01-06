@@ -28,10 +28,6 @@ describe "loan flow", js: true do
       expect(page).to have_content("% Complete")
       expect(page).to have_content(loan.status_label)
       expect(page).to have_content(loan.amount)
-      expect(page).not_to have_content("Actual Return")
-      expect(page).not_to have_content("Projected Return")
-      expect(page).not_to have_content("Projected First Interest Payment Date")
-      expect(page).not_to have_content("Actual First Interest Payment Date")
     end
 
     scenario "edit" do
