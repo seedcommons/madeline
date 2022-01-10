@@ -33,6 +33,7 @@ body.admin {
     z-index: 1040;
 
     @media print {
+      color: white !important;
       content: none !important;
     }
 
