@@ -1,3 +1,8 @@
+@media print {
+  #site-header {
+    display: none !important;
+ }
+}
 
 .transactions {
   @media print {
