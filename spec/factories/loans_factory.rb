@@ -13,10 +13,8 @@ FactoryBot.define do
     rate { BigDecimal(rand(0..80)) / 2 } # Rates are usually integers, occasionally X.5
     length_months { rand(1..36) }
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
-    projected_first_interest_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
     actual_first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
     projected_end_date { Faker::Date.between(actual_first_payment_date, Date.today) }
-    projected_return { amount + (amount * rate * length_months/12) }
 
     trait :featured do
       public_level_value { "featured" }

@@ -3,7 +3,7 @@ require "rails_helper"
 describe "loan flow", js: true do
   let!(:division) { create(:division) }
   let!(:user) { create_member(division) }
-  let!(:loan) { create(:loan, division: division) }
+  let!(:loan) { create(:loan, division: division, amount: 100) }
   let!(:parent_group) { create(:project_group) }
   let!(:child_group) { create(:project_group, project: loan, parent: parent_group) }
 
@@ -16,6 +16,23 @@ describe "loan flow", js: true do
   # This should work, but for some reason it fails a lot more often
   include_examples "flow" do
     subject { loan }
+  end
+
+  describe "details" do
+    scenario "view" do
+      visit admin_loan_path(loan)
+      expect(page).to have_content(loan.id)
+      expect(page).to have_content(loan.division.name)
+      expect(page).to have_content(loan.name)
+      expect(page).to have_content(loan.loan_type_label)
+      expect(page).to have_content("% Complete")
+      expect(page).to have_content(loan.status_label)
+      expect(page).to have_content(loan.amount)
+    end
+
+    scenario "edit" do
+      #TODO add more
+    end
   end
 
   describe "timeline" do
