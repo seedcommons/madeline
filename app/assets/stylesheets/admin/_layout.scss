@@ -30,12 +30,7 @@ body.admin {
     right: 0;
     top: 0;
     width: 100%;
-    z-index: 1040;
-
-    @media print {
-      color: white !important;
-      content: none !important;
-    }
+    z-index: 1040;  
 
     // Bootstrap handles hiding the navbar toggle above mobile size
     // and handles collapsing and expanding the menu with it.
@@ -226,4 +221,11 @@ body.admin {
       }
     }
   }
+
+ #site-header {
+   @media print {
+     color: white !important;
+     content: none !important;
+   }
+ }
 }
