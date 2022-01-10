@@ -32,6 +32,10 @@ body.admin {
     width: 100%;
     z-index: 1040;
 
+    @media print {
+      content: none !important;
+    }
+
     // Bootstrap handles hiding the navbar toggle above mobile size
     // and handles collapsing and expanding the menu with it.
     // Here we place the bootstrap nav toggle in the header and override default bs styleson
