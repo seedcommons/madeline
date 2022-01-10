@@ -31,7 +31,12 @@ describe "loan flow", js: true do
     end
 
     scenario "edit" do
-      #TODO add more
+      visit admin_loan_path(loan)
+      find("a", text: "Edit Loan").click
+      save_and_open_page
+      select("Allocated Capital", from: "loan_source_of_capital")
+      click_on "Update Loan"
+      expect(page).to have_content("Source of Capital\nAllocated Capital")
     end
   end
 

@@ -90,6 +90,7 @@ en:
         read_only: "Read-Only"
         rate: "Rate"
         signing_date: "Date of Contract"
+        source_of_capital: "Source of Capital"
         summary: "Summary"
         final_repayment_formula: "Final Repayment Formula"
       note:

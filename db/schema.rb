@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_06_191000) do
+ActiveRecord::Schema.define(version: 2022_01_06_204059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -374,6 +374,7 @@ ActiveRecord::Schema.define(version: 2022_01_06_191000) do
     t.decimal "rate"
     t.integer "secondary_agent_id"
     t.date "signing_date"
+    t.string "source_of_capital"
     t.string "status_value"
     t.string "txn_handling_mode", default: "automatic", null: false
     t.string "type", null: false
