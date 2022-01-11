@@ -176,7 +176,7 @@ module Admin
       @transactions_grid = initialize_grid(
         @transactions.standard_order,
         enable_export_to_csv: @enable_export_to_csv,
-        per_page: 100,
+        per_page: 200,
         name: "transactions"
       )
       export_grid_if_requested('transactions': "admin/accounting/transactions/transactions_grid_definition")
