@@ -1,10 +1,10 @@
 # Populates the option set table with basic values. Called by seeds.rb.
 class OptionSetCreator
-  def self.create_all
-    new.create_all
+  def self.update_all
+    new.update_all
   end
 
-  def create_all
+  def update_all
     create_loan_status
     create_basic_project_status
     create_loan_type
@@ -14,6 +14,7 @@ class OptionSetCreator
     create_media_kind
     create_loan_transaction_type
     create_organization_inception
+    create_loan_source_of_capital
   end
 
   def create_loan_status
@@ -353,5 +354,31 @@ class OptionSetCreator
       es: I18n.t('database.option_sets.organization_inception.recovered', locale: 'es')
     }
     recovered.save
+  end
+
+  def create_loan_source_of_capital
+    source_of_capital_option_set = OptionSet.find_or_create_by(division: Division.root,
+      model_type: Loan.name, model_attribute: 'source_of_capital')
+
+    shared = source_of_capital_option_set.options.find_or_create_by(value: 'shared', position: 1)
+    shared.label_translations = {
+      en: I18n.t('loan.source_of_capital_type.shared', locale: 'en'),
+      es: I18n.t('loan.source_of_capital_type.shared', locale: 'es')
+    }
+    shared.save
+
+    allocated = source_of_capital_option_set.options.find_or_create_by(value: 'allocated', position: 2)
+    allocated.label_translations = {
+      en: I18n.t('loan.source_of_capital_type.allocated', locale: 'en'),
+      es: I18n.t('loan.source_of_capital_type.allocated', locale: 'es')
+    }
+    allocated.save
+
+    proprietary = source_of_capital_option_set.options.find_or_create_by(value: 'proprietary', position: 3)
+    proprietary.label_translations = {
+      en: I18n.t('loan.source_of_capital_type.proprietary', locale: 'en'),
+      es: I18n.t('loan.source_of_capital_type.proprietary', locale: 'es')
+    }
+    proprietary.save
   end
 end

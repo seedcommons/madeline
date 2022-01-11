@@ -34,6 +34,6 @@ Country.find_or_create_by(id: 6, name: 'South Africa', iso_code: 'ZA', default_c
 Country.find_or_create_by(id: 7, name: 'India', iso_code: 'IN', default_currency_id: 8)
 Country.recalibrate_sequence
 
-OptionSetCreator.new.create_all
+OptionSetCreator.new.update_all
 
 puts 'seeds ran successfully'
