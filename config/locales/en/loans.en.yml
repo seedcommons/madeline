@@ -74,6 +74,11 @@ en:
       new: "New Loan"
     signing_date: "Signing Date"
     sign_date: "Sign Date"
+    source_of_capital: "Source of Capital"
+    source_of_capital_type:
+      allocated: "Allocated Capital"
+      shared: "Shared Capital"
+      proprietary: "Proprietary Capital"
     start: "Start %{name}"
     spreadsheet_new_tab: "Open document in new tab"
     spreadsheet_inline: "Display document inline"

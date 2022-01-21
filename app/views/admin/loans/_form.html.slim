@@ -74,6 +74,13 @@
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_currency",
       options: popover_options)
 
+  = f.input :source_of_capital
+    .view-element
+        = t("loan.source_of_capital_type.#{@loan.source_of_capital}")
+    = f.input_field :source_of_capital, collection: @source_of_capital_choices, include_blank: false
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_source_of_capital",
+      options: popover_options)
+
   = f.input :final_repayment_formula
     .view-element = @loan.final_repayment_formula
     = f.input_field :final_repayment_formula

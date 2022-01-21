@@ -15,6 +15,29 @@ describe Loan, type: :model do
     }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
+  context 'source_of_capital' do
+    it 'cannot be blank' do
+      expect {
+        create(:loan, source_of_capital: '')
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+    it 'cannot be a typo' do
+      expect {
+        create(:loan, source_of_capital: "alocated")
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'defaults to shared' do
+      expect(create(:loan).source_of_capital).to eq "shared"
+    end
+
+    it 'can be a value in SOURCE_OF_CAPITAL_OPTIONS' do
+      expect {
+        create(:loan, source_of_capital: "allocated")
+      }.not_to raise_error
+    end
+   end
+
   context 'primary and secondary agents' do
     include_context 'project'
 

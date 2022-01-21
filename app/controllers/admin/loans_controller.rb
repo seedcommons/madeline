@@ -138,7 +138,7 @@ module Admin
       params.require(:loan).permit(*(
         %i[
           division_id organization_id loan_type_value status_value name final_repayment_formula
-          amount currency_id primary_agent_id secondary_agent_id projected_first_payment_date
+          amount currency_id source_of_capital primary_agent_id secondary_agent_id projected_first_payment_date
           length_months rate signing_date actual_first_payment_date projected_end_date
           project_type_value actual_end_date public_level_value txn_handling_mode
         ] + translation_params(:summary, :details)
@@ -150,6 +150,7 @@ module Admin
       @org_choices = Organization.in_ancestor_or_descendant_division(@loan.division).by_name
       @agent_choices = Person.in_ancestor_or_descendant_division(@loan.division).by_name
       @currency_choices = Currency.all.order(:name)
+      @source_of_capital_choices = source_of_capital_choices
       @txn_mode_choices = txn_mode_options
       prep_criteria
     end
