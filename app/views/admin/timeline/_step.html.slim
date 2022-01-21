@@ -24,7 +24,7 @@
         i.fa.fa-fw.fa-flag-o.project-step-item
       - elsif entry.checkin?
         i.fa.fa-fw.fa-calendar.project-step-item
-    .summary.project-step-item = entry.summary
+    .summary.project-step-item = entry.summary_or_none
 
   td[
     class="#{classes} step-date step-start-date"
