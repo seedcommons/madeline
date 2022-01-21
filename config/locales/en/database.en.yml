@@ -52,7 +52,3 @@ en:
       step_type:
         checkin: 'Check-in'
         milestone: 'Milestone'
-      source_of_capital:
-        shared: "Shared Capital"
-        allocated: "Allocated Capital"
-        proprietary: "Proprietary Capital"

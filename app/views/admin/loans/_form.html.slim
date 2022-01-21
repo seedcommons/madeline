@@ -76,8 +76,11 @@
 
   = f.input :source_of_capital
     .view-element
-        = @loan.source_of_capital_label
-    = f.input_field :source_of_capital, collection: Loan.source_of_capital_options, selected: @loan.source_of_capital_valueinclude_blank: false
+      - if @loan.source_of_capital.blank?
+        = ''
+      - else
+        = t("loan.source_of_capital_type.#{@loan.source_of_capital}")
+    = f.input_field :source_of_capital, collection: @source_of_capital_choices, include_blank: true
     = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_source_of_capital",
       options: popover_options)
 

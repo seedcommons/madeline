@@ -374,7 +374,7 @@ ActiveRecord::Schema.define(version: 2022_01_06_204059) do
     t.decimal "rate"
     t.integer "secondary_agent_id"
     t.date "signing_date"
-    t.string "source_of_capital_value", default: "shared", null: false
+    t.string "source_of_capital"
     t.string "status_value"
     t.string "txn_handling_mode", default: "automatic", null: false
     t.string "type", null: false

@@ -67,7 +67,7 @@ class StandardLoanDataExport < DataExport
       currency: loan.currency&.name,
       amount: loan.amount,
       rate: loan.rate,
-      source_of_capital: loan.source_of_capital.to_s,
+      source_of_capital: loan.source_of_capital,
       final_repayment_formula: loan.final_repayment_formula,
       primary_agent: loan.primary_agent&.name,
       secondary_agent: loan.secondary_agent&.name,
