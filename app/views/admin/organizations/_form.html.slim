@@ -8,6 +8,9 @@
     },
   ) do |f|
 
+  - form_identifier = 'organization'
+  - popover_options = {placement: 'right'}
+
   = error_notification(f)
 
   = f.input :division
@@ -67,6 +70,10 @@
     .view-element = @org.country.try(:name)
     = f.input_field :country_id, collection: @countries, include_blank: true
 
+  = f.input :census_track_code
+    .view-element = @org.census_track_code
+    = f.input_field :census_track_code
+
   = f.input :website
     - unless @org.website.nil?
       .view-element = link_to(@org.website, urlify(@org.website), target: '_blank')
@@ -80,6 +87,11 @@
     .view-element = @org.tax_no
     = f.input_field :tax_no
 
+  = f.input :naics_code
+    .view-element = @org.naics_code
+    = f.input_field :naics_code
+
+
   = f.input :alias
     .view-element = @org.alias
     = f.input_field :alias
@@ -92,6 +104,20 @@
     .view-element = @org.inception_label
     = f.input_field :inception_value, collection: Organization.inception_options,
                                       selected: @org.inception_value, include_blank: true
+
+  = f.input :date_established,  wrapper_html: {class: 'hidden-print'}
+    .view-element = ldate(@org.date_established)
+    = f.input_field :date_established, as: :date_picker
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_date_established",
+      options: popover_options)
+
+  = f.input :entity_structure
+    .view-element
+        = t("organization.entity_structure_type.#{@org.entity_structure}")
+    = f.input_field :entity_structure, collection: dropdown_options(Organization::ENTITY_STRUCTURE_OPTIONS, "organization.entity_structure_type"), include_blank: false
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_entity_structure",
+      options: popover_options)
+
 
   = f.input :referral_source
     .view-element = @org.referral_source

@@ -12,4 +12,8 @@ module FormHelper
 
     "".html_safe << default << base
   end
+
+  def dropdown_options(constant_array, i18n_prefix)
+    constant_array.map { |c| [t("#{i18n_prefix}.#{c}"), c] }
+  end
 end

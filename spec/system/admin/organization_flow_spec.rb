@@ -64,6 +64,19 @@ describe 'organization flow', js: true do
     expect(page).not_to have_content('Transactions')
   end
 
+  scenario "filling in more details" do
+    visit admin_organization_path(org1)
+    click_on "Edit Co-op"
+    fill_in "NAICS Code", with: "1234"
+    fill_in "Census Track Code", with: "xyz"
+    select("LLC", from: "loan_entity_structure")
+    #todo selecting date established
+    click_on "Update Co-op"
+    expect(page).to have_content("1234")
+    expect(page).to have_content("xyz")
+    expect(page).to have_content("Entity Structure\nLLC")
+  end
+
   scenario 'notes are accessible when author is deleted', js: true do
     # user adds a note
     visit admin_organization_path(org1)

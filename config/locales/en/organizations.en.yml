@@ -7,3 +7,10 @@ en:
     edit: "Edit Co-op"
     new: "New Co-op"
     people: "Members"
+    entity_structure: "Entity Structure"
+    entity_structure_type:
+      not_selected: ""
+      c_corp: "C Corp"
+      llc: "LLC"
+      nonprofit: "Nonprofit"
+      tribal: "Tribal"
