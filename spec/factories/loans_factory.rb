@@ -15,7 +15,7 @@ FactoryBot.define do
     signing_date { Faker::Date.between(Date.civil(2004, 01, 01), Date.today) }
     actual_first_payment_date { signing_date ? Faker::Date.between(signing_date, Date.today) : Date.today }
     projected_end_date { Faker::Date.between(actual_first_payment_date, Date.today) }
-    source_of_capital { '' }
+    source_of_capital { 'shared' }
 
     trait :featured do
       public_level_value { "featured" }

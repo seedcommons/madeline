@@ -16,10 +16,10 @@ describe Loan, type: :model do
   end
 
   context 'source_of_capital' do
-    it 'can be blank' do
+    it 'cannot be blank' do
       expect {
         create(:loan, source_of_capital: '')
-      }.not_to raise_error
+      }.to raise_error(ActiveRecord::RecordInvalid)
     end
     it 'cannot be a typo' do
       expect {
@@ -27,7 +27,11 @@ describe Loan, type: :model do
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
-    it 'can be a value in SOURCE_OF_CAPITAL_TYPES' do
+    it 'defaults to shared' do
+      expect(create(:loan).source_of_capital).to eq "shared"
+    end
+
+    it 'can be a value in SOURCE_OF_CAPITAL_OPTIONS' do
       expect {
         create(:loan, source_of_capital: "allocated")
       }.not_to raise_error

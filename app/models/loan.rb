@@ -8,7 +8,7 @@ class Loan < Project
   TXN_MODES = %i(automatic read_only).freeze
   TXN_MODE_AUTO = 'automatic'
   TXN_MODE_READ_ONLY = 'read_only'
-  SOURCE_OF_CAPITAL_TYPES = %w(allocated shared proprietary).freeze
+  SOURCE_OF_CAPITAL_OPTIONS = %w(shared allocated proprietary).freeze
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
   # These are the ones we're certain of at the moment
@@ -37,7 +37,7 @@ class Loan < Project
   attr_option_settable :status, :loan_type, :public_level
 
   validates :organization, :public_level_value, presence: true
-  validates :source_of_capital, :inclusion => {:in => (['', nil] + SOURCE_OF_CAPITAL_TYPES)}
+  validates :source_of_capital, :inclusion => {:in => SOURCE_OF_CAPITAL_OPTIONS}
 
   before_create :build_health_check
 
