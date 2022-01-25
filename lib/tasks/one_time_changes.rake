@@ -50,4 +50,71 @@ namespace :one_time_changes do
       end
     end
   end
+
+  desc "A one time task to clean up duplicate and numeric value loan type values in prod data"
+  task fix_loan_type_values: :environment do
+    return unless OptionSet.exists?(model_type: "Loan", model_attribute: "loan_type")
+    # fix duplicates
+    duplicate_loan_type_value_pairs = [
+      {new: "liquidity_loc", old: "28"},
+      {new: "evolving", old: "31"},
+      {new: "single_liquidity_loc", old: "32"},
+      {new: "wc_investment", old: "33"},
+      {new: "sa_investment", old: "34"},
+      {new: "community_solar", old: "51"},
+      {new: "conversion_phased", old: "54"},
+    ]
+    loan_type_option_set_id = OptionSet.find_by(model_type: "Loan", model_attribute: "loan_type").id
+    duplicate_loan_type_value_pairs.each do |value_pair|
+      old = value_pair[:old]
+      new = value_pair[:new]
+      if Option.exists?(option_set_id: loan_type_option_set_id, value: old)
+        old_option = Option.find_by(option_set_id: loan_type_option_set_id, value: old)
+        new_option = Option.find_by(option_set_id: loan_type_option_set_id, value: new)
+
+        # update loans table
+        Loan.where(loan_type_value: old).update_all(loan_type_value: new)
+
+        # update loan question requirements table
+        LoanQuestionRequirement.where(option_id: old_option.id).update_all(option_id: new_option.id)
+
+        # translations table not updated because translation for new option will work after this change
+        # as of 2022-01, options have dependent destroy relationship with translations thru the  :translatable concern
+
+        old_option.destroy
+      end
+    end
+    # fix other numeric values
+    loan_type_value_pairs = [
+      {new: "line_of_credit", old: "29"},
+      {new: "expansion", old: "30"},
+      {new: "pre_startup_incubation", old: "35"},
+      {new: "conversion", old: "36"},
+      {new: "startup", old: "37"},
+      {new: "intake", old: "46"},
+      {new: "conversion_intake", old: "47"},
+      {new: "member_share_financing", old: "53"},
+      {new: "covid_response_planning", old: "56"},
+      {new: "real_estate", old: "57"},
+      {new: "bridge", old: "58"},
+      {new: "exploratory", old: "59"}
+    ]
+    loan_type_option_set_id = OptionSet.find_by(model_type: "Loan", model_attribute: "loan_type").id
+    loan_type_value_pairs.each do |value_pair|
+      old = value_pair[:old]
+      new = value_pair[:new]
+      if Option.exists?(option_set_id: loan_type_option_set_id, value: old)
+        old_option = Option.find_by(option_set_id: loan_type_option_set_id, value: old)
+        old_option.update(value: new)
+
+        # update loans table
+        Loan.where(loan_type_value: old).update_all(loan_type_value: new)
+
+        # we don't update loan question requirements table because it uses option_ids
+        # above we are only changing the value, not the id, of the option
+        # translations table not updated because translation table also relies on translatable_id
+        # above we are only changing the value, not the id, of the option
+      end
+    end
+  end
 end
