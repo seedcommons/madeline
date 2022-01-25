@@ -18,7 +18,7 @@ class Organization < ApplicationRecord
 
   attr_option_settable :inception
 
-  validates :name, :division, :country, presence: true
+  validates :name, :division, :country, :entity_structure, presence: true
 
   validate :primary_contact_is_member
   with_options if: ->(org) { org&.country&.iso_code == "US" } do |us_org|
