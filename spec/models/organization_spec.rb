@@ -62,19 +62,26 @@ describe Organization, type: :model do
     end
 
     context 'entity_structure' do
+      it 'cannot be nil' do
+        expect {
+          create(:organization, entity_structure: nil)
+        }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+
       it 'cannot be blank' do
         expect {
           create(:organization, entity_structure: "")
         }.to raise_error(ActiveRecord::RecordInvalid)
       end
+
       it 'cannot be a typo' do
         expect {
           create(:organization, entity_structure: "non profit")
         }.to raise_error(ActiveRecord::RecordInvalid)
       end
 
-      it 'defaults to not_selected' do
-        expect(create(:organization).entity_structure).to eq "not_selected"
+      it 'defaults to llc' do
+        expect(create(:organization).entity_structure).to eq "llc"
       end
 
       it 'can be a value in ENTITY_STRUCTURE_OPTIONS' do

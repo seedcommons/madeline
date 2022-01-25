@@ -8,5 +8,6 @@ FactoryBot.define do
     industry { Faker::Company.profession }
     postal_code { Faker::Address.postcode }
     state { Faker::Address.state }
+    entity_structure { "llc" }
   end
 end
