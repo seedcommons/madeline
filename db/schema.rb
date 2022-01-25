@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_06_204059) do
+ActiveRecord::Schema.define(version: 2022_01_24_190433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -284,18 +284,22 @@ ActiveRecord::Schema.define(version: 2022_01_06_204059) do
 
   create_table "organizations", id: :serial, force: :cascade do |t|
     t.string "alias"
+    t.string "census_track_code"
     t.string "city"
     t.text "contact_notes"
     t.integer "country_id", null: false
     t.datetime "created_at", null: false
     t.jsonb "custom_data"
+    t.date "date_established"
     t.integer "division_id"
     t.string "email"
+    t.string "entity_structure", default: "not_selected", null: false
     t.string "fax"
     t.string "inception_value"
     t.string "industry"
     t.string "last_name"
     t.string "legal_name"
+    t.string "naics_code"
     t.string "name"
     t.string "neighborhood"
     t.string "postal_code"
@@ -374,7 +378,7 @@ ActiveRecord::Schema.define(version: 2022_01_06_204059) do
     t.decimal "rate"
     t.integer "secondary_agent_id"
     t.date "signing_date"
-    t.string "source_of_capital"
+    t.string "source_of_capital", default: "shared", null: false
     t.string "status_value"
     t.string "txn_handling_mode", default: "automatic", null: false
     t.string "type", null: false
