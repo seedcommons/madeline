@@ -293,7 +293,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_190433) do
     t.date "date_established"
     t.integer "division_id"
     t.string "email"
-    t.string "entity_structure", default: "not_selected", null: false
+    t.string "entity_structure", default: "llc", null: false
     t.string "fax"
     t.string "inception_value"
     t.string "industry"

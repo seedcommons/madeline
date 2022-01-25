@@ -60,5 +60,35 @@ describe Organization, type: :model do
         expect(org.valid?).to be true
       end
     end
+
+    context 'entity_structure' do
+      it 'cannot be nil' do
+        expect {
+          create(:organization, entity_structure: nil)
+        }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+
+      it 'cannot be blank' do
+        expect {
+          create(:organization, entity_structure: "")
+        }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+
+      it 'cannot be a typo' do
+        expect {
+          create(:organization, entity_structure: "non profit")
+        }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+
+      it 'defaults to llc' do
+        expect(create(:organization).entity_structure).to eq "llc"
+      end
+
+      it 'can be a value in ENTITY_STRUCTURE_OPTIONS' do
+        expect {
+          create(:organization, entity_structure: "tribal")
+        }.not_to raise_error
+      end
+    end
   end
 end

@@ -5,6 +5,8 @@ class Organization < ApplicationRecord
   include DivisionBased
   include OptionSettable
 
+  ENTITY_STRUCTURE_OPTIONS = %w(llc c_corp nonprofit tribal in_formation).freeze
+
   belongs_to :division
   belongs_to :country
   belongs_to :primary_contact, class_name: 'Person'
@@ -16,12 +18,13 @@ class Organization < ApplicationRecord
 
   attr_option_settable :inception
 
-  validates :name, :division, :country, presence: true
+  validates :name, :division, :country, :entity_structure, presence: true
 
   validate :primary_contact_is_member
   with_options if: ->(org) { org&.country&.iso_code == "US" } do |us_org|
     us_org.validates :state, :postal_code, presence: true
   end
+  validates :entity_structure, :inclusion => {:in => ENTITY_STRUCTURE_OPTIONS}
 
   def loans_count
     loans.size

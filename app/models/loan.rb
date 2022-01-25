@@ -27,7 +27,7 @@ class Loan < Project
   scope :related_loans, ->(loan) { loan.organization.loans.where.not(id: loan.id) }
   scope :changed_since, ->(date) { where("updated_at > :date", date: date) }
 
-  delegate :name, :country, :street_address, :city, :state, :postal_code, to: :organization, prefix: :coop
+  delegate :name, :country, :street_address, :city, :state, :postal_code, :entity_structure, :naics_code, :census_track_code, :date_established, to: :organization, prefix: :coop
   delegate :name, to: :division, prefix: true
   delegate :closed_books_date, to: :division
   delegate :qb_department, to: :division
