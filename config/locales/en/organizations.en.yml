@@ -9,7 +9,7 @@ en:
     people: "Members"
     entity_structure: "Entity Structure"
     entity_structure_type:
-      not_selected: ""
+      in_formation: "In Formation"
       c_corp: "C Corp"
       llc: "LLC"
       nonprofit: "Nonprofit"

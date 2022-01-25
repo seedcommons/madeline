@@ -5,7 +5,7 @@ class Organization < ApplicationRecord
   include DivisionBased
   include OptionSettable
 
-  ENTITY_STRUCTURE_OPTIONS = %w(tribal nonprofit llc c_corp not_selected).freeze
+  ENTITY_STRUCTURE_OPTIONS = %w(llc c_corp nonprofit tribal in_formation).freeze
 
   belongs_to :division
   belongs_to :country
