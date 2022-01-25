@@ -1,6 +1,6 @@
 = simple_form_for([:admin, @org],
     html: { \
-      class: 'form-horizontal organization-record',
+      class: 'form-horizontal form-with-documentation organization-record',
     },
     wrapper: :horizontal_form_condensed,
     defaults: { \
@@ -25,85 +25,124 @@
   = f.input :name
     .view-element = @org.name
     = f.input_field :name
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_name", options: popover_options)
 
   = f.input :legal_name
     .view-element = @org.legal_name
     = f.input_field :legal_name
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_legal_name", options: popover_options)
 
   = f.input :primary_phone
     .view-element = @org.primary_phone
     = f.input_field :primary_phone
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_primary_phone", options: popover_options)
 
   = f.input :secondary_phone
     .view-element = @org.secondary_phone
     = f.input_field :secondary_phone
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_secondary_phone", options: popover_options)
 
   = f.input :fax
     .view-element = @org.fax
     = f.input_field :fax
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_fax", options: popover_options)
 
   = f.input :email
     .view-element = @org.email
     = f.input_field :email
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_email", options: popover_options)
 
   = f.input :street_address
     .view-element = @org.street_address
     = f.input_field :street_address, as: :text
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_street_address", options: popover_options)
 
   = f.input :neighborhood
     .view-element = @org.neighborhood
     = f.input_field :neighborhood
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_neighborhood", options: popover_options)
 
   = f.input :city
     .view-element = @org.city
     = f.input_field :city
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_city", options: popover_options)
 
   = f.input :state
     .view-element = @org.state
     = f.input_field :state
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_state", options: popover_options)
 
   = f.input :postal_code
     .view-element = @org.postal_code
     = f.input_field :postal_code
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_postal_code", options: popover_options)
 
   = f.input :country
     .view-element = @org.country.try(:name)
     = f.input_field :country_id, collection: @countries, include_blank: true
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_country", options: popover_options)
 
   = f.input :census_track_code
     .view-element = @org.census_track_code
     = f.input_field :census_track_code
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_census_track_code", options: popover_options)
 
   = f.input :website
     - unless @org.website.nil?
       .view-element = link_to(@org.website, urlify(@org.website), target: '_blank')
     = f.input_field :website
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_website", options: popover_options)
 
   = f.input :sector
     .view-element = @org.sector
     = f.input_field :sector
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_sector", options: popover_options)
 
   = f.input :tax_no
     .view-element = @org.tax_no
     = f.input_field :tax_no
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_tax_no", options: popover_options)
 
   = f.input :naics_code
     .view-element = @org.naics_code
     = f.input_field :naics_code
-
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_naics_code", options: popover_options)
 
   = f.input :alias
     .view-element = @org.alias
     = f.input_field :alias
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_alias", options: popover_options)
 
   = f.input :industry
     .view-element = @org.industry
     = f.input_field :industry
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_industry", options: popover_options)
 
   = f.input :inception
     .view-element = @org.inception_label
     = f.input_field :inception_value, collection: Organization.inception_options,
                                       selected: @org.inception_value, include_blank: true
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_inception", options: popover_options)
 
   = f.input :date_established,  wrapper_html: {class: 'hidden-print'}
     .view-element = ldate(@org.date_established)
@@ -122,16 +161,22 @@
   = f.input :referral_source
     .view-element = @org.referral_source
     = f.input_field :referral_source
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_referral_source", options: popover_options)
 
   = f.input :contact_notes
     .view-element = @org.contact_notes
     = f.input_field :contact_notes
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_contact_notes", options: popover_options)
 
   = f.input :primary_contact
     .view-element
       - if @org.primary_contact
         = link_to @org.primary_contact.name, admin_person_path(@org.primary_contact)
     = f.input_field :primary_contact_id, collection: @people_choices, include_blank: true
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_primary_contact", options: popover_options)
 
   = f.input :people
     .view-element style=""
@@ -140,6 +185,8 @@
         br
     .form-element
       = f.association :people, label: false, collection: @people_choices, include_blank: true
+      = documentation_popover(@documentations_by_html,
+        html_identifier: "#{form_identifier}_people", options: popover_options)
 
   .actions.form-element
     - unless @org.new_record?
