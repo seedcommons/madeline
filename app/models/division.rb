@@ -1,6 +1,8 @@
 class Division < ApplicationRecord
   include DivisionBased
 
+  MEMBERSHIP_STATUS_OPTIONS = %w(ally apprentice lending full).freeze
+
   has_closure_tree dependent: :restrict_with_exception, order: :name
   resourcify
   alias_attribute :super_division, :parent

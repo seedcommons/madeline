@@ -6,3 +6,8 @@ en:
       new: "New Division"
       parent: "Parent Division"
       all: "All Divisions"
+    membership_status_options:
+      ally: "Ally"
+      full: "Full"
+      apprentice: "Apprentice"
+      lending: "Lending"

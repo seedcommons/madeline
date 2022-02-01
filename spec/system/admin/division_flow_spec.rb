@@ -29,6 +29,8 @@ describe "division flow", js: true do
     expect(page).to have_alert("Record was successfully created.")
     expect(page).to have_content("New Division")
     expect(page).to have_content("Cream")
+    expect(page).to have_content("Cream")
+    expect(page).to have_content("Ally")
   end
 
   scenario "show/edit/update" do
@@ -42,11 +44,13 @@ describe "division flow", js: true do
     fill_in("* Name", with: "New Name", exact: true)
     fill_in("Division Homepage", with: "www.example.coop")
     select("QB Dep", from: "QB Division")
+    select("Lending", from: "Membership Status")
     click_button("Update Division")
 
     expect(page).to have_content("New Name")
     expect(page).to have_content("QB Dep")
     expect(page).to have_content("www.example.coop")
+    expect(page).to have_content("Lending")
     expect(page).to have_alert("Record was successfully updated.")
   end
 
