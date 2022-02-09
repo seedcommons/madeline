@@ -39,6 +39,7 @@ en:
       currency: "Currency"
       date_established: "Coop Date Established"
       division: "Division"
+      division_membership_status: "Division Membership Status"
       entity_structure: "Coop Entity Structure"
       final_interest_balance: "Final Interest Balance"
       final_principal_balance: "Final Principal Balance"

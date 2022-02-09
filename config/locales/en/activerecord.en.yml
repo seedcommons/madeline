@@ -35,6 +35,7 @@ en:
         description: "Description"
         default_currency: "Default Currency"
         homepage: "Division Homepage"
+        membership_status: "Membership Status"
         name: "Name"
         parent_id: "Parent Division"
         notify_on_new_logs: "Notify on New Logs"

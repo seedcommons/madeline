@@ -50,6 +50,13 @@
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_parent", options: popover_options)
 
+  = f.input :membership_status
+    .view-element
+      = t("division.membership_status_options.#{@division.membership_status}")
+    = f.input_field :membership_status, collection: dropdown_options(Division::MEMBERSHIP_STATUS_OPTIONS, 'divisions.membership_status_options'), include_blank: false
+    = documentation_popover(@documentations_by_html,
+      html_identifier: "#{form_identifier}_membership_status", options: popover_options)
+
   = f.input :homepage
     .view-element = @division.homepage
     = f.input_field :homepage

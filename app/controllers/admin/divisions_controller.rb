@@ -98,7 +98,7 @@ class Admin::DivisionsController < Admin::AdminController
   private
 
   def prep_division_params(action)
-    permitted = [:name, :description, :logo, :logo_text, :short_name, :homepage, :logo_cache,
+    permitted = [:name, :description, :logo, :logo_text, :membership_status, :short_name, :homepage, :logo_cache,
                  :default_currency_id, :qb_department_id, :public, :banner_fg_color, :banner_bg_color,
                  :accent_main_color, :accent_fg_color, :public_primary_color, :public_secondary_color, :public_accent_color, :notify_on_new_logs, locales: []]
     permitted << :parent_id if action == :create

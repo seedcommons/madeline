@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_24_190433) do
+ActiveRecord::Schema.define(version: 2022_02_01_220720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_190433) do
     t.integer "logo_file_size"
     t.string "logo_text"
     t.datetime "logo_updated_at"
+    t.string "membership_status", default: "ally", null: false
     t.string "name"
     t.boolean "notify_on_new_logs", default: false
     t.integer "organization_id"
@@ -293,7 +294,7 @@ ActiveRecord::Schema.define(version: 2022_01_24_190433) do
     t.date "date_established"
     t.integer "division_id"
     t.string "email"
-    t.string "entity_structure", default: "llc", null: false
+    t.string "entity_structure", default: "not_selected", null: false
     t.string "fax"
     t.string "inception_value"
     t.string "industry"
