@@ -449,13 +449,17 @@ describe Accounting::InterestCalculator do
     it "handles correctly" do
       recalculate_and_reload
       expect(Accounting::Transaction.interest_type.exists?(txn_date: "2018-01-31")).to be true
-      interest_txn = Accounting::Transaction.find_by(txn_date: "2018-01-31", project: loan)
+      first_interest_txn = Accounting::Transaction.find_by(txn_date: "2018-01-31", project: loan)
       expect(disbursement.interest_balance).to equal_money 0
       expect(disbursement.principal_balance).to equal_money 100
-      expect(interest_txn.interest_balance).to equal_money 0.41
-      expect(interest_txn.principal_balance).to equal_money 100
+      expect(first_interest_txn.interest_balance).to equal_money 0.41
+      expect(first_interest_txn.principal_balance).to equal_money 100
       expect(repayment.interest_balance).to equal_money 0
       expect(repayment.principal_balance).to equal_money(-9.54)
+      second_interest_txn = Accounting::Transaction.find_by(txn_date: "2018-02-28", project: loan)
+      expect(second_interest_txn.amount).to equal_money 0
+      expect(second_interest_txn.interest_balance).to equal_money 0
+      expect(second_interest_txn.principal_balance).to equal_money(-9.54)
     end
   end
 
