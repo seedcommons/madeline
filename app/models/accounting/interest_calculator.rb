@@ -216,8 +216,8 @@ module Accounting
 
     # Calculates the interest accrued between the date of the last transaction and the current one.
     def accrued_interest(prev_tx, txn)
-      #if prin balance is negative, interest is zero
-      if prev_tx  && prev_tx.principal_balance >= 0
+      #if prin balance is zero or negative, interest is zero
+      if prev_tx  && prev_tx.principal_balance > 0
         # Note: QB doesn't accept fractions of pennies
         (prev_tx.principal_balance * daily_rate * (txn.txn_date - prev_tx.txn_date)).round(2)
       else
