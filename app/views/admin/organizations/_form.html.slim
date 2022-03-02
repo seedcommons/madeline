@@ -94,11 +94,11 @@
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_country", options: popover_options)
 
-  = f.input :census_track_code
-    .view-element = @org.census_track_code
-    = f.input_field :census_track_code
+  = f.input :census_tract_code
+    .view-element = @org.census_tract_code
+    = f.input_field :census_tract_code
     = documentation_popover(@documentations_by_html,
-      html_identifier: "#{form_identifier}_census_track_code", options: popover_options)
+      html_identifier: "#{form_identifier}_census_tract_code", options: popover_options)
 
   = f.input :website
     - unless @org.website.nil?

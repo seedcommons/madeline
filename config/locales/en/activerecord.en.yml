@@ -100,7 +100,7 @@ en:
         active_loans: "Active Loans"
         additional_people: "Additional Members"
         alias: "Alias"
-        census_track_code: "Census Track Code"
+        census_tract_code: "Census Tract Code"
         city: "City"
         contact_notes: "Contact Notes"
         date_established: "Date Established"
