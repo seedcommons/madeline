@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_28_235520) do
+ActiveRecord::Schema.define(version: 2022_02_01_220720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -285,7 +285,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
 
   create_table "organizations", id: :serial, force: :cascade do |t|
     t.string "alias"
-    t.string "census_tract_code"
+    t.string "census_track_code"
     t.string "city"
     t.text "contact_notes"
     t.integer "country_id", null: false
@@ -432,10 +432,9 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
     t.bigint "question_set_id", null: false
-    t.date "response_date"
     t.datetime "updated_at", null: false
     t.integer "updater_id"
-    t.index ["loan_id", "question_set_id", "response_date"], name: "index_response_sets_on_loan_qs_date", unique: true
+    t.index ["loan_id", "question_set_id"], name: "index_response_sets_on_loan_id_and_question_set_id", unique: true
     t.index ["question_set_id"], name: "index_response_sets_on_question_set_id"
   end
 
