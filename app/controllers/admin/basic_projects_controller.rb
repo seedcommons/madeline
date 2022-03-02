@@ -6,9 +6,9 @@ class Admin::BasicProjectsController < Admin::ProjectsController
     authorize BasicProject
 
     @basic_projects_grid = initialize_grid(
-      policy_scope(BasicProject),
+      policy_scope(BasicProject).where(status_value: :active),
       include: [:primary_agent, :secondary_agent],
-      conditions: division_index_filter,
+      conditions: division_index_filter,#division_index_filter.merge({status_value: :active}),
       order_direction: "desc",
       per_page: 50,
       name: "basic_projects",
