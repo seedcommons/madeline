@@ -68,7 +68,7 @@ describe 'organization flow', js: true do
     visit admin_organization_path(org1)
     click_on "Edit Co-op"
     fill_in "NAICS Code", with: "1234"
-    fill_in "Census Track Code", with: "xyz"
+    fill_in "Census Tract Code", with: "xyz"
     select("LLC", from: "organization_entity_structure")
     #todo selecting date established
     click_on "Update Co-op"

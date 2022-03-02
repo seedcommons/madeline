@@ -32,7 +32,7 @@ en:
       amount: "Amount"
       change_in_interest: "Change in Interest"
       change_in_principal: "Change in Principal"
-      census_track_code: "Coop Census Track Code"
+      census_tract_code: "Coop Census Tract Code"
       city: "City"
       cooperative: "Co-op"
       country: "Country"

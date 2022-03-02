@@ -81,7 +81,7 @@ class Admin::OrganizationsController < Admin::AdminController
 
   def organization_params
     params.require(:organization).permit(
-      :name, :street_address, :city, :state, :country_id, :census_track_code, :neighborhood, :website,
+      :name, :street_address, :city, :state, :country_id, :census_tract_code, :neighborhood, :website,
       :alias, :email, :fax, :primary_phone, :secondary_phone, :tax_no, :naics_code,
       :industry, :sector, :referral_source, :contact_notes, :inception_value,
       :date_established, :entity_structure, :division_id, :primary_contact_id, :legal_name, :postal_code,
