@@ -434,8 +434,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.integer "lock_version", default: 0, null: false
     t.bigint "question_set_id", null: false
     t.integer "legacy_id"
-    t.date "response_date"
-    t.index ["loan_id", "question_set_id", "response_date"], name: "index_response_sets_on_loan_qs_date", unique: true
+    t.index ["loan_id", "question_set_id"], name: "index_response_sets_on_loan_id_and_question_set_id"
     t.index ["question_set_id"], name: "index_response_sets_on_question_set_id"
   end
 
