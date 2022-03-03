@@ -10,7 +10,7 @@
     - g.column name: t('common.name'), attribute: 'name', detach_with_id: :name_filter
     - g.column name: t('activerecord.attributes.organization.legal_name'), attribute: 'legal_name',
       in_html: false, filter: false
-    
+
     - g.column name: t('activerecord.attributes.organization.primary_phone'),
       attribute: 'primary_phone', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.organization.secondary_phone'),
@@ -23,6 +23,8 @@
       assoc: :primary_contact, in_html: false, filter: false
     - g.column name: t('activerecord.attributes.organization.street_address'),
       attribute: 'street_address', in_html: false, filter: false
+    - g.column name: t('activerecord.attributes.organization.postal_code'),
+      attribute: 'postal_code', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.organization.neighborhood'),
       attribute: 'neighborhood', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.organization.city'), attribute: 'city',
@@ -42,17 +44,17 @@
     - g.column name: t('activerecord.attributes.organization.contact_notes'), attribute: 'contact_notes', in_html: false, filter: false
     - g.column name: t('activerecord.attributes.organization.inception'), attribute: 'inception_value', in_html: false, filter: false do |organization|
       - organization.inception_label
-    
+
     - g.column name: t('activerecord.attributes.organization.additional_people'), attribute: 'name',
       assoc: :people, table_alias: 'members', in_html: false, filter: false do |organization|
       - if organization.people.length > 0
         - organization.people.collect{|person| person[:name]}.to_sentence
-    
+
     - g.column name: t('activerecord.attributes.organization.active_loans'),
       in_html: false, filter: false do |organization|
       - if organization.active_loans.length > 0
         - organization.active_loans.collect{|loan| loan[:name]}.to_sentence
-  
+
     - g.column name: t('common.created'), attribute: 'created_at', filter: false,
       in_csv: false do |organization|
       - fuzzy_time(organization.created_at)
