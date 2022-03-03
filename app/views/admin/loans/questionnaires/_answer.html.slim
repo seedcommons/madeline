@@ -87,7 +87,7 @@
       = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
         question: question, data: response.breakeven_hash, total_fixed_costs: 0
 
-- if response.has_url?
+- if question.has_embeddable_media?
   = render 'admin/loans/questionnaires/linked_document', f: f,
     question: question, document: response.linked_document,
     not_applicable: response.not_applicable?
