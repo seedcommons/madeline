@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :admin_loans_path
   helper_method :admin_people_path
+  helper_method :admin_basic_projects_path
 
   before_action :set_locale
 
