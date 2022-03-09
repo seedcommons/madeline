@@ -9,9 +9,6 @@ class MS.Views.TimelineFiltersView extends Backbone.View
     uri = URI(window.location.href)
     @FILTERS.forEach (filter) =>
       @$("select[name=#{filter}]").val(uri.query(true)[filter])
-    # status filter should default to incomplete
-    if (uri.query(true)['status'] == undefined)
-      @$("select[name=status]").val('incomplete')
 
   events:
     'submit': 'cancelSubmit'
