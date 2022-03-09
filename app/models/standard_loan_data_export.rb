@@ -39,7 +39,9 @@ class StandardLoanDataExport < DataExport
     :change_in_principal,
     :change_in_interest,
     :final_principal_balance,
-    :final_interest_balance
+    :final_interest_balance,
+    :created_at,
+    :updated_at
   ]
 
   protected
@@ -73,7 +75,7 @@ class StandardLoanDataExport < DataExport
       projected_first_payment_date: loan.projected_first_payment_date,
       signing_date: loan.signing_date,
       length_months: loan.length_months,
-      loan_type: loan.type,
+      loan_type: loan.loan_type.to_s,
       currency: loan.currency&.name,
       amount: loan.amount,
       rate: loan.rate,
@@ -91,7 +93,9 @@ class StandardLoanDataExport < DataExport
       change_in_principal: loan.change_in_principal(start_date: start_date, end_date: end_date),
       change_in_interest: loan.change_in_interest(start_date: start_date, end_date: end_date),
       final_principal_balance: loan.final_principal_balance(start_date: start_date, end_date: end_date),
-      final_interest_balance: loan.final_interest_balance(start_date: start_date, end_date: end_date)
+      final_interest_balance: loan.final_interest_balance(start_date: start_date, end_date: end_date),
+      created_at: loan.created_at,
+      updated_at: loan.updated_at
     }
   end
 
