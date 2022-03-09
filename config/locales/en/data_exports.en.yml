@@ -66,3 +66,5 @@ en:
       status: "Status"
       sum_of_disbursements: "Sum of Disbursements"
       sum_of_repayments: "Sum of Repayments"
+      created_at: "Created At"
+      updated_at: "Updated At"
