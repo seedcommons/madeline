@@ -3,8 +3,12 @@
 .basic-project
   ul.nav.nav-tabs
     - Admin::BasicProjectsController::TABS.each do |tab|
-      li role="presentation" class==("active" if tab == @tab)
-        = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@basic_project.id, tab: tab)
+      - if tab == "timeline"
+        li role="presentation" class==("active" if tab == @tab)
+          = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@basic_project.id, tab: tab, status: :incomplete)
+      - else
+        li role="presentation" class==("active" if tab == @tab)
+          = link_to t("basic_project.tabs.#{tab}"), admin_basic_project_tab_path(@basic_project.id, tab: tab)
 
   .block.tab-content data-tab-content=@tab
     = render "admin/basic_projects/#{@tab}", project: @basic_project

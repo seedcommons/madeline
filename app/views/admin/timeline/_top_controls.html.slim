@@ -39,7 +39,7 @@ header.timeline-header.row
         class: "form-control"
 
       = select_tag :status,
-        options_for_select(@status_options),
+        options_for_select(@status_options, :incomplete),
         include_blank: I18n.t("project_step.all_completion_statuses"),
         class: "form-control"
 
