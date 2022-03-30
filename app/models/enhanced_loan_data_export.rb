@@ -1,7 +1,6 @@
 class EnhancedLoanDataExport < StandardLoanDataExport
-  Q_DATA_TYPES = ["boolean", "text", "number", "percentage", "rating", "currency", "range"]
 
-  private
+  protected
 
   def object_data_as_hash(loan)
     super.merge(response_hash(loan))
@@ -41,6 +40,10 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     result
   end
 
+  def q_data_types
+    ["boolean", "text", "number", "percentage", "rating", "currency", "range"]
+  end
+
   def header_rows
     [main_header_row, question_id_row]
   end
@@ -61,7 +64,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
   def questions
     @questions ||= question_sets.flat_map do |question_set|
       question_set.root_group.self_and_descendants_preordered.select do |q|
-        Q_DATA_TYPES.include?(q.data_type)
+        q_data_types.include?(q.data_type)
       end
     end
   end

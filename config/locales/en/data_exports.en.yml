@@ -19,10 +19,12 @@ en:
       general: "New Data Export"
       standard_loan_data_export: "New Standard Loan Data Export"
       enhanced_loan_data_export: "Enhanced Loan Data Export"
+      numeric_answer_data_export: "Numeric Answer Only Loan Data Export"
     types:
       data_export: "Data Export"
       standard_loan_data_export: "Standard Loan Data Export"
       enhanced_loan_data_export: "Enhanced Loan Data Export"
+      numeric_answer_data_export: "Numeric Answer Only Loan Data Export"
   standard_loan_data_exports:
     headers:
       accrued_interest: "Accrued Interest"
