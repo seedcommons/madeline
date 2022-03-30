@@ -25,7 +25,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
           # to put in a CSV cell.
           result[q_id.to_i] =
             if response.not_applicable?
-              "N/A"
+              ""
             elsif response.has_rating?
               response.rating
             elsif response.has_number?

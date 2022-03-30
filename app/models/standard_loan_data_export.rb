@@ -94,8 +94,8 @@ class StandardLoanDataExport < DataExport
       change_in_interest: loan.change_in_interest(start_date: start_date, end_date: end_date),
       final_principal_balance: loan.final_principal_balance(start_date: start_date, end_date: end_date),
       final_interest_balance: loan.final_interest_balance(start_date: start_date, end_date: end_date),
-      created_at: loan.created_at,
-      updated_at: loan.updated_at
+      created_at: loan.created_at.to_date,
+      updated_at: loan.updated_at.to_date
     }
   end
 

@@ -38,6 +38,9 @@ describe StandardLoanDataExport, type: :model do
         expect(loan_row[h_to_i['Status']]).to eq 'Active'
         expect(loan_row[h_to_i['Primary Agent']]).to eq loan.primary_agent.name
         expect(loan_row[h_to_i['Secondary Agent']]).to eq loan.secondary_agent.name
+        expect(loan_row[h_to_i['Projected End Date']]).to match(/^\d{4}-\d{2}-\d{2}$/)
+        expect(loan_row[h_to_i['Created At']]).to match(/^\d{4}-\d{2}-\d{2}$/)
+        expect(loan_row[h_to_i['Updated At']]).to match(/^\d{4}-\d{2}-\d{2}$/)
       end
     end
 
