@@ -28,7 +28,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
             elsif response.has_rating?
               response.rating
             elsif response.has_number?
-              response.number
+              include_numeric_answer_in_export?(response.number) ? response.number : ""
             elsif response.has_boolean?
               response.boolean
             elsif response.has_text?
@@ -38,6 +38,10 @@ class EnhancedLoanDataExport < StandardLoanDataExport
       end
     end
     result
+  end
+
+  def include_numeric_answer_in_export?(str)
+    true #include all numeric answers, even if invalid text
   end
 
   def q_data_types

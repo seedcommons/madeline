@@ -58,7 +58,7 @@ describe EnhancedLoanDataExport, type: :model do
                loan: loan2,
                custom_data: {
                  qc1.id.to_s => {boolean: "", not_applicable: "yes"},
-                 qc2.id.to_s => {number: "20", not_applicable: "no"},
+                 qc2.id.to_s => {number: "invalid number answer should be in export", not_applicable: "no"},
                  qc3.id.to_s => {text: "lorp", not_applicable: "no"},
                  qc4.id.to_s => {rating: nil, text: nil, not_applicable: "yes"},
                  qc5.id.to_s => {rating: "5", url: "https://example.com/1", not_applicable: "no"}
@@ -71,7 +71,7 @@ describe EnhancedLoanDataExport, type: :model do
         expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qc5].map(&:id))
 
         row1 = ["yes", "10", "foo\nbar", "4"]
-        row2 = ["", "20", "lorp", "", "5"]
+        row2 = ["", "invalid number answer should be in export", "lorp", "", "5"]
         row3 = []
         expect(response_data).to contain_exactly(row1, row2, row3)
       end
@@ -103,7 +103,7 @@ describe EnhancedLoanDataExport, type: :model do
           expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qc5, qp1].map(&:id))
 
           row1 = ["yes", "10", "foo\nbar", "4", nil, "7"]
-          row2 = ["", "20", "lorp", "", "5"]
+          row2 = ["", "invalid number answer should be in export", "lorp", "", "5"]
           row3 = [nil, nil, nil, nil, nil, "99.9"]
           expect(response_data).to contain_exactly(row1, row2, row3)
         end
