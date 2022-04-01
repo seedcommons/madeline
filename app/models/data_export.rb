@@ -12,7 +12,8 @@ class DataExport < ApplicationRecord
 
   DATA_EXPORT_TYPES = {
     "standard_loan_data_export" => "StandardLoanDataExport",
-    "enhanced_loan_data_export" => "EnhancedLoanDataExport"
+    "enhanced_loan_data_export" => "EnhancedLoanDataExport",
+    "numeric_answer_data_export" => "NumericAnswerDataExport"
   }
 
   def self.model_name
