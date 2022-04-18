@@ -26,12 +26,23 @@ class ResponseSet < ApplicationRecord
   # Ensures `question` is decorated before passing to Response.
   def response(question)
     question = ensure_decorated(question)
+    # TODO: replace raw_value with
+    # 1) lookup answer record based on question.id and self.id
+    # 2) call answer model method to compose json expected for raw_value
     raw_value = (custom_data || {})[question.json_key]
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
   # Change/assign custom field value, but don't save.
+  # WHY do we not save here? probably just to save db writes
+  # THIS is where the question internal_name (e.g. field_110) coming form jqtree gets converted back to
+  # the question id that is the key in the response set's custom_data.
+  # so we can use the question.id and self.id to find an answer record.
   def set_response(question, value)
+    #TODO: find or create answer record by question id and self.id
+    # call a new method on answer that takes value and saves the fields
+    # i don't THINK we actually need to return custom data, but if we
+    # have to, we'll call a method on answer model that composes custom_data equivalent.
     self.custom_data ||= {}
     custom_data[question.json_key] = value
     custom_data
@@ -55,13 +66,27 @@ class ResponseSet < ApplicationRecord
   # def foo=(value)
   #   set_response('foo', value)
   # end
+  # This method is used to save response_sets in the controler. They come
+  # back to the server with params that are internal names of questions e.g. "field_110="
+  # Rails calls method_missing since these aren't attrs of a response set,
+  # and this method then calls response(q) and set_response(q) instead of erroring.
+  # it basically uses Rail's under the hood iteration over params from the request
+  # in lieu of writing our own.
+  # so far I am unclear where the get version happens . . .
   def method_missing(method_sym, *arguments, &block)
     attribute_name, action, field = match_dynamic_method(method_sym)
     if action
+      # the question is retrieved based on the internal name coming back
+      # from jqtree as the fake "attribute" prompting the method_missing call. in set_response,
+      # we then convert from internal name to the question id in set_response.
       q = question(attribute_name)
       case action
-      when :get then return response(q)
-      when :set then return set_response(q, arguments.first)
+      when :get
+        puts "GET in method missing with #{q}"
+        #return response(q)
+      when :set
+        puts "SET in method missing with #{q}"
+        return set_response(q, arguments.first)
       end
     end
     super
@@ -101,6 +126,9 @@ class ResponseSet < ApplicationRecord
       action = :get
     end
 
+    # the attribute name here is internal_name coming from the _answer.html.slim
+    # where the questionnaire form uses "question.attribute_sym" and attribute_sym is the internal name
+    # (see question.rb line 72)
     field = question(attribute_name, required: false)
     if field
       [attribute_name, action, field]
