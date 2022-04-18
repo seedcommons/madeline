@@ -2,6 +2,7 @@ class ResponseSet < ApplicationRecord
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
   belongs_to :question_set, inverse_of: :response_sets
+  has_many :answers, dependent: :destroy
 
   validates :loan, presence: true
 
@@ -52,6 +53,44 @@ class ResponseSet < ApplicationRecord
   def embedded_urls
     return [] if custom_data.blank?
     custom_data.values.map { |v| v["url"].presence }.compact
+  end
+
+  def json_blob
+    qset = self.question_set
+
+  end
+
+  def make_answers
+    custom_data.each do |q_id, response_data|
+      question = Question.find(q_id)
+      if question.present? && question.data_type != "group"
+        response = Response.new(loan: loan, question: question,
+                                response_set: self, data: response_data)
+        text_data = response.text.present? ? response.text : nil
+        numeric_data = if response.has_number?
+            response.number
+          elsif response.has_rating?
+            response.rating
+          else
+            nil
+          end
+        boolean_data = response.has_boolean? ? (response.boolean == "yes") : nil
+        breakeven_data = response.has_breakeven? ? response.breakeven : nil
+        business_canvas_data = response.has_business_canvas? ? response.business_canvas : nil
+        linked_document_data = question.has_embeddable_media? ? {url: response.url, start_cell: response.start_cell, end_cell: response.end_cell} : nil
+        Answer.create({
+            response_set: self,
+            question: question,
+            not_applicable: response.not_applicable?,
+            text_data: text_data,
+            numeric_data: numeric_data,
+            boolean_data: boolean_data,
+            breakeven_data: breakeven_data,
+            business_canvas_data: business_canvas_data,
+            linked_document_data: linked_document_data
+          })
+      end
+    end
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
