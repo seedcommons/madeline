@@ -448,6 +448,7 @@ ActiveRecord::Schema.define(version: 2022_03_05_194344) do
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
     t.bigint "question_set_id", null: false
+    t.integer "legacy_id"
     t.datetime "updated_at", null: false
     t.integer "updater_id"
     t.index ["loan_id", "question_set_id"], name: "index_response_sets_on_loan_id_and_question_set_id"

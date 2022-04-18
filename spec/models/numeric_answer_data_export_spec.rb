@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe EnhancedLoanDataExport, type: :model do
+describe NumericAnswerDataExport, type: :model do
   before do
     OptionSetCreator.new.create_loan_status
   end
@@ -25,7 +25,7 @@ describe EnhancedLoanDataExport, type: :model do
     let(:qdattrs) { {question_set: decoy_question_set, division: decoy_division} }
     let!(:qd1) { create(:question, qdattrs.merge(data_type: "number", label: "QD1")) }
 
-    let(:export) { create(:enhanced_loan_data_export, division: division, data: nil) }
+    let(:export) { create(:numeric_answer_data_export, division: division, data: nil) }
 
     context "with criteria question set" do
       let!(:criteria) { create(:question_set, kind: "loan_criteria", division: division) }
@@ -58,7 +58,7 @@ describe EnhancedLoanDataExport, type: :model do
                loan: loan2,
                custom_data: {
                  qc1.id.to_s => {boolean: "", not_applicable: "yes"},
-                 qc2.id.to_s => {number: "invalid number answer should be in export", not_applicable: "no"},
+                 qc2.id.to_s => {number: "invalid text in number answer", not_applicable: "no"},
                  qc3.id.to_s => {text: "lorp", not_applicable: "no"},
                  qc4.id.to_s => {rating: nil, text: nil, not_applicable: "yes"},
                  qc5.id.to_s => {rating: "5", url: "https://example.com/1", not_applicable: "no"}
@@ -67,11 +67,11 @@ describe EnhancedLoanDataExport, type: :model do
 
       it "should create correct data attr" do
         export.process_data
-        expect(export.data[0]).to eq(base_headers + ["QC1", "QC2", "QC3", "QC4", "QC5"])
-        expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qc5].map(&:id))
+        expect(export.data[0]).to eq(base_headers + ["QC2", "QC4", "QC5"])
+        expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc2, qc4, qc5].map(&:id))
 
-        row1 = ["yes", "10", "foo\nbar", "4"]
-        row2 = ["", "invalid number answer should be in export", "lorp", "", "5"]
+        row1 = ["10", "4"]
+        row2 = [ "", "", "5"]
         row3 = []
         expect(response_data).to contain_exactly(row1, row2, row3)
       end
@@ -99,54 +99,14 @@ describe EnhancedLoanDataExport, type: :model do
 
         it "should create correct data attr" do
           export.process_data
-          expect(export.data[0]).to eq(base_headers + ["QC1", "QC2", "QC3", "QC4", "QC5", "QP1"])
-          expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qc1, qc2, qc3, qc4, qc5, qp1].map(&:id))
+          expect(export.data[0]).to eq(base_headers + [ "QC2", "QC4", "QC5", "QP1"])
+          expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [ qc2, qc4, qc5, qp1].map(&:id))
 
-          row1 = ["yes", "10", "foo\nbar", "4", nil, "7"]
-          row2 = ["", "invalid number answer should be in export", "lorp", "", "5"]
-          row3 = [nil, nil, nil, nil, nil, "99.9"]
+          row1 = ["10", "4", nil, "7"]
+          row2 = ["", "", "5"]
+          row3 = [nil, nil, nil, "99.9"]
           expect(response_data).to contain_exactly(row1, row2, row3)
         end
-      end
-    end
-
-    context "when subdivision has own question set" do
-      let!(:setA) { create(:question_set, kind: "loan_criteria", division: division) }
-      let(:qaattrs) { {question_set: setA, division: division} }
-      let!(:qa1) { create(:question, qaattrs.merge(data_type: "number", label: "QA1")) }
-      let!(:qa2) { create(:question, qaattrs.merge(data_type: "number", label: "QA2")) }
-
-      let!(:setB) { create(:question_set, kind: "loan_criteria", division: subdivision) }
-      let(:qbattrs) { {question_set: setB, division: subdivision} }
-      let!(:qb1) { create(:question, qbattrs.merge(data_type: "number", label: "QB1")) }
-
-      let!(:r1) do
-        create(:response_set,
-               question_set: setA,
-               loan: loan1,
-               custom_data: {
-                 qa1.id.to_s => {number: "5", not_applicable: "no"},
-                 qa2.id.to_s => {number: "10", not_applicable: "no"}
-               })
-      end
-      let!(:r2) do
-        create(:response_set,
-               question_set: setB,
-               loan: loan2,
-               custom_data: {
-                 qb1.id.to_s => {number: "15", not_applicable: "no"}
-               })
-      end
-
-      it "should include data from both questions sets" do
-        export.process_data
-        expect(export.data[0]).to eq(base_headers + ["QA1", "QA2", "QB1"])
-        expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qa1, qa2, qb1].map(&:id))
-
-        row1 = ["5", "10"]
-        row2 = [nil, nil, "15"]
-        row3 = []
-        expect(response_data).to contain_exactly(row1, row2, row3)
       end
     end
   end

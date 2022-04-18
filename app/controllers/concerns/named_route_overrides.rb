@@ -19,4 +19,12 @@ module NamedRouteOverrides
 
     super(args, options)
   end
+
+  def admin_basic_projects_path(*args)
+    # Default to active projects, unless overriden
+    options = HashWithIndifferentAccess.new basic_projects: {f:{status_value: ['active']}}
+    options = options.deep_merge(args.pop) if args.last.is_a? Hash
+
+    super(args, options)
+  end
 end

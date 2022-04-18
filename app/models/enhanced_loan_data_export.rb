@@ -1,7 +1,6 @@
 class EnhancedLoanDataExport < StandardLoanDataExport
-  Q_DATA_TYPES = ["boolean", "text", "number", "percentage", "rating", "currency", "range"]
 
-  private
+  protected
 
   def object_data_as_hash(loan)
     super.merge(response_hash(loan))
@@ -25,11 +24,11 @@ class EnhancedLoanDataExport < StandardLoanDataExport
           # to put in a CSV cell.
           result[q_id.to_i] =
             if response.not_applicable?
-              "N/A"
+              ""
             elsif response.has_rating?
               response.rating
             elsif response.has_number?
-              response.number
+              include_numeric_answer_in_export?(response.number) ? response.number : ""
             elsif response.has_boolean?
               response.boolean
             elsif response.has_text?
@@ -39,6 +38,14 @@ class EnhancedLoanDataExport < StandardLoanDataExport
       end
     end
     result
+  end
+
+  def include_numeric_answer_in_export?(str)
+    true #include all numeric answers, even if invalid text
+  end
+
+  def q_data_types
+    ["boolean", "text", "number", "percentage", "rating", "currency", "range"]
   end
 
   def header_rows
@@ -61,7 +68,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
   def questions
     @questions ||= question_sets.flat_map do |question_set|
       question_set.root_group.self_and_descendants_preordered.select do |q|
-        Q_DATA_TYPES.include?(q.data_type)
+        q_data_types.include?(q.data_type)
       end
     end
   end
