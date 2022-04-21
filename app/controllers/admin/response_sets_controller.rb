@@ -45,6 +45,7 @@ class Admin::ResponseSetsController < Admin::AdminController
       redirect_to display_path
     else
       @response_set.update!(adjusted_params)
+      @response_set.save_answers(adjusted_params)
       redirect_to display_path, notice: I18n.t(:notice_updated)
     end
   rescue ActiveRecord::StaleObjectError

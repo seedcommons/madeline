@@ -17,6 +17,31 @@ class Answer < ApplicationRecord
   end
   validate :question_is_not_group
 
+  # this method is temporary for spr 2022 overhaul
+  def self.create_from_form_field_params(q_internal_name, fields, response_set)
+    q = Question.find_by(internal_name: q_internal_name)
+    not_applicable = fields.key?("not_applicable")  ? (fields["not_applicable"] == "yes") : nil
+    text_data = fields.key?("text") ? fields["text"] : nil
+    numeric_data = fields.key?("number") ? fields["number"] : nil
+    boolean_data = field.key?("boolean") ? (fields["boolean"] == "yes") : nil
+    breakeven_data = fields.key?("breakeven") ? fields["breakeven"] : nil
+    business_canvas_data = fields.key?("business_canvas") ? fields["business_canvas"] : nil
+    linked_document_data = fields.key?("url") ? {"url": fields["url"] } : nil
+    linked_document_data["start_cell"] = fields["start_cell"] if fields.key("start_cell")
+    linked_document_data["end_cell"] = fields["end_cell"] if fields.key("end_cell")
+    Answer.create({
+        response_set: response_set,
+        question: q,
+        not_applicable: not_applicable,
+        text_data: text_data,
+        numeric_data: numeric_data,
+        boolean_data: boolean_data,
+        breakeven_data: breakeven_data,
+        business_canvas_data: business_canvas_data,
+        linked_document_data: linked_document_data
+      })
+  end
+
   def question_is_not_group
     question.data_type != "group"
   end

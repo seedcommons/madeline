@@ -34,6 +34,14 @@ class ResponseSet < ApplicationRecord
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
+  def save_answers(form_hash)
+    form_hash.each do |key, value|
+      if key.include?("field") # key is an internal_name of a question
+        Answer.create_from_form_field_params(key, value, self)
+      end
+    end
+  end
+
   # Change/assign custom field value, but don't save.
   # WHY do we not save here? probably just to save db writes
   # THIS is where the question internal_name (e.g. field_110) coming form jqtree gets converted back to
@@ -44,6 +52,7 @@ class ResponseSet < ApplicationRecord
     # call a new method on answer that takes value and saves the fields
     # i don't THINK we actually need to return custom data, but if we
     # have to, we'll call a method on answer model that composes custom_data equivalent.
+
     self.custom_data ||= {}
     custom_data[question.json_key] = value
     custom_data
