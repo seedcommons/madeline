@@ -41,4 +41,12 @@ describe Answer, type: :model do
       end
     end
   end
+
+  context "migration code" do
+    context "one answer" do
+
+    end
+
+
+  end
 end
