@@ -26,18 +26,21 @@ class ResponseSet < ApplicationRecord
   # Fetches a custom value from the json field.
   # Ensures `question` is decorated before passing to Response.
   def response(question)
+    puts "Answer for rs #{self.id} q #{question.id}"
     question = ensure_decorated(question)
     # TODO: replace raw_value with
     # 1) lookup answer record based on question.id and self.id
     # 2) call answer model method to compose json expected for raw_value
-    raw_value = (custom_data || {})[question.json_key]
+    answer = Answer.find_by(response_set: self, question: question)
+    raw_value = answer.present? ? answer.raw_value : nil
+    puts raw_value
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
   def save_answers(form_hash)
     form_hash.each do |key, value|
       if key.include?("field") # key is an internal_name of a question
-        Answer.create_from_form_field_params(key, value, self)
+        Answer.save_from_form_field_params(key, value, self)
       end
     end
   end
