@@ -26,11 +26,7 @@ class ResponseSet < ApplicationRecord
   # Fetches a custom value from the json field.
   # Ensures `question` is decorated before passing to Response.
   def response(question)
-    #puts "Answer for rs #{self.id} q #{question.id}"
     question = ensure_decorated(question)
-    # TODO: replace raw_value with
-    # 1) lookup answer record based on question.id and self.id
-    # 2) call answer model method to compose json expected for raw_value
     answer = Answer.find_by(response_set: self, question: question)
     raw_value = answer.present? ? answer.raw_value : nil
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
@@ -39,7 +35,11 @@ class ResponseSet < ApplicationRecord
   # for migration
   def ensure_all_answers_copied
     answer_q_ids = answers.pluck(:question_id).sort
-    custom_data_q_ids = custom_data.keys.map{|k| k.to_i}.sort
+    # select q ids where the response is not blank
+    custom_data_q_ids = custom_data.keys.select do |q_id|
+      rs = Response.new(loan: loan, question: Question.find(q_id), response_set: self, data: custom_data[q_id])
+      return !rs.blank?
+    end.sort
     unless answer_q_ids == custom_data_q_ids
       qs_in_answers_only = answer_q_ids - custom_data_q_ids
       qs_in_custom_data_only = custom_data_q_ids - answer_q_ids
@@ -65,7 +65,6 @@ class ResponseSet < ApplicationRecord
     # call a new method on answer that takes value and saves the fields
     # i don't THINK we actually need to return custom data, but if we
     # have to, we'll call a method on answer model that composes custom_data equivalent.
-
     self.custom_data ||= {}
     custom_data[question.json_key] = value
     custom_data
@@ -77,10 +76,6 @@ class ResponseSet < ApplicationRecord
     custom_data.values.map { |v| v["url"].presence }.compact
   end
 
-  def json_blob
-    qset = self.question_set
-
-  end
 
   def custom_data_from_answers
     response_custom_data_json = {}
@@ -96,6 +91,7 @@ class ResponseSet < ApplicationRecord
       if question.present? && question.data_type != "group"
         response = Response.new(loan: loan, question: question,
                                 response_set: self, data: response_data)
+        next if response.blank?
         text_data = response.text.present? ? response.text : nil
         numeric_data = if response.has_number?
             response.number
