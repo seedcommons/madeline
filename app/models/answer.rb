@@ -3,6 +3,8 @@ class Answer < ApplicationRecord
   belongs_to :question, optional: false
   delegate :data_type, to: :question
 
+  # TODO consider bringing back when frontend can support no answer existing
+  #=========================================================================
   # with_options if: ->(answer) { answer&.question&.data_type == "boolean" } do |boolean_answer|
   #   boolean_answer.validates :boolean_data, presence: true
   # end
@@ -18,17 +20,32 @@ class Answer < ApplicationRecord
   validate :question_is_not_group
 
   # this method is temporary for spr 2022 overhaul
+  def compare_to_custom_data
+    custom_data_raw_data = response_set.custom_data[question.id.to_s]
+    custom_data_response = Response.new(loan: response_set.loan, question: question, response_set: response_set, data: custom_data_raw_data)
+    answer_response = Response.new(loan: response_set.loan, question: question, response_set: response_set, data: raw_value)
+    methods = [:loan, :question, :response_set, :text, :number, :boolean, :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable]
+    methods.each do |m|
+      custom_data_value = custom_data_response.send(m)
+      answer_value = answer_response.send(m)
+      unless custom_data_value == answer_value
+        raise "ERROR for answer #{id}: for RS #{rs.id} custom data value for #{m} is #{custom_data_value} but is #{answer_value} for answer #{id}"
+      end
+    end
+  end
+
+  # this method is temporary for spr 2022 overhaul
   def self.save_from_form_field_params(q_internal_name, fields, response_set)
     q = Question.find_by(internal_name: q_internal_name)
-    not_applicable = fields.key?("not_applicable")  ? (fields["not_applicable"] == "yes") : nil
+    not_applicable = fields.key?("not_applicable")  ? (fields["not_applicable"] == "yes") : "no"
     text_data = fields.key?("text") ? fields["text"] : nil
     numeric_data = fields.key?("number") ? fields["number"] : nil
-    boolean_data = fields.key?("boolean") ? (fields["boolean"] == "yes") : nil
+    boolean_data = fields.key?("boolean") ? (fields["boolean"] == "yes") : "no"
     breakeven_data = fields.key?("breakeven") ? fields["breakeven"] : nil
     business_canvas_data = fields.key?("business_canvas") ? fields["business_canvas"] : nil
-    linked_document_data = fields.key?("url") ? {"url": fields["url"] } : nil
-    linked_document_data["start_cell"] = fields["start_cell"] if fields.key?("start_cell")
-    linked_document_data["end_cell"] = fields["end_cell"] if fields.key?("end_cell")
+    linked_document_data = fields.key?("url") ? {"url": fields["url"] } : {"url": ""}
+    linked_document_data["start_cell"] = fields.key?("start_cell") ? fields["start_cell"] : ""
+    linked_document_data["end_cell"] = fields.key?("end_cell") ? fields["end_cell"] : ""
     answer = Answer.find_or_create_by(response_set: response_set, question: q)
     answer.update!({
         not_applicable: not_applicable,
@@ -67,7 +84,7 @@ class Answer < ApplicationRecord
     if self.linked_document_data.present?
       json["linked_document"] = self.linked_document_data
     end
-    puts json
+    #puts json
     json
   end
 

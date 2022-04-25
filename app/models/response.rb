@@ -22,7 +22,7 @@ class Response
     ALL_VALUE_TYPES.each do |type|
       instance_variable_set("@#{type}", data[type.to_sym])
     end
-    @breakeven = remove_blanks(@breakeven)
+    @breakeven = (@breakeven)
   end
 
   def model_name

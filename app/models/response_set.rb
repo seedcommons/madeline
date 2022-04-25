@@ -26,15 +26,25 @@ class ResponseSet < ApplicationRecord
   # Fetches a custom value from the json field.
   # Ensures `question` is decorated before passing to Response.
   def response(question)
-    puts "Answer for rs #{self.id} q #{question.id}"
+    #puts "Answer for rs #{self.id} q #{question.id}"
     question = ensure_decorated(question)
     # TODO: replace raw_value with
     # 1) lookup answer record based on question.id and self.id
     # 2) call answer model method to compose json expected for raw_value
     answer = Answer.find_by(response_set: self, question: question)
     raw_value = answer.present? ? answer.raw_value : nil
-    puts raw_value
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
+  end
+
+  # for migration
+  def ensure_all_answers_copied
+    answer_q_ids = answers.pluck(:question_id).sort
+    custom_data_q_ids = custom_data.keys.map{|k| k.to_i}.sort
+    unless answer_q_ids == custom_data_q_ids
+      qs_in_answers_only = answer_q_ids - custom_data_q_ids
+      qs_in_custom_data_only = custom_data_q_ids - answer_q_ids
+      raise "ERROR for rs #{id}: Diff between questions in answers and custom data. In answer only: #{qs_in_answers_only}. In custom data only: #{qs_in_custom_data_only}"
+    end
   end
 
   def save_answers(form_hash)

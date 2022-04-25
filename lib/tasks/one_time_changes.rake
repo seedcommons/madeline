@@ -1,4 +1,21 @@
 namespace :one_time_changes do
+  desc "A one time task to create Answers for all existing response sets"
+  task migrate_from_response_custom_data_to_answers: :environment do
+    ResponseSet.find_each do |rs|
+      begin
+        rs.make_answers
+        rs.ensure_all_answers_copied
+        rs.answers.each do |a|
+          a.compare_to_custom_data
+        end
+      rescue => e
+        puts e.message
+        Rails.logger.info e.message
+        # don't re-raise, keep going
+      end
+    end
+  end
+
   desc "A one time task responding to Nov 2019 request to update loan date fields."
   task adjust_loan_dates: :environment do
     Loan.find_each do |l|
