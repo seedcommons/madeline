@@ -1,16 +1,21 @@
 require 'rails_helper'
 
 describe Response do
+  let(:response_set) { create(:response_set)}
   let(:question) { create(:question, data_type: type) }
   let(:response) do
     Response.new(
       loan: nil,
       question: question,
-      response_set: nil,
+      response_set: response_set,
       data: data
     )
   end
   subject { response }
+
+  before do
+    Answer.save_from_form_field_params(question.internal_name, data, response_set)
+  end
 
   describe '#blank?' do
     context 'for non-group questions' do
@@ -25,7 +30,10 @@ describe Response do
       context 'non-empty response' do
         let(:data) { {'number' => 1} }
 
-        it { is_expected.not_to be_blank }
+        it do
+          puts Answer.find_by(question_id: question.id, response_set_id: response_set.id)
+          is_expected.not_to be_blank
+        end
       end
     end
 

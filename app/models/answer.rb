@@ -38,8 +38,6 @@ class Answer < ApplicationRecord
   end
 
   def self.no_answer?(q, fields, response_set)
-    puts fields
-    puts fields.class
     response = Response.new(loan: response_set.loan, response_set: response_set, question: q, data: fields)
     return response.blank?
   end
@@ -47,6 +45,7 @@ class Answer < ApplicationRecord
   # this method is temporary for spr 2022 overhaul
   # doesn't save blank answers
   def self.save_from_form_field_params(q_internal_name, fields, response_set)
+    puts fields
     q = Question.find_by(internal_name: q_internal_name)
     unless self.no_answer?(q, fields.to_h, response_set)
       not_applicable = fields.key?("not_applicable") ? (fields["not_applicable"] == "yes") : "no"

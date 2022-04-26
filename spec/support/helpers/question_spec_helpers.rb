@@ -7,7 +7,7 @@ module QuestionSpecHelpers
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
     let!(:qset) { create(:question_set, kind: 'loan_criteria') }
     let!(:root) { qset.root_group }
-    let(:rset) { build(:response_set, loan: loan1, question_set: qset) }
+    let!(:rset) { create(:response_set, loan: loan1, question_set: qset) }
   end
 
   shared_context "full question set and responses" do
@@ -44,16 +44,16 @@ module QuestionSpecHelpers
     let!(:q52) { create_question(parent: q5, name: "q52", type: "boolean", required: false) }
 
     before do
-      rset.set_response(q1, {"text" => "foo"})
-      rset.set_response(q2, {"text" => ""}) # required
-      rset.set_response(q31, {"text" => "junk"}) # required
-      rset.set_response(q32, {"boolean" => "no"}) # required
-      rset.set_response(q331, {"boolean" => "yes"})
-      rset.set_response(q39, {"text" => "inactive question"})
-      rset.set_response(q41, {"text" => ""})
-      rset.set_response(q42, {"text" => "pants"})
-      rset.set_response(q43, {"text" => ""})
-      rset.set_response(q51, {"text" => "inactive group"})
+      rset.set_answer_from_custom_data_style_json(q1, {"text" => "foo"})
+      rset.set_answer_from_custom_data_style_json(q2, {"text" => ""}) # required
+      rset.set_answer_from_custom_data_style_json(q31, {"text" => "junk"}) # required
+      rset.set_answer_from_custom_data_style_json(q32, {"boolean" => "no"}) # required
+      rset.set_answer_from_custom_data_style_json(q331, {"boolean" => "yes"})
+      rset.set_answer_from_custom_data_style_json(q39, {"text" => "inactive question"})
+      rset.set_answer_from_custom_data_style_json(q41, {"text" => ""})
+      rset.set_answer_from_custom_data_style_json(q42, {"text" => "pants"})
+      rset.set_answer_from_custom_data_style_json(q43, {"text" => ""})
+      rset.set_answer_from_custom_data_style_json(q51, {"text" => "inactive group"})
       rset.save!
 
       # Reload groups so they see their children!

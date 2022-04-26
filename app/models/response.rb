@@ -19,10 +19,16 @@ class Response
     @question = question
     @response_set = response_set
 
-    ALL_VALUE_TYPES.each do |type|
-      instance_variable_set("@#{type}", data[type.to_sym])
+    # ALL_VALUE_TYPES.each do |type|
+    #   instance_variable_set("@#{type}", data[type.to_sym])
+    # end
+    @breakeven = remove_blanks(@breakeven)
+    # start overhaul code
+    @answer = nil
+    if @question.present? && @response_set.present?
+      @answer = Answer.find_by(question_id: @question.id, response_set_id: @response_set.id)
     end
-    @breakeven = (@breakeven)
+    #end overhaul code
   end
 
   def model_name
@@ -36,6 +42,34 @@ class Response
       nil
     end
   end
+
+  #===== START temp methods for 2022 overhaul ===#
+
+  def boolean
+    @answer.boolean_data ? "yes" : "no" if @answer.present?
+  end
+
+  def text
+    @answer.text_data if @answer.present?
+  end
+
+  def number
+    @answer.numeric_data if @answer.present?
+  end
+
+  def not_applicable
+    @answer.not_applicable ? "yes" : "no" if @answer.present?
+  end
+
+  def url
+    @answer.linked_document_data["url"] if @answer.present?
+  end
+
+  def group?
+    @question.present? && @question.group?
+  end
+
+  #===== START temp methods for 2022 overhaul ===#
 
   def breakeven_table
     @breakeven_table ||= BreakevenTableQuestion.new(breakeven)
@@ -84,7 +118,7 @@ class Response
   # Boolean attributes are currently stored as "yes"/"no" in the ResponseSet data. This could
   # get refactored in future to use actual booleans.
   def not_applicable?
-    not_applicable == "yes"
+    not_applicable
   end
 
   private

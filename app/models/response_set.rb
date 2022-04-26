@@ -55,6 +55,11 @@ class ResponseSet < ApplicationRecord
     end
   end
 
+  # for specs in overhaul
+  def set_answer_from_custom_data_style_json(question, value)
+    Answer.save_from_form_field_params(question.id.to_s, value, self)
+  end
+
   # Change/assign custom field value, but don't save.
   # WHY do we not save here? probably just to save db writes
   # THIS is where the question internal_name (e.g. field_110) coming form jqtree gets converted back to
