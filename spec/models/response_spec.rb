@@ -17,26 +17,6 @@ describe Response do
     Answer.save_from_form_field_params(question.internal_name, data, response_set)
   end
 
-  describe '#blank?' do
-    context 'for non-group questions' do
-      let(:type) { 'number' }
-
-      context 'empty response' do
-        let(:data) { {} }
-
-        it { is_expected.to be_blank }
-      end
-
-      context 'non-empty response' do
-        let(:data) { {'number' => 1} }
-
-        it do
-          puts Answer.find_by(question_id: question.id, response_set_id: response_set.id)
-          is_expected.not_to be_blank
-        end
-      end
-    end
-
     context 'for group questions' do
       let(:type) { 'group' }
       let(:q1) { create(:question, parent: question, data_type: 'number') }

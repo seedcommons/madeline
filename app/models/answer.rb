@@ -6,7 +6,7 @@ class Answer < ApplicationRecord
   # TODO consider bringing back when frontend can support no answer existing
   # =========================================================================
   with_options if: ->(answer) { answer&.question&.data_type == "boolean" } do |boolean_answer|
-    boolean_answer.validates :boolean_data, presence: true
+    boolean_answer.validate :valid_boolean
   end
   with_options if: ->(answer) { %w(rating range currency number percentage).include?(answer&.question&.data_type)  } do |numeric_answer|
     numeric_answer.validates :numeric_data, presence: true
@@ -37,17 +37,52 @@ class Answer < ApplicationRecord
     end
   end
 
-  def self.no_answer?(q, fields, response_set)
-    response = Response.new(loan: response_set.loan, response_set: response_set, question: q, data: fields)
-    return response.blank?
+  def blank?
+    text_data.empty? &&
+    numeric_data.empty? &&
+    boolean_data.empty? &&
+    linked_document_data_blank? &&
+    business_canvas_blank? &&
+    breakeven_data_blank?
+  end
+
+  def linked_document_data_blank?
+    linked_document_data.empty? || json_answer_blank?(linked_document_data)
+  end
+
+  def business_canvas_blank?
+    business_canvas_data.blank? || json_answer_blank?(business_canvas_data)
+  end
+
+  def breakeven_data_blank?
+    breakeven_data.blank? || json_answer_blank?(breakeven_data)
+  end
+
+  def json_answer_blank?(answer_json)
+    answer_json.values.all?{|v| v.blank?}
+  end
+
+  # expects 'raw_value' type json e.g. the value of a "field_110" key in form submission
+  def self.contains_answer_data?(hash_data)
+    hash_data.each do |key, value|
+      if %w(text number rating boolean url start_cell end_cell).include?(key)
+        return true unless value.blank?
+      elsif key == "not_applicable"
+        return true if value == "yes"
+      elsif key == "boolean"
+        return true unless value.blank?
+      elsif %w(breakeven business_canvas).include?(key)
+        return true unless json_answer_blank(value)
+      end
+    end
+    return false
   end
 
   # this method is temporary for spr 2022 overhaul
   # doesn't save blank answers
-  def self.save_from_form_field_params(q_internal_name, fields, response_set)
+  def self.save_from_form_field_params(question, fields, response_set)
     puts fields
-    q = Question.find_by(internal_name: q_internal_name)
-    unless self.no_answer?(q, fields.to_h, response_set)
+    unless question.group? || !self.contains_answer_data?(fields)
       not_applicable = fields.key?("not_applicable") ? (fields["not_applicable"] == "yes") : "no"
       text_data = fields.key?("text") ? fields["text"] : nil
       numeric_data = if fields.key?("number")
@@ -57,13 +92,14 @@ class Answer < ApplicationRecord
         else
           nil
         end
-      boolean_data = fields.key?("boolean") ? (fields["boolean"] == "yes") : "no"
+      boolean_data = fields.key?("boolean") ? (fields["boolean"] == "yes") : nil
       breakeven_data = fields.key?("breakeven") ? fields["breakeven"] : nil
       business_canvas_data = fields.key?("business_canvas") ? fields["business_canvas"] : nil
       linked_document_data = fields.key?("url") ? {"url": fields["url"] } : {"url": ""}
       linked_document_data["start_cell"] = fields.key?("start_cell") ? fields["start_cell"] : ""
       linked_document_data["end_cell"] = fields.key?("end_cell") ? fields["end_cell"] : ""
-      answer = Answer.find_or_create_by(response_set: response_set, question: q)
+      answer = Answer.find_or_create_by(response_set: response_set, question: question)
+      puts boolean_data
       answer.update!({
           not_applicable: not_applicable,
           text_data: text_data,
@@ -78,6 +114,10 @@ class Answer < ApplicationRecord
 
   def question_is_not_group
     question.data_type != "group"
+  end
+
+  def valid_boolean
+    !boolean_data.nil?
   end
 
   def has_rating_or_text

@@ -18,17 +18,10 @@ class Response
     @loan = loan
     @question = question
     @response_set = response_set
-
-    # ALL_VALUE_TYPES.each do |type|
-    #   instance_variable_set("@#{type}", data[type.to_sym])
-    # end
-    @breakeven = remove_blanks(@breakeven)
-    # start overhaul code
-    @answer = nil
-    if @question.present? && @response_set.present?
-      @answer = Answer.find_by(question_id: @question.id, response_set_id: @response_set.id)
+    ALL_VALUE_TYPES.each do |type|
+      instance_variable_set("@#{type}", data[type.to_sym])
     end
-    #end overhaul code
+    @breakeven = remove_blanks(@breakeven)
   end
 
   def model_name
@@ -45,29 +38,29 @@ class Response
 
   #===== START temp methods for 2022 overhaul ===#
 
-  def boolean
-    @answer.boolean_data ? "yes" : "no" if @answer.present?
-  end
-
-  def text
-    @answer.text_data if @answer.present?
-  end
-
-  def number
-    @answer.numeric_data if @answer.present?
-  end
-
-  def not_applicable
-    @answer.not_applicable ? "yes" : "no" if @answer.present?
-  end
-
-  def url
-    @answer.linked_document_data["url"] if @answer.present?
-  end
-
-  def group?
-    @question.present? && @question.group?
-  end
+  # def boolean
+  #   @answer.boolean_data ? "yes" : "no" if @answer.present?
+  # end
+  #
+  # def text
+  #   @answer.text_data if @answer.present?
+  # end
+  #
+  # def number
+  #   @answer.numeric_data if @answer.present?
+  # end
+  #
+  # def not_applicable
+  #   @answer.not_applicable ? "yes" : "no" if @answer.present?
+  # end
+  #
+  # def url
+  #   @answer.linked_document_data["url"] if @answer.present?
+  # end
+  #
+  # def group?
+  #   @question.present? && @question.group?
+  # end
 
   #===== START temp methods for 2022 overhaul ===#
 
@@ -94,12 +87,7 @@ class Response
 
   # Checks if response is blank, including any descendants if this is a group.
   def blank?
-    if group?
-      children.all?(&:blank?) || children.all?(&:not_applicable?)
-    else
-      !not_applicable? && text.blank? && number.blank? && rating.blank? &&
-        boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
-    end
+    @response_set.present? && @response_set.question_blank?(@question)
   end
 
   def business_canvas_blank?

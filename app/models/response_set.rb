@@ -19,6 +19,14 @@ class ResponseSet < ApplicationRecord
     RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
   end
 
+  def question_blank?(question)
+    if question.group?
+      question.children.all?{|c| question_blank?(c)}
+    else
+      Answer.where(question_id: question.id, response_set_id: self.id).blank?
+    end
+  end
+
   def root_response
     response(question(:root))
   end
@@ -50,14 +58,15 @@ class ResponseSet < ApplicationRecord
   def save_answers(form_hash)
     form_hash.each do |key, value|
       if key.include?("field") # key is an internal_name of a question
-        Answer.save_from_form_field_params(key, value, self)
+        question = Question.find_by(internal_name: key)
+        Answer.save_from_form_field_params(question, value, self)
       end
     end
   end
 
   # for specs in overhaul
   def set_answer_from_custom_data_style_json(question, value)
-    Answer.save_from_form_field_params(question.id.to_s, value, self)
+    Answer.save_from_form_field_params(question, value, self)
   end
 
   # Change/assign custom field value, but don't save.
