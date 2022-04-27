@@ -156,7 +156,9 @@ class Answer < ApplicationRecord
       end
     end
     if self.linked_document_data.present?
-      json["linked_document"] = self.linked_document_data
+      json["url"] = self.linked_document_data["url"]
+      json["start_cell"] = self.linked_document_data["start_cell"]
+      json["end_cell"] = self.linked_document_data["end_cell"]
     end
     #puts json
     json
