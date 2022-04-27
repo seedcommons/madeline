@@ -36,17 +36,9 @@ describe Answer, type: :model do
 
     context "has no text_data" do
       let(:text_data) { nil }
-      it "is valid" do
+      it "is not valid" do
         expect(subject.valid?).to be_falsey
       end
     end
-  end
-
-  context "migration code" do
-    context "one answer" do
-
-    end
-
-
   end
 end

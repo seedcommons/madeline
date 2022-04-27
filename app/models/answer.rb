@@ -2,24 +2,7 @@ class Answer < ApplicationRecord
   belongs_to :response_set,  optional: false
   belongs_to :question, optional: false
   delegate :data_type, to: :question
-
-  # TODO consider bringing back when frontend can support no answer existing
-  # =========================================================================
-  with_options if: ->(answer) { answer&.question&.data_type == "boolean" } do |boolean_answer|
-    boolean_answer.validate :valid_boolean
-  end
-  with_options if: ->(answer) { %w(rating range currency number percentage).include?(answer&.question&.data_type)  } do |numeric_answer|
-    numeric_answer.validates :numeric_data, presence: true
-  end
-  with_options if: ->(answer) { %w(text).include?(answer&.question&.data_type)  } do |text_answer|
-    text_answer.validates :text_data, presence: true
-  end
-  with_options if: ->(answer) { %w(text).include?(answer&.question&.data_type)  } do |text_answer|
-    text_answer.validates :text_data, presence: true
-  end
-  with_options if: ->(answer) { %w(range).include?(answer&.question&.data_type)  } do |range_answer|
-    range_answer.validate :has_rating_or_text
-  end
+  validate :has_data
   validate :question_is_not_group
 
   # this method is temporary for spr 2022 overhaul
@@ -37,17 +20,23 @@ class Answer < ApplicationRecord
     end
   end
 
+  def to_s
+    "NA: #{not_applicable}; text: #{text_data}; numeric: #{numeric_data}; boolean: #{boolean_data}; doc: #{linked_document_data}; breakeven: #{breakeven_data}; canvas: #{business_canvas_data}"
+  end
+
   def blank?
-    text_data.empty? &&
-    numeric_data.empty? &&
-    boolean_data.empty? &&
+    puts self.to_s
+    #!not_applicable? &&
+    text_data.blank? &&
+    numeric_data.blank? &&
+    boolean_data.blank? &&
     linked_document_data_blank? &&
     business_canvas_blank? &&
     breakeven_data_blank?
   end
 
   def linked_document_data_blank?
-    linked_document_data.empty? || json_answer_blank?(linked_document_data)
+    linked_document_data.blank? || json_answer_blank?(linked_document_data)
   end
 
   def business_canvas_blank?
@@ -89,7 +78,6 @@ class Answer < ApplicationRecord
   # this method is temporary for spr 2022 overhaul
   # doesn't save blank answers
   def self.save_from_form_field_params(question, fields, response_set)
-    puts fields
     unless question.group? || !self.contains_answer_data?(fields)
       not_applicable = fields.key?("not_applicable") ? (fields["not_applicable"] == "yes") : "no"
       text_data = fields.key?("text") ? fields["text"] : nil
@@ -107,7 +95,6 @@ class Answer < ApplicationRecord
       linked_document_data["start_cell"] = fields.key?("start_cell") ? fields["start_cell"] : ""
       linked_document_data["end_cell"] = fields.key?("end_cell") ? fields["end_cell"] : ""
       answer = Answer.find_or_create_by(response_set: response_set, question: question)
-      puts boolean_data
       answer.update!({
           not_applicable: not_applicable,
           text_data: text_data,
@@ -124,12 +111,15 @@ class Answer < ApplicationRecord
     question.data_type != "group"
   end
 
-  def valid_boolean
-    !boolean_data.nil?
-  end
-
-  def has_rating_or_text
-    numeric_data.present? || text_data.present?
+  def has_data
+    errors.add("Answer contains no data") unless
+      not_applicable ||
+      text_data.present? ||
+      numeric_data.present? ||
+      !boolean_data.nil? ||
+      linked_document_data.present? ||
+      business_canvas_data.present? ||
+      breakeven_data.present?
   end
 
   # temp method for spr 2022 overhaul
