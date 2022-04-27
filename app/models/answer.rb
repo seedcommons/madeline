@@ -58,21 +58,29 @@ class Answer < ApplicationRecord
     breakeven_data.blank? || json_answer_blank?(breakeven_data)
   end
 
-  def json_answer_blank?(answer_json)
+  def self.json_answer_blank?(answer_json)
     answer_json.values.all?{|v| v.blank?}
   end
 
   # expects 'raw_value' type json e.g. the value of a "field_110" key in form submission
   def self.contains_answer_data?(hash_data)
     hash_data.each do |key, value|
-      if %w(text number rating boolean url start_cell end_cell).include?(key)
+      if %w(text number rating url start_cell end_cell).include?(key)
         return true unless value.blank?
       elsif key == "not_applicable"
         return true if value == "yes"
       elsif key == "boolean"
-        return true unless value.blank?
-      elsif %w(breakeven business_canvas).include?(key)
-        return true unless json_answer_blank(value)
+        return true unless value.nil?
+      elsif %w(business_canvas).include?(key)
+        return true unless self.json_answer_blank?(value)
+      elsif %w(breakeven).include?(key)
+        value.each do |subkey, subvalue|
+          if %w(products fixed_costs).include?(subkey)
+            subvalue.each {|i| return true unless self.json_answer_blank?(i)}
+          else
+            return true unless subvalue.empty?
+          end
+        end
       end
     end
     return false
@@ -131,7 +139,7 @@ class Answer < ApplicationRecord
     if self.text_data.present?
       json["text"] = self.text_data
     end
-    if self.boolean_data.present?
+    unless self.boolean_data.nil?
       json["boolean"] =  self.boolean_data ? "yes" : "no"
     end
     if self.breakeven_data.present?

@@ -86,26 +86,6 @@ describe "questionnaire", js: true do
         questions[t] = Question.create(data_type: t, question_set: question_set, parent: root_q, division: division)
       end
     end
-
-    scenario "custom data and answers table have same info" do
-        visit admin_loan_tab_path(loan, "questions")
-        first(".edit-all").click
-        save_and_open_page
-        #page.find('.select', wait: 10, visible: false)
-        select_el = page.find("#response_set_#{questions[:boolean].attribute_sym}\\[boolean\\]", wait: 10, visible: false)
-        #select_el.find(:xpath, 'option[1]').select_option
-        #page.select("Yes", from: "response_set_#{questions[:boolean].attribute_sym}\\[boolean\\]", visible: false)
-        find("#response_set_#{questions[:boolean].attribute_sym}\\[boolean\\] option[value='']").click
-        find("#response_set_#{questions[:boolean].attribute_sym}\\[boolean\\] option[value='yes']", visible: false).select_option
-        fill_qtype_with_value("number", "123")
-        fill_qtype_with_value("url", "www.example.com")
-        fill_qtype_with_value("start_cell", "A2")
-        fill_qtype_with_value("end_cell", "Z100")
-        click_button("Save Changes")
-        response_set = ResponseSet.find_by(question_set_id: question_set.id)
-        response_set.make_answers
-        expect(response_set.custom_data).to match_unordered_json(response_set.custom_data_from_answers)
-    end
   end
 
   def fill_qtype_with_value(type, value)
