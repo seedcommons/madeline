@@ -11,37 +11,18 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     result = {}
     response_sets = ResponseSet.joins(:question_set).where(loan: loan).order("question_sets.kind")
     response_sets.each do |response_set|
-      response_set.custom_data.each do |q_id, response_data|
-        question = questions_by_id[q_id.to_i]
-        if question.present?
-          response = Response.new(loan: loan, question: question,
-                                  response_set: response_set, data: response_data)
-
-          # Note, this approach will exclude parts of compound data types, such as `range`,
-          # which can have both a `rating` and a `text` component.
-          # `url`, `start_cell`, and `end_cell` components from questions with `has_embeddable_media`=true
-          # are also not included, nor are `business_canvas`, and `breakeven`, which would be way too big
-          # to put in a CSV cell.
-          result[q_id.to_i] =
-            if response.not_applicable?
-              ""
-            elsif response.has_rating?
-              response.rating
-            elsif response.has_number?
-              include_numeric_answer_in_export?(response.number) ? response.number : ""
-            elsif response.has_boolean?
-              response.boolean
-            elsif response.has_text?
-              response.text
-            end
+      response_set.answers.each do |a|
+        if !(header_symbols_to_indices.include?(a.question.id))
+          logger.debug("########## #{a.question.id} not found ########")
+        end
+        if q_data_types.include?(a.data_type)
+          result[a.question_id] = a.answer_for_csv
+        else
+          logger.info "#{a.question_id} type #{a.data_type} not included"
         end
       end
     end
     result
-  end
-
-  def include_numeric_answer_in_export?(str)
-    true #include all numeric answers, even if invalid text
   end
 
   def q_data_types
@@ -85,6 +66,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
 
   # Returns the list of symbols representing headers in the order they should appear.
   def header_symbols
+    puts @header_symbols
     @header_symbols ||= StandardLoanDataExport::HEADERS + questions.map(&:id)
   end
 end

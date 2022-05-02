@@ -21,19 +21,20 @@ class DataExport < ApplicationRecord
   end
 
   def process_data
+    logger.debug("LOGGING FROM data_export.rb process_data")
     @child_errors = []
     data = []
     data.concat(header_rows)
     scope.find_each do |object|
-      begin
+      #begin
         data << hash_to_row(object_data_as_hash(object))
-      rescue => e
-        Rails.logger.error("Error for loan #{object.id} in data export #{self.name}: #{e}")
-
-        # TODO generalize object beyond loan here and in task show if non-loans exported
-        @child_errors << {loan_id: object.id, message: e.message}
-        next
-      end
+      # rescue => e
+      #   Rails.logger.error("Error for loan #{object.id} in data export #{self.name}: #{e}")
+      #
+      #   # TODO generalize object beyond loan here and in task show if non-loans exported
+      #   @child_errors << {loan_id: object.id, message: e.message}
+      #   next
+      # end
     end
     self.update(data: data)
 
@@ -43,6 +44,7 @@ class DataExport < ApplicationRecord
   end
 
   def to_csv!
+    logger.debug("LOGGING FROM data_export.rb")
     raise ArgumentError, "No data found" if data.blank?
     raise TypeError, "Data should be a 2D Array" unless (data.is_a?(Array) && data.first.is_a?(Array))
 
@@ -76,7 +78,23 @@ class DataExport < ApplicationRecord
   protected
 
   def insert_in_row(header_symbol, row_array, value)
-    row_array[header_symbols_to_indices[header_symbol]] = value
+    begin
+      row_array[header_symbols_to_indices[header_symbol]] = value
+    rescue => e
+      logger.info("mangoes yum")
+      logger.info e.message
+      logger.info "header symbol"
+      logger.info header_symbol
+      logger.info "header symbol nil? #{header_symbol.nil?}"
+      logger.info "Header Symbols"
+      logger.info header_symbols
+      logger.info "Header Symbols to indices"
+      logger.info header_symbols_to_indices
+      logger.info "index nil? #{header_symbols_to_indices[header_symbol].nil?}"
+      logger.info "value: #{value}"
+      logger.info "value nil? #{value.nil?}"
+      raise e
+    end
   end
 
   private
@@ -89,7 +107,7 @@ class DataExport < ApplicationRecord
 
   # Builds a hash of header symbols to their appropriate indices in the row arrays.
   def header_symbols_to_indices
-    @header_symbols_to_indices = header_symbols.each_with_index.to_h
+    @header_symbols_to_indices ||= header_symbols.each_with_index.to_h
   end
 
   def set_name

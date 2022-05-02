@@ -52,6 +52,7 @@ class Answer < ApplicationRecord
   end
 
   # expects 'raw_value' type json e.g. the value of a "field_110" key in form submission
+  # or the value of a q_id key e.g. "5126" in custom_data
   def self.contains_answer_data?(hash_data)
     hash_data.each do |key, value|
       if %w(text number rating url start_cell end_cell).include?(key)
@@ -158,5 +159,22 @@ class Answer < ApplicationRecord
   # return the value of json that would be in legacy custom_data field on response set for this answer's question
   def custom_data_json
     return {"#{self.question.json_key}": self.raw_value}
+  end
+
+  def answer_for_csv
+    return nil if not_applicable
+
+    case question.data_type
+    when "text"
+      text_data
+    when "number", "currency", "percentage", "range"
+      numeric_data.to_s
+    when "boolean"
+      boolean_data.nil? ? nil : (boolean_data ? "yes" : "no")
+    when "breakeven", "business_canvas"
+      nil
+    else
+      raise "invalid question data type #{question.data_type}"
+    end
   end
 end
