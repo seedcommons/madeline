@@ -171,8 +171,7 @@ class Answer < ApplicationRecord
       numeric_data.to_s
     when "boolean"
       boolean_data.nil? ? nil : (boolean_data ? "yes" : "no")
-    when "breakeven", "business_canvas"
-      nil
+    # "breakeven" and "business_canvas" never exported to csv
     else
       raise "invalid question data type #{question.data_type}"
     end

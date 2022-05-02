@@ -16,7 +16,6 @@ class Admin::DataExportsController < Admin::AdminController
   end
 
   def create
-    Rails::Debug.logger.info "hello debug "
     @export_class = data_export_create_params[:type].constantize
     @data_export = @export_class.new(data_export_create_params)
     @data_export.division = selected_division_or_root

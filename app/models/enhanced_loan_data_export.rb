@@ -12,13 +12,8 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     response_sets = ResponseSet.joins(:question_set).where(loan: loan).order("question_sets.kind")
     response_sets.each do |response_set|
       response_set.answers.each do |a|
-        if !(header_symbols_to_indices.include?(a.question.id))
-          logger.debug("########## #{a.question.id} not found ########")
-        end
         if q_data_types.include?(a.data_type)
           result[a.question_id] = a.answer_for_csv
-        else
-          logger.info "#{a.question_id} type #{a.data_type} not included"
         end
       end
     end
@@ -66,7 +61,6 @@ class EnhancedLoanDataExport < StandardLoanDataExport
 
   # Returns the list of symbols representing headers in the order they should appear.
   def header_symbols
-    puts @header_symbols
     @header_symbols ||= StandardLoanDataExport::HEADERS + questions.map(&:id)
   end
 end
