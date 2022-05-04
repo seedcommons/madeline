@@ -6,6 +6,7 @@ en:
       new: "New Division"
       parent: "Parent Division"
       all: "All Divisions"
+      membership_status: "Membership Status"
     membership_status_options:
       ally: "Ally"
       full: "Full"
