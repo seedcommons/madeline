@@ -161,14 +161,18 @@ class Answer < ApplicationRecord
     return {"#{self.question.json_key}": self.raw_value}
   end
 
-  def answer_for_csv
+  def answer_for_csv(allow_text_like_numeric: false)
     return nil if not_applicable
 
     case question.data_type
     when "text"
       text_data
     when "number", "currency", "percentage", "range"
-      numeric_data.to_s
+      if allow_text_like_numeric || (true if Float(numeric_data) rescue false)
+       numeric_data.to_s
+      else
+        nil
+      end
     when "boolean"
       boolean_data.nil? ? nil : (boolean_data ? "yes" : "no")
     # "breakeven" and "business_canvas" never exported to csv

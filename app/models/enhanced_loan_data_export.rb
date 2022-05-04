@@ -13,8 +13,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     response_sets.each do |response_set|
       response_set.answers.each do |a|
         if q_data_types.include?(a.data_type)
-          # TODO if keeping text-y numeric answers, need to check that here
-          result[a.question_id] = a.answer_for_csv
+          result[a.question_id] = a.answer_for_csv(allow_text_like_numeric: allow_text_like_numeric?)
         end
       end
     end
@@ -65,7 +64,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     @header_symbols ||= StandardLoanDataExport::HEADERS + questions.map(&:id)
   end
 
-  def include_numeric_answer_in_export?(str)
+  def allow_text_like_numeric?
     true #include all numeric answers, even if invalid text
   end
 end

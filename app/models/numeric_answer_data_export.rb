@@ -3,7 +3,7 @@ class NumericAnswerDataExport < EnhancedLoanDataExport
     ["number", "percentage", "rating", "currency", "range"]
   end
 
-  def include_numeric_answer_in_export?(str)
-    true if Float(str) rescue false
+  def allow_text_like_numeric?
+    false
   end
 end
