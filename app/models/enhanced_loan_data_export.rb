@@ -13,6 +13,7 @@ class EnhancedLoanDataExport < StandardLoanDataExport
     response_sets.each do |response_set|
       response_set.answers.each do |a|
         if q_data_types.include?(a.data_type)
+          # TODO if keeping text-y numeric answers, need to check that here
           result[a.question_id] = a.answer_for_csv
         end
       end
@@ -62,5 +63,9 @@ class EnhancedLoanDataExport < StandardLoanDataExport
   # Returns the list of symbols representing headers in the order they should appear.
   def header_symbols
     @header_symbols ||= StandardLoanDataExport::HEADERS + questions.map(&:id)
+  end
+
+  def include_numeric_answer_in_export?(str)
+    true #include all numeric answers, even if invalid text
   end
 end
