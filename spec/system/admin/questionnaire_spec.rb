@@ -37,6 +37,13 @@ describe "questionnaire", js: true do
 
         # save changes button is visible in edit mode
         fill_and_save("1337")
+        puts "internal_names"
+        Question.all.each{|q| puts q.internal_name}
+        puts loan.response_sets.count
+        puts loan.response_sets.first.answers.count
+        expect(loan.response_sets.first.reload.answers.first.numeric_data).to eq "1337"
+        expect(page).not_to have_content("Now editing")
+        expect(page).to have_content("1,337", wait: 20)
         expect(page).to have_css(".view-element", text: "1,337")
 
         # test outline expansion
@@ -55,7 +62,10 @@ describe "questionnaire", js: true do
         field.set("31337")
         find("body").click
         click_button("Save Changes")
-        expect(page).to have_css(".view-element", text: "31,337")
+        save_and_open_page
+        click_on("Post-Analysis")
+        expect(loan.response_sets.last.answers.first.reload.numeric_data).to eq "31337"
+        expect(page).to have_css(".view-element", text: "31,337", wait: 20)
       end
     end
 
@@ -75,21 +85,6 @@ describe "questionnaire", js: true do
       visit admin_loan_tab_path(loan, "questions")
       expect(page).to have_content("There are no question sets for this Loan's division")
     end
-  end
-
-  context "refactoring to answers table" do
-    let!(:question_set) { create(:question_set, kind: "loan_criteria", division: division)}
-    let!(:root_q) {create(:question, data_type: "group", question_set: question_set, division: division)}
-    let!(:questions) { {} }
-    before do
-      Question::DATA_TYPES.each do |t|
-        questions[t] = Question.create(data_type: t, question_set: question_set, parent: root_q, division: division)
-      end
-    end
-  end
-
-  def fill_qtype_with_value(type, value)
-    find("input[type=#{type}]").set(value)
   end
 
   def fill_and_save(value)

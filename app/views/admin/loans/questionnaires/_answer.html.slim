@@ -26,7 +26,11 @@
     data: {rating: true}
 
 - if response.has_number?
+  - puts "response has number"
+  - puts response.number
   - if response.number.present? && !response.not_applicable?
+    - puts "response has number and is applicable"
+    - puts display_value_for_number(response)
     .view-element.answer.hidden-print = display_value_for_number(response)
     .view-element.answer.numerical-answer.visible-print-block
       table.table class=(@previous_number_table ? 'sibling-table' : '')

@@ -2,6 +2,8 @@ class Admin::ResponseSetsController < Admin::AdminController
   include QuestionnaireRenderable
 
   def create
+    puts "in create: "
+    puts response_set_params
     @response_set = ResponseSet.new
     @response_set.assign_attributes(response_set_params.merge(updater_id: current_user.id))
     authorize @response_set
@@ -10,6 +12,7 @@ class Admin::ResponseSetsController < Admin::AdminController
     @conflicting_response_set = ResponseSet.find_by(loan_id: @response_set.loan_id,
                                                     question_set_id: @response_set.question_set_id)
     if @conflicting_response_set
+      puts "conflicting response set"
       @response_set_from_db = {
         updater: @conflicting_response_set.updater,
         updated_at: @conflicting_response_set.updated_at,
@@ -17,7 +20,9 @@ class Admin::ResponseSetsController < Admin::AdminController
       }
       handle_conflict
     else
+      puts "should save answers next"
       @response_set.save!
+      @response_set.save_answers(response_set_params)
       redirect_to display_path, notice: I18n.t(:notice_created)
     end
   end

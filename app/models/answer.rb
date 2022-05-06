@@ -21,7 +21,7 @@ class Answer < ApplicationRecord
   end
 
   def to_s
-    "NA: #{not_applicable}; text: #{text_data}; numeric: #{numeric_data}; boolean: #{boolean_data}; doc: #{linked_document_data}; breakeven: #{breakeven_data}; canvas: #{business_canvas_data}"
+    "RS: #{response_set.question_set.kind}, Q: #{question.label.to_s} | NA: #{not_applicable}; text: #{text_data}; numeric: #{numeric_data}; boolean: #{boolean_data}; doc: #{linked_document_data}; breakeven: #{breakeven_data}; canvas: #{business_canvas_data}"
   end
 
   def blank?
@@ -79,6 +79,8 @@ class Answer < ApplicationRecord
   # this method is temporary for spr 2022 overhaul
   # doesn't save blank answers
   def self.save_from_form_field_params(question, fields, response_set)
+    puts "has number data? #{fields.key?("number")}"
+    puts fields["number"]
     unless question.group? || !self.contains_answer_data?(fields)
       not_applicable = fields.key?("not_applicable") ? (fields["not_applicable"] == "yes") : "no"
       text_data = fields.key?("text") ? fields["text"] : nil
@@ -151,7 +153,7 @@ class Answer < ApplicationRecord
       json["start_cell"] = self.linked_document_data["start_cell"]
       json["end_cell"] = self.linked_document_data["end_cell"]
     end
-    #puts json
+    puts json
     json
   end
 
