@@ -6,7 +6,6 @@ FactoryBot.define do
 
     division { root_division }
     question_set
-    internal_name { "field_#{id}" }
     data_type { Question::DATA_TYPES.sample }
     active { true }
 

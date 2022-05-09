@@ -67,6 +67,7 @@ class ResponseSet < ApplicationRecord
     form_hash.each do |key, value|
       if key.include?("field") # key is an internal_name of a question
         question = Question.find_by(internal_name: key)
+        raise "Unrecognized question identifier: #{key} in #{form_hash}" if question.nil?
         Answer.save_from_form_field_params(question, value, self)
       end
     end
