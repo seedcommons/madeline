@@ -34,15 +34,9 @@ class ResponseSet < ApplicationRecord
   # Fetches a custom value from the json field.
   # Ensures `question` is decorated before passing to Response.
   def response(question)
-    puts "QUestion in response(question) in response set"
-    puts question
-    puts "#"
     question = ensure_decorated(question)
     answer = Answer.find_by(response_set: self, question: question)
-    puts answer.nil?
-    Answer.all.each{|a| puts a.to_s}
     raw_value = answer.present? ? answer.raw_value : nil
-    puts "raw value for response made from question:"
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
@@ -62,8 +56,6 @@ class ResponseSet < ApplicationRecord
   end
 
   def save_answers(form_hash)
-    puts "save answers in response set model with:"
-    puts form_hash
     form_hash.each do |key, value|
       if key.include?("field") # key is an internal_name of a question
         question = Question.find_by(internal_name: key)
@@ -150,11 +142,7 @@ class ResponseSet < ApplicationRecord
       # we then convert from internal name to the question id in set_response.
       q = question(attribute_name)
       case action
-      when :get
-        puts "GET in method missing with #{q}"
-        #return response(q)
       when :set
-        puts "SET in method missing with #{q}"
         return set_response(q, arguments.first)
       end
     end
