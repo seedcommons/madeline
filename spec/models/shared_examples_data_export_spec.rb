@@ -135,6 +135,46 @@ describe "data exports with questionnaire data" do
           expect(response_data).to contain_exactly(row1, row2, row3)
         end
       end
+
+      context "when loan belonging to subdivision uses a question set of ancestor division and a qs in its own division" do
+        let(:export) { create(:enhanced_loan_data_export, division: subdivision, data: nil) }
+        let!(:setA) { create(:question_set, kind: "loan_criteria", division: division) }
+        let(:qaattrs) { {question_set: setA, division: division} }
+        let!(:qa1) { create(:question, qaattrs.merge(data_type: "number", label: "QA1")) }
+        let!(:qa2) { create(:question, qaattrs.merge(data_type: "number", label: "QA2")) }
+
+        let!(:setB) { create(:question_set, kind: "loan_data", division: subdivision) }
+        let(:qbattrs) { {question_set: setB, division: subdivision} }
+        let!(:qb1) { create(:question, qbattrs.merge(data_type: "number", label: "QB1")) }
+
+        let!(:r1) do
+          create(:response_set,
+                 question_set: setA,
+                 loan: loan1)
+        end
+        let!(:r1_a1) { create(:answer, question: qa1, response_set: r1, numeric_data: 5, not_applicable: false) }
+        let!(:r1_a2) { create(:answer, question: qa2, response_set: r1, numeric_data: 10, not_applicable: false) }
+        let!(:r2) do
+          create(:response_set,
+                 question_set: setB,
+                 loan: loan2)
+        end
+        let!(:r2_a1) { create(:answer, question: qb1, response_set: r2, numeric_data: 15, not_applicable: false) }
+        let!(:r3) do
+          create(:response_set,
+                 question_set: setA,
+                 loan: loan2)
+        end
+        let!(:r3_a1) { create(:answer, question: qa1, response_set: r3, numeric_data: 3, not_applicable: false) }
+        let!(:r3_a2) { create(:answer, question: qa2, response_set: r3, numeric_data:7, not_applicable: false) }
+        it "has questions from both question sets" do
+          export.process_data
+          expect(export.data[0]).to eq(base_headers + ["QA1", "QA2", "QB1"])
+          expect(export.data[1]).to eq(["Question ID"] + id_row_nils + [qa1, qa2, qb1].map(&:id))
+          row1 =  ["3", "7", "15"] # only loan 2 should be exported, since only loan in subdivision
+          expect(response_data).to contain_exactly(row1)
+        end
+      end
     end
   end
 

@@ -50,9 +50,10 @@ class EnhancedLoanDataExport < StandardLoanDataExport
   end
 
   def question_sets
-    # We want self to come first for deterministic behavior in specs. After that it doesn't really matter.
-    # self_and_descendants orders by depth so we are good.
-    division.self_and_descendants.flat_map { |d| QuestionSet.where(division: d).order(:kind).to_a }
+    # get all question sets for all response sets of loans in this division and descendants
+    loans = division.self_and_descendants.flat_map { |d| Loan.where(division: d) }
+    question_sets = loans.flat_map{|l| l.response_sets.map{|rs| rs.question_set}}.uniq
+    question_sets.sort_by(&:kind)
   end
 
   def questions_by_id
