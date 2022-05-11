@@ -36,34 +36,6 @@ class Response
     end
   end
 
-  #===== START temp methods for 2022 overhaul ===#
-
-  # def boolean
-  #   @answer.boolean_data ? "yes" : "no" if @answer.present?
-  # end
-  #
-  # def text
-  #   @answer.text_data if @answer.present?
-  # end
-  #
-  # def number
-  #   @answer.numeric_data if @answer.present?
-  # end
-  #
-  # def not_applicable
-  #   @answer.not_applicable ? "yes" : "no" if @answer.present?
-  # end
-  #
-  # def url
-  #   @answer.linked_document_data["url"] if @answer.present?
-  # end
-  #
-  # def group?
-  #   @question.present? && @question.group?
-  # end
-
-  #===== START temp methods for 2022 overhaul ===#
-
   def breakeven_table
     @breakeven_table ||= BreakevenTableQuestion.new(breakeven)
   end

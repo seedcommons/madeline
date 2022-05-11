@@ -2,7 +2,7 @@ class FilteredQuestionSerializer < ApplicationSerializer
   attributes :id, :name, :children, :parent_id, :division_id, :division_depth, :fieldset, :optional,
              :data_type, :required_loan_types, :active, :can_edit
   # inheritance info is only needed in questions editing view, but this serializer is also used in the questionnaire view
-  # it adds significant db queries. this flag makes it so we can limit running those queries to where they are needed
+  # calculating inheritance info adds significant db queries. this flag makes it so we can limit running those queries to where they are needed
   attribute :inheritance_info, if: -> { self.include_inheritance }
   attr_accessor :include_inheritance
 

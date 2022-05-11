@@ -40,7 +40,7 @@ class ResponseSet < ApplicationRecord
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
-  # for migration
+  # # this method is temporary for spr 2022 overhaul, for migration
   def ensure_all_answers_copied
     answer_q_ids = answers.pluck(:question_id).sort
     # select q ids where the response is not blank
@@ -71,15 +71,9 @@ class ResponseSet < ApplicationRecord
   end
 
   # Change/assign custom field value, but don't save.
-  # WHY do we not save here? probably just to save db writes
-  # THIS is where the question internal_name (e.g. field_110) coming form jqtree gets converted back to
+  # This is where the question internal_name (e.g. field_110) coming form jqtree gets converted back to
   # the question id that is the key in the response set's custom_data.
-  # so we can use the question.id and self.id to find an answer record.
   def set_response(question, value)
-    #TODO: find or create answer record by question id and self.id
-    # call a new method on answer that takes value and saves the fields
-    # i don't THINK we actually need to return custom data, but if we
-    # have to, we'll call a method on answer model that composes custom_data equivalent.
     self.custom_data ||= {}
     custom_data[question.json_key] = value
     custom_data
@@ -131,9 +125,8 @@ class ResponseSet < ApplicationRecord
   # back to the server with params that are internal names of questions e.g. "field_110="
   # Rails calls method_missing since these aren't attrs of a response set,
   # and this method then calls response(q) and set_response(q) instead of erroring.
-  # it basically uses Rail's under the hood iteration over params from the request
-  # in lieu of writing our own.
-  # so far I am unclear where the get version happens . . .
+  # it uses Rail's under the hood iteration over params from the request
+  # As of May 2022 'get' action not used anywhere.
   def method_missing(method_sym, *arguments, &block)
     attribute_name, action, field = match_dynamic_method(method_sym)
     if action
@@ -144,6 +137,8 @@ class ResponseSet < ApplicationRecord
       case action
       when :set
         return set_response(q, arguments.first)
+      else
+        raise "unknown action #{action} in method_missing override in response_set.rb"
       end
     end
     super

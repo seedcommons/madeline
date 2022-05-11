@@ -43,7 +43,6 @@ class DataExport < ApplicationRecord
   end
 
   def to_csv!
-    logger.debug("LOGGING FROM data_export.rb")
     raise ArgumentError, "No data found" if data.blank?
     raise TypeError, "Data should be a 2D Array" unless (data.is_a?(Array) && data.first.is_a?(Array))
 
