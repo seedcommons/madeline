@@ -1,25 +1,25 @@
 module ResponsesHelper
-  def display_value_for_number(response)
-    return if !response.has_number?
-    if response.has_currency?
-      "#{prefix(response)}#{number_with_delimiter(response.number)} #{postfix(response)}"
-    elsif response.has_percentage?
-      "#{number_with_delimiter(response.number)}%"
+  def display_value_for_number(question, answer: nil, response_set: nil)
+    return if !question.has_number? || answer.nil?
+    if question.has_currency?
+      "#{prefix(question, response_set)}#{number_with_delimiter(answer.number)} #{postfix(question, response_set)}"
+    elsif question.has_percentage?
+      "#{number_with_delimiter(answer.number)}%"
     else
-      number_with_delimiter(response.number)
+      number_with_delimiter(answer.number)
     end
   end
 
-  def prefix(response)
-    if response.has_currency?
-      response.loan.currency.try(:short_symbol)
+  def prefix(question, response_set)
+    if question.has_currency?
+      response_set.loan.currency.try(:short_symbol)
     end
   end
 
-  def postfix(response)
-    if response.has_currency?
-      response.loan.currency.try(:code)
-    elsif response.has_percentage?
+  def postfix(question, response_set)
+    if question.has_currency?
+      response_set.loan.currency.try(:code)
+    elsif question.has_percentage?
       "%"
     end
   end

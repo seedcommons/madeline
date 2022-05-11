@@ -3,6 +3,7 @@ class ResponseSet < ApplicationRecord
   belongs_to :updater, class_name: 'User'
   belongs_to :question_set, inverse_of: :response_sets
   has_many :answers, dependent: :destroy
+  accepts_nested_attributes_for :answers
 
   validates :loan, presence: true
 
@@ -17,6 +18,10 @@ class ResponseSet < ApplicationRecord
 
   def recalculate_loan_health
     RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
+  end
+
+  def answer_for_question(question)
+    Answer.find_by(response_set: self, question: question)
   end
 
   def question_blank?(question)

@@ -28,25 +28,7 @@ class Response
     'Response'
   end
 
-  def linked_document
-    if url.present?
-      LinkedDocument.new(url, start_cell: start_cell, end_cell: end_cell)
-    else
-      nil
-    end
-  end
 
-  def breakeven_table
-    @breakeven_table ||= BreakevenTableQuestion.new(breakeven)
-  end
-
-  def breakeven_hash
-    @breakeven_hash ||= breakeven_table.data_hash
-  end
-
-  def breakeven_report
-    @breakeven_report ||= breakeven_table.report
-  end
 
   # These dynamic methods consult `value_types` to check what component value types
   # response data will include. See comment above for more info.

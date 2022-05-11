@@ -20,7 +20,7 @@
         - else
           // For numerical questions in print view, the question's label is displayed with
           // the question's answer.
-          .question-label class=(response.has_number? ? 'hidden-print' : '')
+          .question-label class=(question.has_number? ? 'hidden-print' : '')
             = question.full_number_and_label
 
       // Recurse if group, else render

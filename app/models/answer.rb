@@ -5,6 +5,14 @@ class Answer < ApplicationRecord
   validate :has_data
   validate :question_is_not_group
 
+  def self.json_answer_blank?(answer_json)
+    answer_json.values.all?{|v| v.blank?}
+  end
+
+  def json_answer_blank?(answer_json)
+    answer_json.values.all?{|v| v.blank?}
+  end
+
   # this method is temporary for spr 2022 overhaul
   def compare_to_custom_data
     custom_data_raw_data = response_set.custom_data[question.id.to_s]
@@ -34,21 +42,59 @@ class Answer < ApplicationRecord
     breakeven_data_blank?
   end
 
+  def text
+    text_data
+  end
+
+  def boolean
+    boolean_data
+  end
+
+  def number
+    numeric_data
+  end
+  # can we get rid of rating as a concept? its very confusing
+  def rating
+    numeric_data
+  end
+
+  def breakeven_table
+    @breakeven_table ||= BreakevenTableQuestion.new(breakeven_data)
+  end
+
+  def breakeven_hash
+    @breakeven_hash ||= breakeven_table.data_hash
+  end
+
+  def business_canvas
+    business_canvas_data
+  end
+
+  def breakeven_report
+    @breakeven_report ||= breakeven_table.report
+  end
+
   def linked_document_data_blank?
-    linked_document_data.blank? || json_answer_blank?(linked_document_data)
+    linked_document_data.blank? || linked_document_data.values.all?{|v| v.blank?}
   end
 
   def business_canvas_blank?
-    business_canvas_data.blank? || json_answer_blank?(business_canvas_data)
+    business_canvas_data.blank? || self.json_answer_blank?(business_canvas_data)
   end
 
   def breakeven_data_blank?
-    breakeven_data.blank? || json_answer_blank?(breakeven_data)
+    breakeven_data.blank? || self.json_answer_blank?(breakeven_data)
   end
 
-  def self.json_answer_blank?(answer_json)
-    answer_json.values.all?{|v| v.blank?}
+  def linked_document
+    if linked_document_data.present?
+      LinkedDocument.new(linked_document_data)
+    else
+      nil
+    end
   end
+
+
 
   # expects 'raw_value' type json e.g. the value of a "field_110" key in form submission
   # or the value of a q_id key e.g. "5126" in custom_data

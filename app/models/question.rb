@@ -96,6 +96,38 @@ class Question < ApplicationRecord
     data_type == 'business_canvas'
   end
 
+  def range?
+    data_type == 'range'
+  end
+
+  def boolean?
+    data_type == "boolean"
+  end
+
+  def breakeven?
+    data_type == "breakeven"
+  end
+
+  def has_text?
+    %w(text range).include?(data_type)
+  end
+
+  def has_number?
+    %w(number currency percentage range).include?(data_type)
+  end
+
+  def has_currency?
+    data_type == "currency"
+  end
+
+  def has_percentage?
+    data_type == "percentage"
+  end
+
+  def has_rating?
+    data_type == "range"
+  end
+
   def first_child?
     @first_child ||= parent && parent.children.none? { |q| q.position < position }
   end
