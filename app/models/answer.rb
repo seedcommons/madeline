@@ -59,7 +59,7 @@ class Answer < ApplicationRecord
       elsif key == "not_applicable"
         return true if value == "yes"
       elsif key == "boolean"
-        return true unless value.nil?
+        return true unless (value.nil? || value.empty?)
       elsif %w(business_canvas).include?(key)
         return true unless self.json_answer_blank?(value)
       elsif %w(breakeven).include?(key)
@@ -88,7 +88,16 @@ class Answer < ApplicationRecord
         else
           nil
         end
-      boolean_data = fields.key?("boolean") ? (fields["boolean"] == "yes") : nil
+      boolean_data = if fields.key?("boolean")
+        case  fields["boolean"]
+        when "yes"
+          true
+        when "no"
+          false
+        else
+          nil
+        end
+      end
       breakeven_data = fields.key?("breakeven") ? fields["breakeven"] : nil
       business_canvas_data = fields.key?("business_canvas") ? fields["business_canvas"] : nil
       linked_document_data = fields.key?("url") ? {"url": fields["url"] } : {"url": ""}
