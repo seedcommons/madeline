@@ -132,27 +132,6 @@ class ResponseSet < ApplicationRecord
   # and this method then calls response(q) and set_response(q) instead of erroring.
   # it uses Rail's under the hood iteration over params from the request
   # As of May 2022 'get' action not used anywhere.
-  def method_missing(method_sym, *arguments, &block)
-    attribute_name, action, field = match_dynamic_method(method_sym)
-    if action
-      # the question is retrieved based on the internal name coming back
-      # from jqtree as the fake "attribute" prompting the method_missing call. in set_response,
-      # we then convert from internal name to the question id in set_response.
-      q = question(attribute_name)
-      case action
-      when :set
-        return set_response(q, arguments.first)
-      else
-        raise "unknown action #{action} in method_missing override in response_set.rb"
-      end
-    end
-    super
-  end
-
-  def respond_to_missing?(method_sym, include_private = false)
-    attribute_name, action = match_dynamic_method(method_sym)
-    action ? true : super
-  end
 
   private
 

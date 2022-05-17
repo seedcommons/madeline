@@ -4,6 +4,7 @@ class Answer < ApplicationRecord
   delegate :data_type, to: :question
   validate :has_data
   validate :question_is_not_group
+  validates_presence_of :question_id
 
   def self.json_answer_blank?(answer_json)
     answer_json.values.all?{|v| v.blank?}
