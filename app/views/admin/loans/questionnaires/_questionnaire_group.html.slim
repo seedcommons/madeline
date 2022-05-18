@@ -9,7 +9,7 @@ div
     / Add page break for top-level groups with answered questions
     / Also add page break for business model canvas answered question
     - answer = response_set.answer_for_question(question)
-    - if answer.present? && (question.business_canvas? || question.top_level_group?)
+    - if question.business_canvas? || question.top_level_group?
       / Close and reopen fieldset with new group/page
       - if optional_encountered && @print_view
         </fieldset>
@@ -19,14 +19,14 @@ div
       = render "admin/loans/questionnaires/page_header"
 
     - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && !question.required?
-    - if @print_view && (reopen_fieldset || (start_of_optional_group && answer.present?))
+    - if @print_view && (reopen_fieldset || start_of_optional_group)
       - optional_encountered = true; reopen_fieldset = false
       <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
     - css_class = question.required? ? 'required' : 'optional'
 
     / Don't print unanswered questions or groups
-    - css_class += ' hidden-print' if answer.blank? || answer.not_applicable?
+    - css_class += ' hidden-print' if response_set.question_blank?(question) || answer.nil? || answer.not_applicable?
     - css_class += " #{question.active? ? 'active' : 'inactive'}"
 
     .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
