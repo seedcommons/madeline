@@ -2,7 +2,6 @@ class Answer < ApplicationRecord
   belongs_to :response_set,  optional: false
   belongs_to :question, optional: false
   delegate :data_type, to: :question
-  validate :has_data
   validate :question_is_not_group
   validates_presence_of :question_id
 
