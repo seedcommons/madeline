@@ -1,5 +1,6 @@
 = f.fields_for :answers, answer do |answer_form_fields|
-  = hidden_field_tag(:question_id, question.id, hidden: true)
+  = "Answer id #{answer.present? ? answer.id: "none"}; Question id: #{question.id}; Answer question id: #{answer.present? ? answer.question.id : "none"}"
+  = answer_form_fields.input_field :question_id, value:question.id, hidden: true
 
   - if question.has_number?
     - if answer && answer.number.present? && !answer.not_applicable?
