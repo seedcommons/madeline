@@ -78,6 +78,7 @@ div
 
       - else
         .answer-wrapper.tree-view
+          = answer ||= Answer.new(response_set: response_set, question: question.question)
           = render("admin/loans/questionnaires/answer", f: f, answer: answer, question: question, response_set: response_set, display_context: "memo")
 
     = render("admin/loans/questionnaires/number_handling", answer: answer, question: question)
