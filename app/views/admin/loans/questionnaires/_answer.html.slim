@@ -1,6 +1,12 @@
 = f.fields_for :answers, answer do |answer_form_fields|
-  = "Answer id #{answer.present? ? answer.id: "none"}; Question id: #{question.id}; Answer question id: #{answer.present? ? answer.question.id : "none"}"
+  = p
+    = "Answer id #{answer.present? ? answer.id: "none"}; Question id: #{question.id}; Answer question id: #{answer.present? ? answer.question.id : "none"}"
   = answer_form_fields.input_field :question_id, value:question.id, hidden: true
+  .not-applicable
+    - if answer.not_applicable?
+      .view-element.answer = t("loan.not_applicable")
+    .form-element
+      = answer_form_fields.input_field :not_applicable, value: answer.not_applicable, inline_label: "Not Applicable", checked_value: "true", unchecked_value: "false"
 
   - if question.has_number?
     - if answer && answer.number.present? && !answer.not_applicable?
@@ -16,6 +22,7 @@
             td.number-response = display_value
     = answer_form_fields.input_field :numeric_data, as: :decorated_numeric,
       value: (answer.present? ? answer.number : nil), prefix: prefix(question, response_set), postfix: postfix(question, response_set)
+
 
   - if question.has_text?
     / Display response as rich text.
