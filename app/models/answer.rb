@@ -57,7 +57,7 @@ class Answer < ApplicationRecord
   def number
     numeric_data
   end
-  # can we get rid of rating as a concept? its very confusing
+  # can we get rid of rating as a concept? its very confusing. no it is limited to 1-5.
   def rating
     numeric_data
   end

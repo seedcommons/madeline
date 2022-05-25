@@ -17,8 +17,15 @@
     label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
     data: {boolean: true}
 
+  - if question.has_rating?
+    - if answer.rating.present? && answer.applicable?
+      .view-element.answer = "#{I18n.t('loan.rating')}: #{answer.rating}"
+    .form-element
+      = answer_form_fields.input_field :numeric_data, as: :select,
+        selected: (answer.present? ? answer.rating : nil), collection: Array(1..5), prompt: I18n.t("select_prompt"),
+        data: {rating: true}
 
-  - if question.has_number?
+  - if question.has_number? && !question.has_rating?
     - if answer && answer.number.present? && !answer.not_applicable?
       - display_value = display_value_for_number(question, answer: answer, response_set: response_set)
       .view-element.answer.hidden-print = display_value
