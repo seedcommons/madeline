@@ -42,6 +42,10 @@ class Answer < ApplicationRecord
     breakeven_data_blank?
   end
 
+  def applicable?
+    !not_applicable
+  end
+
   def text
     text_data
   end

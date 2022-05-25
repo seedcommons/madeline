@@ -75,7 +75,7 @@ class Admin::ResponseSetsController < Admin::AdminController
 
   def response_set_params
     params.require(:response_set).permit(:loan_id, :question_set_id, :lock_version,
-      answers_attributes: [:id, :question_id, :text_data, :numeric_data, :not_applicable])
+      answers_attributes: [:id, :question_id, :text_data, :numeric_data, :not_applicable, :boolean_data])
   end
 
   def display_path

@@ -67,7 +67,7 @@
 
   - if question.boolean?
     - if answer && answer.boolean.present? && !answer.not_applicable?
-      .view-element.answer = t(answer.boolean == "yes" ? "reply_yes" : "reply_no")
+      .view-element.answer = t(answer.boolean == "yes" ? "reply_true" : "reply_false")
     = f.input_field :"#{question.attribute_sym}[boolean]", as: :select,
       selected: (answer.present? ? answer.boolean : nil), collection: %i(yes no),
       label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),

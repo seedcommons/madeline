@@ -90,10 +90,10 @@ section.step-fields class=(@mode == :show_and_form ? 'show-view' : 'edit-view') 
           = f.input :is_finalized, wrapper: :horizontal_form_two_columns
             - if @step.is_finalized_locked?
               .static-text-as-field
-                = @step.is_finalized? ? t("reply_yes") : t("reply_no")
+                = @step.is_finalized? ? t("reply_true") : t("reply_false")
                 =< "(#{t('locked')})"
             - else
-              .view-element = @step.is_finalized? ? t("reply_yes") : t("reply_no")
+              .view-element = @step.is_finalized? ? t("reply_true") : t("reply_false")
               = f.input_field :is_finalized, as: :boolean, boolean_style: :inline
 
           - if @step.old_start_date && @step.is_finalized?
