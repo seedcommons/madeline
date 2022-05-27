@@ -5,17 +5,17 @@
     .ld-container
       .form-group.full-width-group
         label for="#{question.attribute_sym}[url]" = t("linked_document.url")
-        = f.input_field :"#{question.attribute_sym}[url]", as: :string, value: document.try(:url),
+        = nested_attribute_form.input_field :"#{question.attribute_sym}[url]", as: :string, value: document.try(:url),
           class: 'form-control', placeholder: t("linked_document.link")
       .help-block
         span = t("linked_document.range_of_cells")
       .form-group
         label for="#{question.attribute_sym}[start_cell]" = t("linked_document.cell_start")
-        = f.input_field :"#{question.attribute_sym}[start_cell]", as: :string, value: document.try(:start_cell),
+        = nested_attribute_form.input_field :"#{question.attribute_sym}[start_cell]", as: :string, value: document.try(:start_cell),
           class: 'form-control', placeholder: t("linked_document.cell_start_hint")
       .form-group
         label for="#{question.attribute_sym}[end_cell]" = t("linked_document.cell_end")
-        = f.input_field :"#{question.attribute_sym}[end_cell]", as: :string, value: document.try(:end_cell),
+        = nested_attribute_form.input_field :"#{question.attribute_sym}[end_cell]", as: :string, value: document.try(:end_cell),
           class: 'form-control', placeholder: t("linked_document.cell_end_hint")
       - if document
         - if document.display_url.present?

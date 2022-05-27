@@ -27,6 +27,8 @@ class Admin::ResponseSetsController < Admin::AdminController
     authorize @response_set
 
     # Need to store these values from the db before they get overwritten by params below
+    puts "RESPONSE SET PARAMS"
+    puts response_set_params
     @response_set_from_db = {
       updater: @response_set.updater,
       updated_at: @response_set.updated_at,
@@ -35,6 +37,7 @@ class Admin::ResponseSetsController < Admin::AdminController
 
     # Add updater id to params
     adjusted_params = response_set_params.merge(updater_id: current_user.id)
+    #adjusted_params = handle_json_attr_values(adjusted_params, params)
     # If there was a conflict and "Overwrite" was clicked, update the lock version to the one pulled
     # from the database when the warning was displayed. We do this instead of just ignoring the
     # lock_version in case someone made further changes since the warning was displayed. This way,
@@ -42,8 +45,11 @@ class Admin::ResponseSetsController < Admin::AdminController
     adjusted_params[:lock_version] = params[:new_lock_version] if params[:overwrite]
 
     if params[:discard]
+      puts "DISCARD"
       redirect_to display_path
     else
+      puts "UPDATE W ADJUSTED PARAMS"
+      puts adjusted_params
       @response_set.update!(adjusted_params)
       redirect_to display_path, notice: I18n.t(:notice_updated)
     end
@@ -60,6 +66,10 @@ class Admin::ResponseSetsController < Admin::AdminController
 
   private
 
+  def handle_json_attr_values(adjusted_params, params)
+
+  end
+
   def handle_conflict
     @conflict = true
     @tab = 'questions'
@@ -74,8 +84,25 @@ class Admin::ResponseSetsController < Admin::AdminController
   end
 
   def response_set_params
-    params.require(:response_set).permit(:loan_id, :question_set_id, :lock_version,
-      answers_attributes: [:id, :question_id, :text_data, :numeric_data, :not_applicable, :boolean_data])
+    params.require(:response_set).permit(:id, :loan_id, :question_set_id, :lock_version,
+      answers_attributes: [:id,
+        :question_id,
+        :text_data,
+        :numeric_data,
+        :not_applicable,
+        :boolean_data,
+        business_canvas_data: [
+          :key_partners,
+          :key_activities,
+          :key_resources,
+          :value_propositions,
+          :customer_relationships,
+          :channels,
+          :customer_segments,
+          :cost_structure,
+          :revenue_streams
+          ]
+      ])
   end
 
   def display_path

@@ -1,4 +1,9 @@
 = f.fields_for :answers, answer do |answer_form_fields|
+  - if display_context != "summary" && !question.group? && answer.blank? && question.required?
+    .view-element.answer.blank
+      = fa_icon "exclamation-circle"
+      = t("questions.missing_required_answer")
+
   = p
     = "Answer id #{answer.present? ? answer.id: "none"}; Question id: #{question.id}; Answer question id: #{answer.present? ? answer.question.id : "none"}"
   = answer_form_fields.input_field :question_id, value:question.id, hidden: true
@@ -39,6 +44,16 @@
             td.number-response = display_value
     = answer_form_fields.input_field :numeric_data, as: :decorated_numeric,
       value: (answer.present? ? answer.number : nil), prefix: prefix(question, response_set), postfix: postfix(question, response_set)
+
+  - if question.business_canvas?
+    - unless answer.nil? || answer.not_applicable? || answer.business_canvas_blank?
+      .view-element.answer
+        = render 'admin/loans/questionnaires/business_model_canvas', f: answer_form_fields,
+          question: question, data: answer.business_canvas
+    / The form element will always show in edit mode
+    .form-element
+      = render 'admin/loans/questionnaires/business_model_canvas', f: answer_form_fields,
+        question: question, data: (answer.present? ? answer.business_canvas : nil)
 
 
   - if question.has_text?

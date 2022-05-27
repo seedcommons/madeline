@@ -5,6 +5,16 @@ class Answer < ApplicationRecord
   validate :question_is_not_group
   validates_presence_of :question_id
 
+  before_save :ensure_json_format
+
+  def ensure_json_format
+    puts "+++++++raw"
+    puts business_canvas_data
+    business_canvas_data = business_canvas_data.to_json
+    puts "++++++after"
+    puts business_canvas_data
+  end
+
   def self.json_answer_blank?(answer_json)
     answer_json.values.all?{|v| v.blank?}
   end
