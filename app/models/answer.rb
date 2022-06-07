@@ -11,6 +11,7 @@ class Answer < ApplicationRecord
     puts "+++++++raw"
     puts business_canvas_data
     business_canvas_data = business_canvas_data.to_json
+    breakeven_data = breakeven_data.to_json
     puts "++++++after"
     puts business_canvas_data
   end
@@ -81,7 +82,7 @@ class Answer < ApplicationRecord
   end
 
   def business_canvas
-    business_canvas_data.symbolize_keys
+    business_canvas_data.symbolize_keys if business_canvas_data
   end
 
   def breakeven_report

@@ -101,7 +101,13 @@ class Admin::ResponseSetsController < Admin::AdminController
           :customer_segments,
           :cost_structure,
           :revenue_streams
-          ]
+        ],
+        breakeven_data: [
+          :periods,
+          :units,
+          fixed_costs: [:name, :amount],
+          products: [:name, :description, :unit, :price, :percentage_of_sales, :quantity, :cost]
+        ]
       ])
   end
 

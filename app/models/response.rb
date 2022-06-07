@@ -90,8 +90,12 @@ class Response
 
   def remove_blanks(data)
     if data
-      data['products'].delete_if { |i| i.values.all?(&:blank?) }
-      data['fixed_costs'].delete_if { |i| i.values.all?(&:blank?) }
+      if data.has_key?('products')
+        data['products'].delete_if { |i| i.values.all?(&:blank?) }
+      end
+      if data.has_key?('fixed_costs')
+        data['fixed_costs'].delete_if { |i| i.values.all?(&:blank?) }
+      end
     end
     data
   end
