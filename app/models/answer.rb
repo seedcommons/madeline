@@ -39,7 +39,7 @@ class Answer < ApplicationRecord
   end
 
   def to_s
-    "RS: #{response_set.question_set.kind}, Q: #{question.label.to_s} | NA: #{not_applicable}; text: #{text_data}; numeric: #{numeric_data}; boolean: #{boolean_data}; doc: #{linked_document_data}; breakeven: #{breakeven_data}; canvas: #{business_canvas_data}"
+    "RS: #{response_set.question_set.kind}, Q id: #{question.id}, Q: #{question.label.to_s} | NA: #{not_applicable}; text: #{text_data}; numeric: #{numeric_data}; boolean: #{boolean_data}; doc: #{linked_document_data}; breakeven: #{breakeven_data}; canvas: #{business_canvas_data}"
   end
 
   def blank?
@@ -81,7 +81,7 @@ class Answer < ApplicationRecord
   end
 
   def business_canvas
-    business_canvas_data
+    business_canvas_data.symbolize_keys
   end
 
   def breakeven_report
