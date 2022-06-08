@@ -103,7 +103,7 @@ class Answer < ApplicationRecord
 
   def linked_document
     if linked_document_data.present?
-      LinkedDocument.new(linked_document_data)
+      LinkedDocument.new(linked_document_data.symbolize_keys)
     else
       nil
     end

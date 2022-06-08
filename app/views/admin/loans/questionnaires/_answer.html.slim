@@ -100,4 +100,10 @@
     = answer_form_fields.input_field :text_data,
       value: sanitize(answer_content, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
 
+
+  - if question.has_embeddable_media?
+    = render 'admin/loans/questionnaires/linked_document', f: answer_form_fields,
+      question: question, document: (answer.present? ? answer.linked_document : nil),
+      not_applicable: (answer && answer.not_applicable?)
+
   hr class="solid"

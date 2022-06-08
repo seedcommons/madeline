@@ -1,21 +1,22 @@
+- nested_attribute_form = f
 .attached-document
   .linked-document.form-element.form-inline
     h5 = t("linked_document.linked_document")
 
     .ld-container
       .form-group.full-width-group
-        label for="#{question.attribute_sym}[url]" = t("linked_document.url")
-        = nested_attribute_form.input_field :"#{question.attribute_sym}[url]", as: :string, value: document.try(:url),
+        label for="[linked_document_data][url]" = t("linked_document.url")
+        = nested_attribute_form.input_field :"[linked_document_data][url]", as: :string, value: document.try(:url),
           class: 'form-control', placeholder: t("linked_document.link")
       .help-block
         span = t("linked_document.range_of_cells")
       .form-group
-        label for="#{question.attribute_sym}[start_cell]" = t("linked_document.cell_start")
-        = nested_attribute_form.input_field :"#{question.attribute_sym}[start_cell]", as: :string, value: document.try(:start_cell),
+        label for="[linked_document_data][start_cell]" = t("linked_document.cell_start")
+        = nested_attribute_form.input_field :"[linked_document_data][start_cell]", as: :string, value: document.try(:start_cell),
           class: 'form-control', placeholder: t("linked_document.cell_start_hint")
       .form-group
-        label for="#{question.attribute_sym}[end_cell]" = t("linked_document.cell_end")
-        = nested_attribute_form.input_field :"#{question.attribute_sym}[end_cell]", as: :string, value: document.try(:end_cell),
+        label for="[linked_document_data][end_cell]" = t("linked_document.cell_end")
+        = nested_attribute_form.input_field :"[linked_document_data][end_cell]", as: :string, value: document.try(:end_cell),
           class: 'form-control', placeholder: t("linked_document.cell_end_hint")
       - if document
         - if document.display_url.present?

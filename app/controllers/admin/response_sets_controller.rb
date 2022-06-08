@@ -91,6 +91,7 @@ class Admin::ResponseSetsController < Admin::AdminController
         :numeric_data,
         :not_applicable,
         :boolean_data,
+        linked_document_data: [:url, :start_cell, :end_cell], 
         business_canvas_data: [
           :key_partners,
           :key_activities,
