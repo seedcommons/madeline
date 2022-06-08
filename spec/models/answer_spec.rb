@@ -33,12 +33,5 @@ describe Answer, type: :model do
         expect(subject.valid?).to be_truthy
       end
     end
-
-    context "has no text_data" do
-      let(:text_data) { nil }
-      it "is not valid" do
-        expect(subject.valid?).to be_falsey
-      end
-    end
   end
 end

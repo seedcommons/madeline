@@ -74,7 +74,6 @@ class QuestionSet < ApplicationRecord
   def build_node_lookup_table_for(node)
     @node_lookup_table ||= {}
     @node_lookup_table[node.id] = node
-    @node_lookup_table[node.internal_name] = node if node.internal_name.present?
 
     node.children.includes(:children).each { |child| build_node_lookup_table_for(child) }
   end
