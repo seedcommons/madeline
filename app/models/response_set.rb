@@ -60,19 +60,6 @@ class ResponseSet < ApplicationRecord
     end
   end
 
-  # for specs in overhaul
-  def set_answer_from_custom_data_style_json(question, value)
-    Answer.save_from_form_field_params(question, value, self)
-  end
-
-  # Change/assign custom field value, but don't save.
-  # This is where the question internal_name (e.g. field_110) coming form jqtree gets converted back to
-  # the question id that is the key in the response set's custom_data.
-  def set_response(question, value)
-    self.custom_data ||= {}
-    custom_data[question.json_key] = value
-    custom_data
-  end
 
   # Fetches urls of all embeddable media in the whole custom value set
   def embedded_urls
@@ -132,35 +119,6 @@ class ResponseSet < ApplicationRecord
 
   def ensure_decorated(question)
     question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan)
-  end
-
-  # Determines attribute name and implied operations for dynamic methods as documented above
-  def match_dynamic_method(method_sym)
-    method_name = method_sym.to_s
-
-    # avoid problems with nested attribute methods and form helpers
-    return nil if method_name.end_with?('came_from_user?')
-    return nil if method_name.end_with?('before_type_cast')
-    return nil if method_name == 'policy_class'
-    return nil if method_name == 'to_ary'
-
-    if method_name.ends_with?('=')
-      attribute_name = method_name.chomp('=')
-      action = :set
-    else
-      attribute_name = method_name
-      action = :get
-    end
-
-    # the attribute name here is internal_name coming from the _answer.html.slim
-    # where the questionnaire form uses "question.attribute_sym" and attribute_sym is the internal name
-    # (see question.rb line 72)
-    field = question(attribute_name, required: false)
-    if field
-      [attribute_name, action, field]
-    else
-      nil
-    end
   end
 
   def is_number?(object)

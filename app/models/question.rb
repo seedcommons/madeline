@@ -42,7 +42,6 @@ class Question < ApplicationRecord
   validates :data_type, presence: true
   validate :parent_division_depth_must_be_less_than_or_equal_to_ours
 
-  after_save :ensure_internal_name
 
   after_create_commit :adjust_position_by_division
   before_save :prepare_numbers
@@ -67,14 +66,6 @@ class Question < ApplicationRecord
   # Overriding this method because the closure_tree implementation causes a DB query.
   def depth
     @depth ||= root? ? 0 : parent.depth + 1
-  end
-
-  def name
-    "#{question_set.kind}-#{internal_name}"
-  end
-
-  def attribute_sym
-    internal_name.to_sym
   end
 
   def group?
@@ -228,12 +219,6 @@ class Question < ApplicationRecord
     self.number = nil if active_changed? && !active?
     @old_parent_id = parent_id_changed? ? parent_id_was : nil
     true
-  end
-
-  def ensure_internal_name
-    if !internal_name
-      self.update! internal_name: "field_#{id}"
-    end
   end
 
   def parent_division_depth_must_be_less_than_or_equal_to_ours

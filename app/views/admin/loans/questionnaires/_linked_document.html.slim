@@ -31,14 +31,14 @@
         .doc-actions
           - if document.display_url.present?
             / Beware, the display_height value doesn't not seem to be honored
-            a[href="#" data-expands="iframe-#{question.attribute_sym}"
+            a[href="#" data-expands="iframe-#{question.id}"
               data-content="<iframe src='#{document.display_url}' height='#{document.display_height}'>"]
               i.fa.fa-eye.fa-large>
               = t("loan.spreadsheet_inline")
-            a href="#" data-hides="iframe-#{question.attribute_sym}"
+            a href="#" data-hides="iframe-#{question.id}"
               i.fa.fa-eye-slash.fa-large>
               = t("loan.spreadsheet_hide")
             = link_to document.url, target: '_blank'
               i.fa.fa-external-link.fa-large>
               = t("loan.spreadsheet_new_tab")
-      .spreadsheet data-expandable="iframe-#{question.attribute_sym}"
+      .spreadsheet data-expandable="iframe-#{question.id}"

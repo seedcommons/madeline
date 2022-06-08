@@ -12,8 +12,4 @@ describe Response do
     )
   end
   subject { response }
-
-  before do
-    Answer.save_from_form_field_params(question.internal_name, data, response_set)
-  end
 end

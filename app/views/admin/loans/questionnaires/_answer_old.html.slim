@@ -13,7 +13,6 @@
       / so that if the box is unchecked, the submitted value will be 'no'. This is a
       / standard Rails trick:
       / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
-      / attribute_sym is the internal name
       / # TODO bring back the hidden field & checkbox, but with nested attrs. otherwise
       / we'll have an answer for every single question after the first save, forever.
       = check_box_tag 'not_applicable', true, (answer && answer.not_applicable?)
@@ -60,8 +59,6 @@
     .form-element.answer.no-response class=(answer_content.present? ? "" : "hidden")
        = t("loan.no_answer")
 
-       / attribute_sym is the internal name
-       / does the [text] create something like nested attrs?
     = answer_form_fields.input_field :text_data,
       value: sanitize(answer_content, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
 

@@ -44,16 +44,16 @@ module QuestionSpecHelpers
     let!(:q52) { create_question(parent: q5, name: "q52", type: "boolean", required: false) }
 
     before do
-      rset.set_answer_from_custom_data_style_json(q1, {"text" => "foo"})
-      rset.set_answer_from_custom_data_style_json(q2, {"text" => ""}) # required
-      rset.set_answer_from_custom_data_style_json(q31, {"text" => "junk"}) # required
-      rset.set_answer_from_custom_data_style_json(q32, {"boolean" => "no"}) # required
-      rset.set_answer_from_custom_data_style_json(q331, {"boolean" => "yes"})
-      rset.set_answer_from_custom_data_style_json(q39, {"text" => "inactive question"})
-      rset.set_answer_from_custom_data_style_json(q41, {"text" => ""})
-      rset.set_answer_from_custom_data_style_json(q42, {"text" => "pants"})
-      rset.set_answer_from_custom_data_style_json(q43, {"text" => ""})
-      rset.set_answer_from_custom_data_style_json(q51, {"text" => "inactive group"})
+      create(:answer,response_set: rset, question: q1, text_data: "foo")
+      create(:answer,response_set: rset, question: q2, text_data: "") # required
+      create(:answer,response_set: rset, question: q31, text_data: "junk") # required
+      create(:answer,response_set: rset, question: q32, boolean_data: false) # required
+      create(:answer,response_set: rset, question: q331, boolean_data: true)
+      create(:answer,response_set: rset, question: q39, text_data: "inactive question")
+      create(:answer,response_set: rset, question: q41, text_data: "")
+      create(:answer,response_set: rset, question: q42, text_data: "pants")
+      create(:answer,response_set: rset, question: q43, text_data: "")
+      create(:answer,response_set: rset, question: q51, text_data: "inactive group")
       rset.save!
 
       # Reload groups so they see their children!
@@ -71,7 +71,6 @@ module QuestionSpecHelpers
     create(:question,
       question_set: set,
       active: active,
-      internal_name: name,
       data_type: type,
       override_associations: override,
       loan_types: loan_types || (required ? [lt1] : []),

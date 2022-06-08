@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_22_165601) do
+ActiveRecord::Schema.define(version: 2022_06_08_210002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -429,7 +429,6 @@ ActiveRecord::Schema.define(version: 2022_04_22_165601) do
     t.boolean "display_in_summary", default: false, null: false
     t.integer "division_id", null: false
     t.boolean "has_embeddable_media", default: false, null: false
-    t.string "internal_name"
     t.integer "legacy_id"
     t.integer "migration_position"
     t.integer "number"

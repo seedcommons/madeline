@@ -59,11 +59,11 @@ describe "Response.progress" do
       let!(:q32) { create_question(parent: q3, name: "q32", type: "boolean", required: false) } # answered
 
     before do
-      rset.set_answer_from_custom_data_style_json(q1, {"text" => "foo"})
-      rset.set_answer_from_custom_data_style_json(q2, {"text" => ""}) # required
-      rset.set_answer_from_custom_data_style_json(q3, {"text" => "stuff"}) # required
-      rset.set_answer_from_custom_data_style_json(q31, {"text" => "junk"}) # required
-      rset.set_answer_from_custom_data_style_json(q32, {"boolean" => "no"})
+      create(:answer,response_set: rset, question: q1, text_data: "foo")
+      create(:answer,response_set: rset, question: q2, text_data: "") # required
+      create(:answer,response_set: rset, question: q3, text_data: "stuff") # required
+      create(:answer,response_set: rset, question: q31, text_data: "junk") # required
+      create(:answer,response_set: rset, question: q32, boolean_data: false)
     end
 
     it "should be correct" do
