@@ -9,7 +9,7 @@ module QuestionnaireRenderable
     @question_sets = QuestionSet.find_for_division(@loan_division)
     unless @question_sets.empty?
       @question_set ||= params.key?(:qset) ? QuestionSet.find(params[:qset]) : @question_sets.first
-      @response_set ||= ResponseSet.find_or_initialize_by(loan: @loan, question_set: @question_set)
+      @response_set ||= ResponseSet.includes(:answers).find_or_initialize_by(loan: @loan, question_set: @question_set)
       @root = LoanFilteredQuestion.new(@question_set.root_group_preloaded, loan: @loan)
       @questions_json = @root.children.map { |q| FilteredQuestionSerializer.new(q) }.to_json if json
     end

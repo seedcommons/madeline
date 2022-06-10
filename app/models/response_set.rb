@@ -21,14 +21,14 @@ class ResponseSet < ApplicationRecord
   end
 
   def answer_for_question(question)
-    Answer.find_by(response_set: self, question: question)
+    answers.select{ |a| a.question_id == question.id }.try(:first)
   end
 
   def question_blank?(question)
     if question.group?
       question.children.all?{|c| question_blank?(c)}
     else
-      Answer.where(question_id: question.id, response_set_id: self.id).blank?
+      answer_for_question(question).blank?
     end
   end
 
@@ -40,7 +40,7 @@ class ResponseSet < ApplicationRecord
   # Ensures `question` is decorated before passing to Response.
   def response(question)
     question = ensure_decorated(question)
-    answer = Answer.find_by(response_set: self, question: question)
+    answer = answer_for_question(question)
     raw_value = answer.present? ? answer.raw_value : nil
     Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end

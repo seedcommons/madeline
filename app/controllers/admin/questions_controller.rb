@@ -11,7 +11,7 @@ class Admin::QuestionsController < Admin::AdminController
     @question_sets = QuestionSet.find_for_division(selected_division_or_root)
     if @question_sets.any?
       @question_set = params.key?(:qset) ? QuestionSet.find(params[:qset]) : @question_sets.first
-      @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@question_set), include_inheritance: true)
+      @questions = ActiveModel::Serializer::CollectionSerializer.new(top_level_questions(@question_set), for_questions_view: true)
       @selected_division_depth = selected_division.depth
     end
   end
