@@ -1,5 +1,9 @@
 # Inherits from FilteredQuestion. Adds a Loan and provides methods relating to the combination of the two.
+
+
 class LoanFilteredQuestion < FilteredQuestion
+  include ProgressCalculable
+
   attr_accessor :loan
   attr_accessor :answer
   attr_accessor :progress_numerator
@@ -17,7 +21,7 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def is_leaf?
-    question.type != :group
+    question.data_type != :group
   end
 
   def blank?
@@ -52,16 +56,6 @@ class LoanFilteredQuestion < FilteredQuestion
     !required?
   end
 
-  def answered?
-    return @answered if defined?(@answered)
-    @answered = response_set && response_set.response(self).present?
-  end
-
-  def progress_pct
-    return @progress_pct if defined?(@progress_pct)
-    @progress_pct = self.response_set.response(self).progress_pct
-  end
-
   def visible?
     return @visible if defined?(@visible)
     @visible = super && (active? || answered?)
@@ -76,13 +70,27 @@ class LoanFilteredQuestion < FilteredQuestion
   def self.decorate_responses(node, response_set)
     if node.group?
       children = node.children.each{ |c| self.decorate_responses(c, response_set) }
-      node.progress_numerator = (children.map(&:progress_numerator)).sum
-      node.progress_denominator = (children.map(&:progress_denominator)).sum
+      node.progress_numerator = (self.progress_applicable(children, node).map(&:progress_numerator)).sum
+      node.progress_denominator = (self.progress_applicable(children, node).map(&:progress_denominator)).sum
     else
       node.answer = response_set.answers.select{|a| a.question_id == node.id}.first
       node.progress_numerator = node.answer.blank? ? 0 : 1
       node.progress_denominator = 1
     end
     return node
+  end
+
+  # Inactive questions should be ignored. Inactive questions only show when they are
+  # answered, and they are never required, so progress makes no sense. Retired questions should
+  # never show, so they should be excluded as well.
+  # If the current response is required, only count children that are also required.
+  def self.progress_applicable(lfqs, parent)
+    lfqs.select do |q|
+      if parent.required?
+        q.active? && q.required?
+      else
+        q.active?
+      end
+    end
   end
 end

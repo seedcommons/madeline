@@ -48,7 +48,7 @@ div
             .question-label class=(question.has_number? ? 'hidden-print' : '')
               = question.full_number_and_label
         - if !question.leaf?
-          = render "admin/loans/questionnaires/progress", object: response_set.response(question), display_pct: true
+          = render "admin/loans/questionnaires/progress", object: question, display_pct: true
         - if policy(@loan).update?
           a.edit-action.edit-all(
             href="javascript:void(0)"

@@ -8,7 +8,6 @@ class ResponseSet < ApplicationRecord
   validates :loan, presence: true
 
   delegate :division, :division=, to: :loan
-  delegate :progress, :progress_pct, :progress_type, to: :root_response
 
   after_commit :recalculate_loan_health
 
@@ -31,19 +30,6 @@ class ResponseSet < ApplicationRecord
     else
       answer_for_question(question).blank?
     end
-  end
-
-  def root_response
-    response(question(:root))
-  end
-
-  # Fetches a custom value from the json field.
-  # Ensures `question` is decorated before passing to Response.
-  def response(question)
-    question = ensure_decorated(question)
-    answer = answer_for_question(question)
-    raw_value = answer.present? ? answer.raw_value : nil
-    Response.new(loan: loan, question: question, response_set: self, data: raw_value)
   end
 
   # # this method is temporary for spr 2022 overhaul, for migration
