@@ -1,10 +1,27 @@
 # Inherits from FilteredQuestion. Adds a Loan and provides methods relating to the combination of the two.
 class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :loan
+  attr_accessor :answer
+  attr_accessor :progress_numerator
+  attr_accessor :progress_denominator
+  attr_accessor :is_leaf
 
   def initialize(question, **args)
     @loan = args[:loan]
+    @response_set = args[:response_set]
     super(question, selected_division: @loan.division, **args)
+  end
+
+  def answered?
+    is_leaf? && progress_numerator == 1
+  end
+
+  def is_leaf?
+    question.type != :group
+  end
+
+  def blank?
+    progress_numerator == 0
   end
 
   def sort_key
@@ -52,5 +69,20 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def response_set
     @response_set ||= ResponseSet.find_by(loan: loan, question_set: question_set)
+  end
+
+  # traverse question tree to add answers & progress information
+  # should only be called with root once per page load
+  def self.decorate_responses(node, response_set)
+    if node.group?
+      children = node.children.each{ |c| self.decorate_responses(c, response_set) }
+      node.progress_numerator = (children.map(&:progress_numerator)).sum
+      node.progress_denominator = (children.map(&:progress_denominator)).sum
+    else
+      node.answer = response_set.answers.select{|a| a.question_id == node.id}.first
+      node.progress_numerator = node.answer.blank? ? 0 : 1
+      node.progress_denominator = 1
+    end
+    return node
   end
 end

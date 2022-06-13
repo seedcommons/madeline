@@ -21,7 +21,8 @@ class ResponseSet < ApplicationRecord
   end
 
   def answer_for_question(question)
-    answers.select{ |a| a.question_id == question.id }.try(:first)
+    @answers ||= answers
+    @answers.select{ |a| a.question_id == question.id }.try(:first)
   end
 
   def question_blank?(question)
