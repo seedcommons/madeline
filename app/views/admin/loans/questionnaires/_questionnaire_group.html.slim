@@ -49,7 +49,7 @@ div
               = question.full_number_and_label
         - if !question.leaf?
           = render "admin/loans/questionnaires/progress", object: question, display_pct: true
-        - if policy(@loan).update?
+        - if editing_allowed
           a.edit-action.edit-all(
             href="javascript:void(0)"
             aria-label="#{t("questions.edit_all")}"
@@ -74,7 +74,7 @@ div
       / Recurse if group, else render
       - if question.group? && !question.leaf?
         = render("admin/loans/questionnaires/questionnaire_group", f: f,
-          response_set: response_set, group: question, parents: parents + [question])
+          response_set: response_set, group: question, parents: parents + [question], editing_allowed: editing_allowed)
 
       - else
         .answer-wrapper.tree-view
