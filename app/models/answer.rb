@@ -24,21 +24,6 @@ class Answer < ApplicationRecord
     answer_json.values.all?{|v| v.blank?}
   end
 
-  # this method is temporary for spr 2022 overhaul
-  def compare_to_custom_data
-    custom_data_raw_data = response_set.custom_data[question.id.to_s]
-    custom_data_response = Response.new(loan: response_set.loan, question: question, response_set: response_set, data: custom_data_raw_data)
-    answer_response = Response.new(loan: response_set.loan, question: question, response_set: response_set, data: raw_value)
-    methods = [:loan, :question, :response_set, :text, :number, :boolean, :rating, :url, :start_cell, :end_cell, :owner, :breakeven, :business_canvas, :not_applicable]
-    methods.each do |m|
-      custom_data_value = custom_data_response.send(m)
-      answer_value = answer_response.send(m)
-      unless custom_data_value == answer_value
-        raise "ERROR for answer #{id}: for RS #{response_set.id} custom data value for #{m} is #{custom_data_value} but is #{answer_value} for answer #{id}"
-      end
-    end
-  end
-
   def to_s
     "RS: #{response_set.question_set.kind}, Q id: #{question.id}, Q: #{question.label.to_s} | NA: #{not_applicable}; text: #{text_data}; numeric: #{numeric_data}; boolean: #{boolean_data}; doc: #{linked_document_data}; breakeven: #{breakeven_data}; canvas: #{business_canvas_data}"
   end
@@ -134,47 +119,6 @@ class Answer < ApplicationRecord
       end
     end
     return false
-  end
-
-  # this method is temporary for spr 2022 overhaul
-  # doesn't save blank answers
-  def self.save_from_form_field_params(question, fields, response_set)
-    unless question.group? || !self.contains_answer_data?(fields)
-      not_applicable = fields.key?("not_applicable") ? (fields["not_applicable"] == "yes") : "no"
-      text_data = fields.key?("text") ? fields["text"] : nil
-      numeric_data = if fields.key?("number")
-          fields["number"]
-        elsif fields.key?("rating")
-          fields["rating"]
-        else
-          nil
-        end
-      boolean_data = if fields.key?("boolean")
-        case  fields["boolean"]
-        when "yes"
-          true
-        when "no"
-          false
-        else
-          nil
-        end
-      end
-      breakeven_data = fields.key?("breakeven") ? fields["breakeven"] : nil
-      business_canvas_data = fields.key?("business_canvas") ? fields["business_canvas"] : nil
-      linked_document_data = fields.key?("url") ? {"url": fields["url"] } : {"url": ""}
-      linked_document_data["start_cell"] = fields.key?("start_cell") ? fields["start_cell"] : ""
-      linked_document_data["end_cell"] = fields.key?("end_cell") ? fields["end_cell"] : ""
-      answer = Answer.find_or_create_by(response_set: response_set, question: question)
-      answer.update!({
-          not_applicable: not_applicable,
-          text_data: text_data,
-          numeric_data: numeric_data,
-          boolean_data: boolean_data,
-          breakeven_data: breakeven_data,
-          business_canvas_data: business_canvas_data,
-          linked_document_data: linked_document_data
-        })
-    end
   end
 
   def question_is_not_group

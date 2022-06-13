@@ -32,22 +32,6 @@ class ResponseSet < ApplicationRecord
     end
   end
 
-  # # this method is temporary for spr 2022 overhaul, for migration
-  def ensure_all_answers_copied
-    answer_q_ids = answers.pluck(:question_id).sort
-    # select q ids where the response is not blank
-    custom_data_q_ids = custom_data.keys.select do |q_id|
-      rs = Response.new(loan: loan, question: Question.find(q_id), response_set: self, data: custom_data[q_id])
-      return !rs.blank?
-    end.sort
-    unless answer_q_ids == custom_data_q_ids
-      qs_in_answers_only = answer_q_ids - custom_data_q_ids
-      qs_in_custom_data_only = custom_data_q_ids - answer_q_ids
-      raise "ERROR for rs #{id}: Diff between questions in answers and custom data. In answer only: #{qs_in_answers_only}. In custom data only: #{qs_in_custom_data_only}"
-    end
-  end
-
-
   # Fetches urls of all embeddable media in the whole custom value set
   def embedded_urls
     return [] if custom_data.blank?
