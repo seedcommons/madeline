@@ -38,28 +38,12 @@ class ResponseSet < ApplicationRecord
     custom_data.values.map { |v| v["url"].presence }.compact
   end
 
-
   def custom_data_from_answers
     response_custom_data_json = {}
     answers.each do |answer|
       response_custom_data_json[answer.question.json_key] = answer.custom_data_json
     end
     return response_custom_data_json
-  end
-
-  def make_answers
-    custom_data.each do |q_id, response_data|
-      question = Question.find(q_id)
-      if question.present?
-        begin
-          Answer.save_from_form_field_params(question, response_data, self)
-        rescue => e
-          puts "Q #{question.id} #{question.data_type}"
-          puts response_data
-          raise e
-        end
-      end
-    end
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
