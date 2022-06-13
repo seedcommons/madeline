@@ -8,7 +8,7 @@ div
   - group.children.each do |question|
     / Add page break for top-level groups with answered questions
     / Also add page break for business model canvas answered question
-    - answer = response_set.answer_for_question(question)
+    - answer = question.answer
     - if question.business_canvas? || question.top_level_group?
       / Close and reopen fieldset with new group/page
       - if optional_encountered && @print_view

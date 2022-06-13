@@ -16,6 +16,10 @@ class LoanFilteredQuestion < FilteredQuestion
     super(question, selected_division: @loan.division, **args)
   end
 
+  def not_applicable?
+    answer.present? && answer.not_applicable?
+  end
+
   def answered?
     is_leaf? && progress_numerator == 1
   end

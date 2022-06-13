@@ -80,6 +80,8 @@ group :development, :test do
   # Load environment variables from .env file in development
   gem "dotenv-rails"
 
+  gem 'active_record_query_trace'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug"
   gem "pry"
