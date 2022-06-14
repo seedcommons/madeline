@@ -54,6 +54,7 @@ GEM
       activemodel (>= 4.1, < 6.2)
       case_transform (>= 0.2)
       jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
+    active_record_query_trace (1.8)
     activejob (6.1.4)
       activesupport (= 6.1.4)
       globalid (>= 0.3.6)
@@ -567,6 +568,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  active_record_query_trace
   addressable
   amoeba
   attribute_normalizer
