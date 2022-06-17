@@ -12,7 +12,6 @@ class FilteredQuestionSerializer < ApplicationSerializer
     super(*args, options)
   end
 
-
   def inheritance_info
     cmp = object.division.depth <=> object.selected_division.depth
     return nil if cmp == 0

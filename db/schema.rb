@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_08_210002) do
+ActiveRecord::Schema.define(version: 2022_06_17_170156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -443,7 +443,6 @@ ActiveRecord::Schema.define(version: 2022_06_08_210002) do
 
   create_table "response_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.jsonb "custom_data"
     t.integer "legacy_id"
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false
