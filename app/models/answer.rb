@@ -163,12 +163,6 @@ class Answer < ApplicationRecord
     json
   end
 
-  # temp method for spr 2022 overhaul
-  # return the value of json that would be in legacy custom_data field on response set for this answer's question
-  def custom_data_json
-    return {"#{self.question.json_key}": self.raw_value}
-  end
-
   def answer_for_csv(allow_text_like_numeric: false)
     return nil if not_applicable
 

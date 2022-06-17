@@ -32,20 +32,6 @@ class ResponseSet < ApplicationRecord
     end
   end
 
-  # Fetches urls of all embeddable media in the whole custom value set
-  def embedded_urls
-    return [] if custom_data.blank?
-    custom_data.values.map { |v| v["url"].presence }.compact
-  end
-
-  def custom_data_from_answers
-    response_custom_data_json = {}
-    answers.each do |answer|
-      response_custom_data_json[answer.question.json_key] = answer.custom_data_json
-    end
-    return response_custom_data_json
-  end
-
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
   # awareness of translatable custom fields.
   #
