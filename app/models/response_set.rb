@@ -36,7 +36,7 @@ class ResponseSet < ApplicationRecord
   def progress_pct
     root = LoanFilteredQuestion.new(question_set.root_group_preloaded, loan: loan, response_set: self)
     # todo: there must be a better way to 'ensure decorated'
-    LoanFilteredQuestion.decorate_responses(@root, @response_set)
+    LoanFilteredQuestion.decorate_responses(root, self)
     root.progress_pct
   end
 
