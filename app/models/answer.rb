@@ -132,37 +132,6 @@ class Answer < ApplicationRecord
       breakeven_data.present?
   end
 
-  # temp method for spr 2022 overhaul
-  def raw_value
-    json = {}
-    json["not_applicable"] = self.not_applicable ? "yes" : "no"
-    if self.text_data.present?
-      json["text"] = self.text_data
-    end
-    unless self.boolean_data.nil?
-      json["boolean"] =  self.boolean_data ? "yes" : "no"
-    end
-    if self.breakeven_data.present?
-      json["breakeven"] = self.breakeven_data
-    end
-    if self.business_canvas_data.present?
-      json["business_canvas"] = self.business_canvas_data
-    end
-    if self.numeric_data.present?
-      if self.question.data_type == "range"
-        json["rating"] = self.numeric_data
-      else
-        json["number"] = self.numeric_data
-      end
-    end
-    if self.linked_document_data.present?
-      json["url"] = self.linked_document_data["url"]
-      json["start_cell"] = self.linked_document_data["start_cell"]
-      json["end_cell"] = self.linked_document_data["end_cell"]
-    end
-    json
-  end
-
   def answer_for_csv(allow_text_like_numeric: false)
     return nil if not_applicable
 
