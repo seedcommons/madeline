@@ -43,6 +43,7 @@ class FilteredQuestion < SimpleDelegator
       include_descendant_divisions && selected_division.self_or_ancestor_of?(question.division)
   end
 
+  # NOTE: treats a question group with no active children as a leaf
   def children
     @children ||= decorated_children.select(&:visible?).sort_by(&:sort_key)
   end
