@@ -5,6 +5,12 @@ class ResponseSet < ApplicationRecord
   has_many :answers, dependent: :destroy
   accepts_nested_attributes_for :answers
 
+  # amoeba gem needed here to include answers in project duplication
+  amoeba do
+    enable
+    propagate
+  end
+
   validates :loan, presence: true
 
   delegate :division, :division=, to: :loan
@@ -32,12 +38,17 @@ class ResponseSet < ApplicationRecord
     end
   end
 
-  # call only in background; very expensive method
-  def progress_pct
+  # supporting specs
+  def root_response
     root = LoanFilteredQuestion.new(question_set.root_group_preloaded, loan: loan, response_set: self)
     # todo: there must be a better way to 'ensure decorated'
     LoanFilteredQuestion.decorate_responses(root, self)
-    root.progress_pct
+    root
+  end
+
+  # call only in background; very expensive method
+  def progress
+    root_response.progress_pct
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special

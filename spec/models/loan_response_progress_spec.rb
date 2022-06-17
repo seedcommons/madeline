@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Response.progress" do
+describe "LoanFilteredQuestion.progress" do
   include_context "question set"
 
   context "with full question set and responses" do
