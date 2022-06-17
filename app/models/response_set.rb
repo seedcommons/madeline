@@ -32,6 +32,14 @@ class ResponseSet < ApplicationRecord
     end
   end
 
+  # call only in background; very expensive method
+  def progress_pct
+    root = LoanFilteredQuestion.new(question_set.root_group_preloaded, loan: loan, response_set: self)
+    # todo: there must be a better way to 'ensure decorated'
+    LoanFilteredQuestion.decorate_responses(@root, @response_set)
+    root.progress_pct
+  end
+
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
   # awareness of translatable custom fields.
   #
