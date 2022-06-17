@@ -75,11 +75,13 @@ div
       - if question.group? && !question.leaf?
         = render("admin/loans/questionnaires/questionnaire_group", f: f,
           response_set: response_set, group: question, parents: parents + [question], editing_allowed: editing_allowed)
-
+      - elsif !question.group? # a leaf can be a group if it has no active questions
+        .answer-wrapper.tree-view
+          - answer ||= Answer.new(response_set: response_set, question: question.question)
+          = render("admin/loans/questionnaires/answer", f: f, answer: answer, question: question, response_set: response_set, display_context: "memo")
       - else
         .answer-wrapper.tree-view
-          = answer ||= Answer.new(response_set: response_set, question: question.question)
-          = render("admin/loans/questionnaires/answer", f: f, answer: answer, question: question, response_set: response_set, display_context: "memo")
+          = "This question group has no active questions."
 
     = render("admin/loans/questionnaires/number_handling", answer: answer, question: question)
 

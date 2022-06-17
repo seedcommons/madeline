@@ -27,8 +27,6 @@ class Admin::ResponseSetsController < Admin::AdminController
     authorize @response_set
 
     # Need to store these values from the db before they get overwritten by params below
-    puts "RESPONSE SET PARAMS"
-    puts response_set_params
     @response_set_from_db = {
       updater: @response_set.updater,
       updated_at: @response_set.updated_at,
@@ -45,11 +43,8 @@ class Admin::ResponseSetsController < Admin::AdminController
     adjusted_params[:lock_version] = params[:new_lock_version] if params[:overwrite]
 
     if params[:discard]
-      puts "DISCARD"
       redirect_to display_path
     else
-      puts "UPDATE W ADJUSTED PARAMS"
-      puts adjusted_params
       @response_set.update!(adjusted_params)
       redirect_to display_path, notice: I18n.t(:notice_updated)
     end
@@ -91,7 +86,7 @@ class Admin::ResponseSetsController < Admin::AdminController
         :numeric_data,
         :not_applicable,
         :boolean_data,
-        linked_document_data: [:url, :start_cell, :end_cell], 
+        linked_document_data: [:url, :start_cell, :end_cell],
         business_canvas_data: [
           :key_partners,
           :key_activities,

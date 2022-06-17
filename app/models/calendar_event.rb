@@ -22,7 +22,6 @@ class CalendarEvent
   alias_method :has_precedent?, :has_precedent
 
   def self.build_for(item)
-    puts "item: #{item.inspect}"
     case item
     when BasicProject
       [new_project_start(item), new_project_end(item)]

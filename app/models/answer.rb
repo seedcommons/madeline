@@ -8,12 +8,8 @@ class Answer < ApplicationRecord
   before_save :ensure_json_format
 
   def ensure_json_format
-    puts "+++++++raw"
-    puts business_canvas_data
     business_canvas_data = business_canvas_data.to_json
     breakeven_data = breakeven_data.to_json
-    puts "++++++after"
-    puts business_canvas_data
   end
 
   def self.json_answer_blank?(answer_json)
