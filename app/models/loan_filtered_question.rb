@@ -10,10 +10,19 @@ class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :progress_denominator
   attr_accessor :is_leaf
 
-  def initialize(question, **args)
-    @loan = args[:loan]
-    @response_set = args[:response_set]
-    super(question, selected_division: @loan.division, **args)
+  def initialize(question, loan: nil, response_set: nil)
+    @loan = loan
+    @response_set = response_set
+    super(question, selected_division: @loan.division)
+  end
+
+  # CLASS METHODS
+  def self.decorate_collection(collection, loan, response_set)
+    collection.map do |q|
+      self.new(q,
+               loan: loan,
+               response_set: response_set)
+    end
   end
 
   def not_applicable?
@@ -54,6 +63,27 @@ class LoanFilteredQuestion < FilteredQuestion
     else
       root? ? true : parent.required?
     end
+  end
+
+  def parent
+    return @parent if defined?(@parent)
+
+    @parent =
+      if question.parent.nil?
+        nil
+      else
+        self.class.new(question.parent, loan: @loan, response_set: @response_set)
+      end
+  end
+
+  # NOTE: treats a question group with no active children as a leaf
+  def children
+    @children ||= decorated_children.select(&:visible?).sort_by(&:sort_key)
+  end
+
+  def decorated_children
+    @decorated_children ||
+      self.class.decorate_collection(question.children, @loan, @response_set)
   end
 
   def optional?
