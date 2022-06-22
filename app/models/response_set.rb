@@ -72,15 +72,6 @@ class ResponseSet < ApplicationRecord
 
   private
 
-  # Gets the question for the given identifier. Decorates it if it's not already.
-  def question(identifier, required: true)
-    ensure_decorated(question_set.question(identifier, required: required))
-  end
-
-  def ensure_decorated(question)
-    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan)
-  end
-
   def is_number?(object)
     true if Float(object) rescue false
   end
