@@ -10,22 +10,42 @@ class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :progress_denominator
   attr_accessor :is_leaf
 
-  def initialize(question, loan: nil, response_set: nil)
+  def initialize(question, loan: nil, response_set: nil, parent: nil)
+    @parent = parent
     @loan = loan
     @response_set = response_set
+    @children = []
     super(question, selected_division: @loan.division)
-  end
-
-  # CLASS METHODS
-  def self.decorate_collection(collection, loan, response_set)
-    collection.map do |q|
-      self.new(q,
-               loan: loan,
-               response_set: response_set)
+    if question.group?
+      @children = question.children.map do |q|
+        LoanFilteredQuestion.new(q, loan: loan, response_set: response_set, parent: self)
+      end
+    else
+      self.answer = response_set.answers.find{ |a| a.question_id == question.id } if response_set
     end
+    #add_leaf_and_progress_info
   end
 
   # INSTANCE METHODS
+
+  def add_leaf_and_progress_info
+    # for now, ask if question has children bc question model doesn't override children
+    if question.group?
+      # traverse depth first because need to know children info to figure out parent info
+      @children.each{ |c| c.add_leaf_and_progress_info }
+      # since answers have been added we have enough info to determine if a child is visible
+      is_leaf = @children.empty? # TODO UPDATE to exclude non active children
+      puts @children
+      progress_numerator = @children.map(&:progress_numerator).sum
+      progress_denominator = @children.map(&:progress_denominator).sum
+    else
+      progress_numerator = answered? ? 1 : 0 #stick with this for now & see if this even runs . . .
+      progress_denominator = 1
+      is_leaf = true # TODO can be leaf if no visible children
+    end
+  end
+
+
 
   def not_applicable?
     answer.present? && answer.not_applicable?
@@ -63,24 +83,25 @@ class LoanFilteredQuestion < FilteredQuestion
     @required = if override_associations || depth == 1
       loan_types.include?(loan.loan_type_option)
     else
-      root? ? true : parent.required?
+      parent_lfq = parent
+      root? ? true : parent_lfq.required?
     end
   end
 
   def parent
-    return @parent if defined?(@parent)
-
+    puts "in parent method"
+    return @parent if @parent.present?
     @parent =
       if question.parent.nil?
+
         nil
       else
         self.class.new(question.parent, loan: @loan, response_set: @response_set)
       end
   end
 
-  # NOTE: treats a question group with no active children as a leaf
   def children
-    @children ||= decorated_children.select(&:visible?).sort_by(&:sort_key)
+    @children
   end
 
   def decorated_children
@@ -100,33 +121,5 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def response_set
     @response_set ||= ResponseSet.find_by(loan: loan, question_set: question_set)
-  end
-
-  # traverse question tree to add answers & progress information
-  # should only be called with root once per page load
-  def self.decorate_responses(node, response_set)
-    if node.group?
-      node.children.each{ |c| self.decorate_responses(c, response_set) }
-      node.progress_numerator = (self.progress_applicable(node.children, node).map(&:progress_numerator)).sum
-      node.progress_denominator = (self.progress_applicable(node.children, node).map(&:progress_denominator)).sum
-    else
-      node.answer = response_set.answers.select{|a| a.question_id == node.id}.first
-      node.progress_numerator = node.answer.blank? ? 0 : 1
-      node.progress_denominator = 1
-    end
-  end
-
-  # Inactive questions should be ignored. Inactive questions only show when they are
-  # answered, and they are never required, so progress makes no sense. Retired questions should
-  # never show, so they should be excluded as well.
-  # If the current response is required, only count children that are also required.
-  def self.progress_applicable(lfqs, parent)
-    lfqs.select do |q|
-      if parent.required?
-        q.active? && q.required?
-      else
-        q.active?
-      end
-    end
   end
 end

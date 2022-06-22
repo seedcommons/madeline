@@ -3,18 +3,6 @@ require "rails_helper"
 RSpec.describe LoanFilteredQuestion, type: :model do
   include_context "full question set and responses"
 
-  describe '#parent' do
-    let(:parent) { described_class.new(q31, loan: loan1).parent }
-
-    it 'returns a decorated object' do
-      expect(parent).to be_a LoanFilteredQuestion
-    end
-
-    it 'should have the right loan' do
-      expect(parent.loan).to eq loan1
-    end
-  end
-
   describe '#children' do
     let(:children) { described_class.new(q3.reload, loan: loan1).children }
 
@@ -42,6 +30,8 @@ RSpec.describe LoanFilteredQuestion, type: :model do
     end
 
     it 'required when inherited and parent association present' do
+      puts q31.root?
+      puts q31.parent
       expect(described_class.new(q31, loan: loan1)).to be_required
     end
 

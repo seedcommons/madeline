@@ -10,11 +10,7 @@ class FilteredQuestion < SimpleDelegator
     @selected_division = selected_division
     @include_descendant_divisions = include_descendant_divisions
 
-    unless @selected_division
-      puts question.division.name
-      raise ArgumentError.new("Division cannot be nil")
-    end
-
+    raise ArgumentError.new("Division cannot be nil") unless @selected_division
     # We save these so we can reuse them when decorating children and parents.
   end
 
@@ -47,7 +43,7 @@ class FilteredQuestion < SimpleDelegator
 
 
   # Based on the current division and question rules, is this visible ?
-  # include_descendant_divisions is nil or false when called from LoanFilteredQuestion
+  # include_descendant_divisions is nil or false when called from LoanFil
   def visible?
     selected_division.self_or_descendant_of?(question.division) ||
       include_descendant_divisions && selected_division.self_or_ancestor_of?(question.division)
