@@ -25,6 +25,8 @@ class LoanFilteredQuestion < FilteredQuestion
     end
   end
 
+  # INSTANCE METHODS
+
   def not_applicable?
     answer.present? && answer.not_applicable?
   end
@@ -92,6 +94,7 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def visible?
     return @visible if defined?(@visible)
+    #super checks if loan division is self or desc of question's division
     @visible = super && (active? || answered?)
   end
 

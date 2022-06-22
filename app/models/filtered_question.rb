@@ -46,7 +46,8 @@ class FilteredQuestion < SimpleDelegator
   end
 
 
-  # Based on the current division and question rules, is this question visible?
+  # Based on the current division and question rules, is this visible ?
+  # include_descendant_divisions is nil or false when called from LoanFilteredQuestion
   def visible?
     selected_division.self_or_descendant_of?(question.division) ||
       include_descendant_divisions && selected_division.self_or_ancestor_of?(question.division)
