@@ -10,20 +10,30 @@ class LoanFilteredQuestion < FilteredQuestion
   attr_accessor :progress_denominator
   attr_accessor :is_leaf
 
+  # designed to be called once for a root question in app code
+  # this initializer decorates the whole tree in two traversals;
+  # the first traversal adds the answer to the question
+  # the second traversl uses the answer information to calculate info that depends on answers
+  # it would be computationally
+  # expensive to call it partial trees/non-root nodes
+  # may be called by non-root notes in specs
   def initialize(question, loan: nil, response_set: nil, parent: nil)
     @parent = parent
     @loan = loan
     @response_set = response_set
     @children = []
     super(question, selected_division: @loan.division)
+    # first traversal
     if question.group?
       @children = question.children.map do |q|
         LoanFilteredQuestion.new(q, loan: loan, response_set: response_set, parent: self)
       end
     else
+      puts "adding answer for #{question.label.to_s}"
       self.answer = response_set.answers.find{ |a| a.question_id == question.id } if response_set
     end
-    #add_leaf_and_progress_info
+    # second traversal
+    add_leaf_and_progress_info
   end
 
   # INSTANCE METHODS
@@ -34,25 +44,28 @@ class LoanFilteredQuestion < FilteredQuestion
       # traverse depth first because need to know children info to figure out parent info
       @children.each{ |c| c.add_leaf_and_progress_info }
       # since answers have been added we have enough info to determine if a child is visible
-      is_leaf = @children.empty? # TODO UPDATE to exclude non active children
-      puts @children
-      progress_numerator = @children.map(&:progress_numerator).sum
-      progress_denominator = @children.map(&:progress_denominator).sum
+      self.is_leaf = active_children.empty?
     else
-      progress_numerator = answered? ? 1 : 0 #stick with this for now & see if this even runs . . .
-      progress_denominator = 1
-      is_leaf = true # TODO can be leaf if no visible children
+      self.is_leaf = true
     end
+    self.progress_numerator = calculate_progress_numerator
+    self.progress_denominator = calculate_progress_denominator
   end
 
+  def active_children
+    @children.select(&:active)
+  end
 
+  def active_required_children
+    active_children.select(&:required?)
+  end
 
   def not_applicable?
     answer.present? && answer.not_applicable?
   end
 
   def answered?
-    is_leaf? && progress_numerator == 1
+    answer.present?
   end
 
   def is_leaf?
@@ -121,5 +134,49 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def response_set
     @response_set ||= ResponseSet.find_by(loan: loan, question_set: question_set)
+  end
+
+  def progress_pct
+  progress_numerator.to_f/progress_denominator.to_f
+  end
+
+  private
+
+  def calculate_progress_numerator
+    return 0 unless active?
+
+    if group?
+      if required?
+        return active_required_children.map(&:progress_numerator).sum
+      else
+        return active_children.map(&:progress_numerator).sum
+      end
+    else
+      # required vs optional doesn't matter for an individual question
+      # because a required group counts all required children
+      # and an optional group counts all children
+      if answered?
+        return 1
+      else
+        return 0
+      end
+    end
+  end
+
+  def calculate_progress_denominator
+    return 0 unless active?
+
+    if group?
+      if required?
+        return active_required_children.map(&:progress_denominator).sum
+      else
+        return active_children.map(&:progress_denominator).sum
+      end
+    else
+      # required vs optional doesn't matter for an individual question
+      # because a required group counts all required children
+      # and an optional group counts all children
+      1
+    end
   end
 end

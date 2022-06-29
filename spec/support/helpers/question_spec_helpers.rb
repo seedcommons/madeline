@@ -42,28 +42,40 @@ module QuestionSpecHelpers
     let!(:q5) { create_group(parent: root, name: "q5", required: true, active: false) }
     let!(:q51) { create_question(parent: q5, name: "q51", type: "text", required: true) } # answered
     let!(:q52) { create_question(parent: q5, name: "q52", type: "boolean", required: false) }
+    let(:node_lookup_table) { node_lookup_table_for(node) }
 
     before do
-      create(:answer,response_set: rset, question: q1, text_data: "foo")
-      create(:answer,response_set: rset, question: q2, text_data: "") # required
-      create(:answer,response_set: rset, question: q31, text_data: "junk") # required
-      create(:answer,response_set: rset, question: q32, boolean_data: false) # required
-      create(:answer,response_set: rset, question: q331, boolean_data: true)
-      create(:answer,response_set: rset, question: q39, text_data: "inactive question")
-      create(:answer,response_set: rset, question: q41, text_data: "")
-      create(:answer,response_set: rset, question: q42, text_data: "pants")
-      create(:answer,response_set: rset, question: q43, text_data: "")
-      create(:answer,response_set: rset, question: q51, text_data: "inactive group")
+      create(:answer, response_set: rset, question: q1, text_data: "foo")
+      create(:answer, response_set: rset, question: q2, text_data: "") # required
+      create(:answer, response_set: rset, question: q31, text_data: "junk") # required
+      create(:answer, response_set: rset, question: q32, boolean_data: false) # required
+      create(:answer, response_set: rset, question: q331, boolean_data: true)
+      create(:answer, response_set: rset, question: q39, text_data: "inactive question")
+      create(:answer, response_set: rset, question: q41, text_data: "")
+      create(:answer, response_set: rset, question: q42, text_data: "pants")
+      create(:answer, response_set: rset, question: q43, text_data: "")
+      create(:answer, response_set: rset, question: q51, text_data: "inactive group")
       rset.save!
 
       # Reload groups so they see their children!
       [q3, q33, q38, q4, q5].each(&:reload)
+      @node
     end
   end
 
   def create_group(**args)
     create_question(type: "group", **args)
   end
+
+  def lookup_table_for(node)
+    @node_lookup_table ||= {}
+    @node_lookup_table[node.id] = node
+
+    node.children.each { |child| lookup_table_for(child) }
+    @node_lookup_table
+  end
+
+
 
   def create_question(set: qset, active: true, name: "", type:, override: true, required: false,
     loan_types: nil, **args)
@@ -74,6 +86,7 @@ module QuestionSpecHelpers
       data_type: type,
       override_associations: override,
       loan_types: loan_types || (required ? [lt1] : []),
+      label: name,
       **args
     )
   end

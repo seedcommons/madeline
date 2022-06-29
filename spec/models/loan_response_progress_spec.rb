@@ -6,13 +6,18 @@ describe "LoanFilteredQuestion.progress" do
   context "with full question set and responses" do
     include_context "full question set and responses"
 
+    let!(:lfq_root) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset.loan, response_set: rset) }
+    let!(:lookup_table) { lookup_table_for(lfq_root) }
+
     it "should be correct for a required group" do
       # For required group, we want percentage of all required questions answered.
       # Group has 6 active questions, 3 required, and 2 of those have answers, so 2/3 == 66%
-      resp = rset.response(q3)
-      expect(resp.send(:progress_numerator)).to eq 2
-      expect(resp.send(:progress_denominator)).to eq 3
-      expect(resp.progress).to be_within(0.001).of(0.666)
+      lfq = lookup_table[q3.id]
+      puts lookup_table[q31.id].answered?
+      puts lookup_table[q32.id].answered?
+      expect(lfq.send(:progress_numerator)).to eq 2
+      expect(lfq.send(:progress_denominator)).to eq 3
+      expect(lfq.progress_pct).to be_within(0.001).of(0.666)
     end
 
     it "should be correct for required group with with no required questions" do

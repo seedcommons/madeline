@@ -42,7 +42,6 @@ class ResponseSet < ApplicationRecord
   def root_response
     root = LoanFilteredQuestion.new(question_set.root_group_preloaded, loan: loan, response_set: self)
     # todo: there must be a better way to 'ensure decorated'
-    LoanFilteredQuestion.decorate_responses(root, self)
     root
   end
 
