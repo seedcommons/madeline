@@ -25,10 +25,10 @@ class Answer < ApplicationRecord
   end
 
   def blank?
-    !not_applicable? &&
+    !not_applicable &&
     text_data.blank? &&
     numeric_data.blank? &&
-    boolean_data.blank? &&
+    boolean_data.nil? &&
     linked_document_data_blank? &&
     business_canvas_blank? &&
     breakeven_data_blank?

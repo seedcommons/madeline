@@ -29,7 +29,6 @@ class LoanFilteredQuestion < FilteredQuestion
         LoanFilteredQuestion.new(q, loan: loan, response_set: response_set, parent: self)
       end
     else
-      puts "adding answer for #{question.label.to_s}"
       self.answer = response_set.answers.find{ |a| a.question_id == question.id } if response_set
     end
     # second traversal
@@ -65,7 +64,7 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def answered?
-    answer.present?
+    is_leaf? && answer.present? && !answer.blank?
   end
 
   def is_leaf?
@@ -137,18 +136,20 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def progress_pct
-  progress_numerator.to_f/progress_denominator.to_f
+    return 0 if progress_denominator == 0
+    progress_numerator.to_f/progress_denominator.to_f
   end
 
   private
 
   def calculate_progress_numerator
     return 0 unless active?
-
     if group?
       if required?
+        score = active_required_children.map(&:progress_numerator).sum
         return active_required_children.map(&:progress_numerator).sum
       else
+        score = active_children.map(&:progress_numerator).sum
         return active_children.map(&:progress_numerator).sum
       end
     else
