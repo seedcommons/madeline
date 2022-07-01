@@ -46,7 +46,7 @@ class ResponseSet < ApplicationRecord
   end
 
   # call only in background; very expensive method
-  def progress
+  def progress_pct
     root_response.progress_pct
   end
 
