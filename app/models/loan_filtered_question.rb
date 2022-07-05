@@ -1,4 +1,8 @@
-# Inherits from FilteredQuestion. Adds a Loan and provides methods relating to the combination of the two.
+# Inherits from FilteredQuestion.
+
+# Adds a loan and response set, which contains answers.
+# This contains much of the logic for a frontend questionnaire where users fill in answers,
+# whereas FilteredQuestion is used where admins edit questions.
 
 
 class LoanFilteredQuestion < FilteredQuestion
@@ -55,6 +59,10 @@ class LoanFilteredQuestion < FilteredQuestion
     @children.select(&:active)
   end
 
+  def visible_children
+    @children.select{ |c| c.active? || c.answered? }.sort_by(&:sort_key)
+  end
+
   def active_required_children
     active_children.select(&:required?)
   end
@@ -68,7 +76,7 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def is_leaf?
-    question.data_type != :group
+    is_leaf
   end
 
   def blank?
@@ -101,7 +109,6 @@ class LoanFilteredQuestion < FilteredQuestion
   end
 
   def parent
-    puts "in parent method"
     return @parent if @parent.present?
     @parent =
       if question.parent.nil?

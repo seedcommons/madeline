@@ -1,4 +1,10 @@
 # Wraps Question and delegates most methods, but enables filtering by loan and division via subclasses.
+
+# Filters questions in a question set based on division. See LoanFilteredQuestion for requirements based on loan type and
+# pairing of question set with a response set, which in turn contains answers.
+
+# This FilteredQuestion logic is used where admins edit questions, whereas
+# LoanFilteredQuestion has the logic used where users answer questions in a questionnaire on a loan.
 class FilteredQuestion < SimpleDelegator
   attr_accessor :selected_division
 

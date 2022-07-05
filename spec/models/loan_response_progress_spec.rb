@@ -6,7 +6,7 @@ describe "LoanFilteredQuestion.progress" do
   context "with full question set and responses" do
     include_context "full question set and responses"
 
-    let!(:lfq_root) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset.loan, response_set: rset) }
+    let!(:lfq_root) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset_1.loan, response_set: rset_1) }
     let!(:lookup_table) { lookup_table_for(lfq_root) }
 
     it "should be correct for a required group" do
@@ -52,6 +52,7 @@ describe "LoanFilteredQuestion.progress" do
     end
   end
 
+
   context "with question with children" do
 
 
@@ -65,11 +66,11 @@ describe "LoanFilteredQuestion.progress" do
       let!(:q33) { create_question(parent: q3, name: "q33", type: "text", required: true) } # answered
 
     before do
-      create(:answer,response_set: rset, question: q1, text_data: "foo")
-      create(:answer,response_set: rset, question: q2, text_data: "") # required
-      create(:answer,response_set: rset, question: q31, text_data: "junk") # required
-      create(:answer,response_set: rset, question: q32, boolean_data: false)
-      create(:answer,response_set: rset, question: q33, text_data: "stuff") # required
+      create(:answer,response_set: rset_1, question: q1, text_data: "foo")
+      create(:answer,response_set: rset_1, question: q2, text_data: "") # required
+      create(:answer,response_set: rset_1, question: q31, text_data: "junk") # required
+      create(:answer,response_set: rset_1, question: q32, boolean_data: false)
+      create(:answer,response_set: rset_1, question: q33, text_data: "stuff") # required
 
     end
 
@@ -77,7 +78,7 @@ describe "LoanFilteredQuestion.progress" do
       # Top level (required) contributes 1 (answered & required) to numerator and 2 (required) to denominator
       # q3 children contribute 1 (answered & required) to numerator and 1 (required) to denominator
       # Total is 2/3
-      lfq_root = LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset.loan, response_set: rset)
+      lfq_root = LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset_1.loan, response_set: rset_1)
       lookup_table = lookup_table_for(lfq_root)
       expect(lfq_root.send(:progress_numerator)).to eq 2
       expect(lfq_root.send(:progress_denominator)).to eq 3
@@ -86,7 +87,7 @@ describe "LoanFilteredQuestion.progress" do
   end
 
   context "with empty question set" do
-    let!(:lfq_root) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset.loan, response_set: rset) }
+    let!(:lfq_root) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset_1.loan, response_set: rset_1) }
     let!(:lookup_table) { lookup_table_for(lfq_root) }
     it "should be correct" do
       expect(lfq_root.send(:progress_numerator)).to eq 0

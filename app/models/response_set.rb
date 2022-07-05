@@ -45,7 +45,8 @@ class ResponseSet < ApplicationRecord
     root
   end
 
-  # call only in background; very expensive method
+  # call only in background (currently used in loan health check);
+  # very expensive method
   def progress_pct
     root_response.progress_pct
   end
