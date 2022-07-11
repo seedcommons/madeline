@@ -33,7 +33,7 @@ class Question < ApplicationRecord
   # note, the custom field form layout can be hierarchically nested
   has_closure_tree order: 'position', numeric_order: true, dependent: :destroy
 
-  delegate :depth, to: :division, prefix: true
+
 
   # define accessor like convenience methods for the fields stored in the Translations table
   translates :label
@@ -42,9 +42,12 @@ class Question < ApplicationRecord
   validates :data_type, presence: true
   validate :parent_division_depth_must_be_less_than_or_equal_to_ours
 
-
   after_create_commit :adjust_position_by_division
   before_save :prepare_numbers
+
+  # cache division depth to avoid inner join/count sql query when reading questions from db
+  before_save :set_division_depth
+
   after_commit :set_numbers
 
   def top_level?
@@ -177,6 +180,10 @@ class Question < ApplicationRecord
   end
 
   protected
+
+  def set_division_depth
+    self.division_depth = division.depth
+  end
 
   def set_numbers
     update_numbers_for_parent(parent_id) if parent_id
