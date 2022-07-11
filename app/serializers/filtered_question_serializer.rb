@@ -8,9 +8,10 @@ class FilteredQuestionSerializer < ApplicationSerializer
   attr_accessor :for_questions_view
 
   def initialize(*args, **options)
-    self.for_questions_view  = options[:for_questions_view]
+    self.for_questions_view = options[:for_questions_view]
     super(*args, options)
   end
+
 
   def inheritance_info
     cmp = object.division.depth <=> object.selected_division.depth
@@ -28,7 +29,7 @@ class FilteredQuestionSerializer < ApplicationSerializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.map { |node| self.class.new(node) }
+      object.children.map { |node| self.class.new(node, for_questions_view: self.for_questions_view) }
     end
   end
 
