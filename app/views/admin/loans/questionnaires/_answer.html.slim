@@ -93,7 +93,7 @@
       .view-element.answer = sanitize(answer_content, tags: tags, attributes: attrs)
 
     .form-element.answer.rt-answer = sanitize(answer_content, tags: tags, attributes: attrs)
-    .form-element.answer.no-response class=(answer_content.present? ? "" : "hidden")
+    .form-element.answer.no-response class=(answer_content.present? ? "hidden" : "")
        = t("loan.no_answer")
 
     = answer_form_fields.input_field :text_data,
