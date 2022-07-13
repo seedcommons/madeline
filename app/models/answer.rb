@@ -6,10 +6,30 @@ class Answer < ApplicationRecord
   validates_presence_of :question_id
 
   before_save :ensure_json_format
+  before_save :clean_breakeven
 
   def ensure_json_format
     business_canvas_data = business_canvas_data.to_json
     breakeven_data = breakeven_data.to_json
+  end
+
+  def clean_breakeven
+    return unless breakeven_data
+    clean_breakeven_products = []
+    if breakeven_data["products"]
+      breakeven_data["products"].each do |p|
+        clean_breakeven_products << p unless p.values.reject(&:blank?).empty?
+      end
+      breakeven_data["products"] = clean_breakeven_products
+    end
+
+    if breakeven_data["fixed_costs"]
+      clean_fixed_costs = []
+      breakeven_data["fixed_costs"].each do |fc|
+        clean_fixed_costs << fc unless fc.values.reject(&:blank?).empty?
+      end
+      breakeven_data["fixed_costs"] = clean_fixed_costs
+    end
   end
 
   def self.json_answer_blank?(answer_json)
