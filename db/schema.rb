@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_22_165601) do
+ActiveRecord::Schema.define(version: 2022_07_18_191508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -311,7 +311,7 @@ ActiveRecord::Schema.define(version: 2022_04_22_165601) do
     t.date "date_established"
     t.integer "division_id"
     t.string "email"
-    t.string "entity_structure", default: "not_selected", null: false
+    t.string "entity_structure", default: "llc", null: false
     t.string "fax"
     t.string "inception_value"
     t.string "industry"
@@ -439,6 +439,7 @@ ActiveRecord::Schema.define(version: 2022_04_22_165601) do
     t.integer "question_set_id"
     t.datetime "updated_at", null: false
     t.index "question_set_id, ((parent_id IS NULL))", name: "index_questions_on_question_set_id_parent_id_IS_NULL", unique: true, where: "(parent_id IS NULL)", comment: "Ensures max one root per question set"
+    t.index ["internal_name"], name: "index_questions_on_internal_name", unique: true
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
@@ -451,7 +452,7 @@ ActiveRecord::Schema.define(version: 2022_04_22_165601) do
     t.bigint "question_set_id", null: false
     t.datetime "updated_at", null: false
     t.integer "updater_id"
-    t.index ["loan_id", "question_set_id"], name: "index_response_sets_on_loan_id_and_question_set_id"
+    t.index ["loan_id", "question_set_id"], name: "index_response_sets_on_loan_id_and_question_set_id", unique: true
     t.index ["question_set_id"], name: "index_response_sets_on_question_set_id"
   end
 

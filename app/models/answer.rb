@@ -4,6 +4,7 @@ class Answer < ApplicationRecord
   delegate :data_type, to: :question
   validate :has_data
   validate :question_is_not_group
+  validate :question_set_matches
 
   # this method is temporary for spr 2022 overhaul
   def compare_to_custom_data
@@ -17,6 +18,9 @@ class Answer < ApplicationRecord
       unless custom_data_value == answer_value
         raise "ERROR for answer #{id}: for RS #{response_set.id} custom data value for #{m} is #{custom_data_value} but is #{answer_value} for answer #{id}"
       end
+    end
+    unless question.question_set_id == response_set.question_set_id
+      raise "ERROR for answer #{id}: question set has id #{question.question_set_id}, response set has qset id #{response_set.question_set_id}"
     end
   end
 
@@ -129,6 +133,10 @@ class Answer < ApplicationRecord
       linked_document_data.present? ||
       business_canvas_data.present? ||
       breakeven_data.present?
+  end
+
+  def question_set_matches
+    question.question_set_id == response_set.question_set_id
   end
 
   # temp method for spr 2022 overhaul
