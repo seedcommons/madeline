@@ -4,9 +4,11 @@ class Answer < ApplicationRecord
   delegate :data_type, to: :question
   validate :question_is_not_group
   validates_presence_of :question_id
+  validate :question_set_matches
 
   before_save :ensure_json_format
   before_save :clean_breakeven
+
 
   def ensure_json_format
     business_canvas_data = business_canvas_data.to_json
@@ -22,7 +24,6 @@ class Answer < ApplicationRecord
       end
       breakeven_data["products"] = clean_breakeven_products
     end
-
     if breakeven_data["fixed_costs"]
       clean_fixed_costs = []
       breakeven_data["fixed_costs"].each do |fc|
@@ -150,6 +151,10 @@ class Answer < ApplicationRecord
       linked_document_data.present? ||
       business_canvas_data.present? ||
       breakeven_data.present?
+  end
+
+  def question_set_matches
+    question.question_set_id == response_set.question_set_id
   end
 
   def answer_for_csv(allow_text_like_numeric: false)
