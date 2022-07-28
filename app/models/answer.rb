@@ -111,48 +111,8 @@ class Answer < ApplicationRecord
     end
   end
 
-
-
-  # TODO: remove? not used anywhere. . .
-  # expects 'raw_value' type json e.g. the value of a "field_110" key in form submission
-  # or the value of a q_id key e.g. "5126" in custom_data
-  def self.contains_answer_data?(hash_data)
-    hash_data.each do |key, value|
-      if %w(text number rating url start_cell end_cell).include?(key)
-        return true unless value.blank?
-      elsif key == "not_applicable"
-        return true if value == "yes"
-      elsif key == "boolean"
-        return true unless (value.nil? || value.empty?)
-      elsif %w(business_canvas).include?(key)
-        return true unless self.json_answer_blank?(value)
-      elsif %w(breakeven).include?(key)
-        value.each do |subkey, subvalue|
-          if %w(products fixed_costs).include?(subkey)
-            subvalue.each {|i| return true unless self.json_answer_blank?(i)}
-          else
-            return true unless subvalue.empty?
-          end
-        end
-      end
-    end
-    return false
-  end
-
   def question_is_not_group
     question.data_type != "group"
-  end
-
-  # TODO: remove? not used
-  def has_data
-    errors.add("Answer contains no data") unless
-      not_applicable ||
-      text_data.present? ||
-      numeric_data.present? ||
-      !boolean_data.nil? ||
-      linked_document_data.present? ||
-      business_canvas_data.present? ||
-      breakeven_data.present?
   end
 
   def question_set_matches

@@ -15,14 +15,14 @@ describe "LoanFilteredQuestion.progress" do
       lfq = lookup_table[q3.id]
       expect(lfq.send(:progress_numerator)).to eq 2
       expect(lfq.send(:progress_denominator)).to eq 3
-      expect(lfq.progress_pct).to be_within(0.001).of(0.666)
+      expect(lfq.progress_pct).to be_within(0.001).of(67)
     end
 
     it "should be correct for required group with with no required questions" do
       lfq = lookup_table[q33.id]
       expect(lfq.send(:progress_numerator)).to eq 0
       expect(lfq.send(:progress_denominator)).to eq 0
-      expect(lfq.progress).to eq 0
+      expect(lfq.progress_pct).to eq 0
     end
 
     it "should be correct for an optional group" do
@@ -31,7 +31,7 @@ describe "LoanFilteredQuestion.progress" do
       lfq = lookup_table[q4.id]
       expect(lfq.send(:progress_numerator)).to eq 1
       expect(lfq.send(:progress_denominator)).to eq 4
-      expect(lfq.progress).to be_within(0.001).of(0.25)
+      expect(lfq.progress_pct).to be_within(0.001).of(25)
     end
 
     it "should exclude inactive questions from calculations" do
@@ -40,7 +40,7 @@ describe "LoanFilteredQuestion.progress" do
       lfq = lookup_table[q5.id]
       expect(lfq.send(:progress_numerator)).to eq 0
       expect(lfq.send(:progress_denominator)).to eq 0
-      expect(lfq.progress).to eq 0
+      expect(lfq.progress_pct).to eq 0
     end
 
     it "should be correct for the full custom value set" do
@@ -48,7 +48,7 @@ describe "LoanFilteredQuestion.progress" do
       # Optional and inactive groups and questions should be ignored
       expect(lfq_root.send(:progress_numerator)).to eq 2
       expect(lfq_root.send(:progress_denominator)).to eq 4
-      expect(lfq_root.progress_pct).to be_within(0.001).of(0.5)
+      expect(lfq_root.progress_pct).to be_within(0.001).of(50)
     end
   end
 
@@ -82,7 +82,7 @@ describe "LoanFilteredQuestion.progress" do
       lookup_table = lookup_table_for(lfq_root)
       expect(lfq_root.send(:progress_numerator)).to eq 2
       expect(lfq_root.send(:progress_denominator)).to eq 3
-      expect(lfq_root.progress_pct).to be_within(0.001).of(0.666)
+      expect(lfq_root.progress_pct).to be_within(0.001).of(67)
     end
   end
 
