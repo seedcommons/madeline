@@ -144,7 +144,7 @@ class LoanFilteredQuestion < FilteredQuestion
 
   def progress_pct
     return 0 if progress_denominator == 0
-    progress_numerator.to_f/progress_denominator.to_f
+    ((progress_numerator.to_f/progress_denominator.to_f) * 100).round
   end
 
   private
