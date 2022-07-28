@@ -113,6 +113,7 @@ class Answer < ApplicationRecord
 
 
 
+  # TODO: remove? not used anywhere. . .
   # expects 'raw_value' type json e.g. the value of a "field_110" key in form submission
   # or the value of a q_id key e.g. "5126" in custom_data
   def self.contains_answer_data?(hash_data)
@@ -142,6 +143,7 @@ class Answer < ApplicationRecord
     question.data_type != "group"
   end
 
+  # TODO: remove? not used
   def has_data
     errors.add("Answer contains no data") unless
       not_applicable ||

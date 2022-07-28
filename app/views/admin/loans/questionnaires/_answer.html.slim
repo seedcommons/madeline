@@ -71,10 +71,16 @@
         = render 'admin/loans/questionnaires/breakeven_table_question', f: answer_form_fields,
           question: question, data: answer.breakeven_hash,
           total_fixed_costs: answer.breakeven_report[:total_fixed_costs]
+    - elsif answer && answer.breakeven_report.present?
+      .form-element
+        = render 'admin/loans/questionnaires/breakeven_table_question', f: answer_form_fields,
+          question: question, data: answer.breakeven_hash,
+          total_fixed_costs: answer.breakeven_report[:total_fixed_costs]
     - else
       .form-element
         = render 'admin/loans/questionnaires/breakeven_table_question', f: answer_form_fields,
-          question: question, data: {}, total_fixed_costs: 0
+          question: question, data: {},
+          total_fixed_costs: 0
 
   - if question.has_text?
     / Display response as rich text.
