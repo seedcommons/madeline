@@ -101,6 +101,7 @@ class StandardLoanDataExport < DataExport
 
   # Returns the list of symbols representing headers in the order they should appear.
   def header_symbols
+    puts "standard header symbols"
     HEADERS
   end
 

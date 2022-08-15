@@ -13,7 +13,8 @@ class DataExport < ApplicationRecord
   DATA_EXPORT_TYPES = {
     "standard_loan_data_export" => "StandardLoanDataExport",
     "enhanced_loan_data_export" => "EnhancedLoanDataExport",
-    "numeric_answer_data_export" => "NumericAnswerDataExport"
+    "numeric_answer_data_export" => "NumericAnswerDataExport",
+    "annual_accounting_data_export" => "AnnualAccountingLoanDataExport"
   }
 
   def self.model_name
@@ -23,18 +24,23 @@ class DataExport < ApplicationRecord
   def process_data
     @child_errors = []
     data = []
+    puts "in process data"
+    puts header_rows
     data.concat(header_rows)
     scope.find_each do |object|
-      begin
+      #begin
         data << hash_to_row(object_data_as_hash(object))
-      rescue => e
-        Rails.logger.error("Error for loan #{object.id} in data export #{self.name}: #{e}")
-
-        # TODO generalize object beyond loan here and in task show if non-loans exported
-        @child_errors << {loan_id: object.id, message: e.message}
-        next
-      end
+      # rescue => e
+      #   Rails.logger.error("Error for loan #{object.id} in data export #{self.name}: #{e}")
+      #
+      #   # TODO generalize object beyond loan here and in task show if non-loans exported
+      #   @child_errors << {loan_id: object.id, message: e.message}
+      #   next
+      # end
     end
+    puts data[0]
+    puts data[1]
+    puts data[2]
     self.update(data: data)
 
     unless @child_errors.empty?
