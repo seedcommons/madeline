@@ -72,43 +72,42 @@ describe AnnualAccountingLoanDataExport, type: :model do
 
     it "should create data attr with correct headers" do
       export.process_data
-      puts export.class
       data = export.reload.data
-      # expect(data[0]).to eq ["Loan Id",
-      #   "Disbursements 2019-07-01 - 2019-12-31",
-      #   "Repayments 2019-07-01 - 2019-12-31",
-      #   "Interest Accrued 2019-07-01 - 2019-12-31",
-      #   "Disbursements 2020",
-      #   "Repayments 2020",
-      #   "Interest Accrued 2020",
-      #   "Disbursements 2021-01-01 - 2021-06-30",
-      #   "Repayments 2021-01-01 - 2021-06-30",
-      #   "Interest Accrued 2021-01-01 - 2021-06-30",
-      #   "Total Disbursements 2019-07-01 - 2021-06-30",
-      #   "Total Repayments 2019-07-01 - 2021-06-30",
-      #   "Total Interest Accrued 2019-07-01 - 2021-06-30",
-      #   "Principal Balance 2021-06-30",
-      #   "Interest Balance 2021-06-30",
-      #   "Total Balance 2021-06-30"
-      #   ]
-      # expect(data[1]).to eq [
-      #   "loan_id",
-      #   "2019_sum_disbursements",
-      #   "2019_sum_repayments",
-      #   "2019_interest_accrued",
-      #   "2020_sum_disbursements",
-      #   "2020_sum_repayments",
-      #   "2020_interest_accrued",
-      #   "2021_sum_disbursements",
-      #   "2021_sum_repayments",
-      #   "2021_interest_accrued",
-      #   "total_sum_disbursements",
-      #   "total_sum_repayments",
-      #   "total_interest_accrued",
-      #   "end_principal_balance",
-      #   "end_interest_balance",
-      #   "end_total_balance"
-      # ]
+      expect(data[0]).to eq ["Loan ID",
+        "Disbursements 01-Jul-2019 - 31-Dec-2019",
+        "Repayments 01-Jul-2019 - 31-Dec-2019",
+        "Interest Accrued 01-Jul-2019 - 31-Dec-2019",
+        "Disbursements 01-Jan-2020 - 31-Dec-2020",
+        "Repayments 01-Jan-2020 - 31-Dec-2020",
+        "Interest Accrued 01-Jan-2020 - 31-Dec-2020",
+        "Disbursements 01-Jan-2021 - 30-Jun-2021",
+        "Repayments 01-Jan-2021 - 30-Jun-2021",
+        "Interest Accrued 01-Jan-2021 - 30-Jun-2021",
+        "Total Disbursements 01-Jul-2019 - 30-Jun-2021",
+        "Total Repayments 01-Jul-2019 - 30-Jun-2021",
+        "Total Interest Accrued 01-Jul-2019 - 30-Jun-2021",
+        "Loan Principal Balance as of 30-Jun-2021",
+        "Loan Interest Balance as of 30-Jun-2021",
+        "Loan Total Balance as of 30-Jun-2021"
+        ]
+      expect(data[1]).to eq [
+        "loan_id",
+        "2019_sum_disbursements",
+        "2019_sum_repayments",
+        "2019_interest_accrued",
+        "2020_sum_disbursements",
+        "2020_sum_repayments",
+        "2020_interest_accrued",
+        "2021_sum_disbursements",
+        "2021_sum_repayments",
+        "2021_interest_accrued",
+        "total_sum_disbursements",
+        "total_sum_repayments",
+        "total_interest_accrued",
+        "end_principal_balance",
+        "end_interest_balance",
+        "end_total_balance"
+      ]
       expect(data[2]).to eq loan_1_numbers
     end
   end

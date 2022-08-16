@@ -45,9 +45,7 @@ class AnnualAccountingLoanDataExport < DataExport
     end
     date_ranges << [end_date.beginning_of_year, end_date]
   end
-
-
-
+  
   def year_string(date)
     date.strftime("%Y")
   end
@@ -76,23 +74,22 @@ class AnnualAccountingLoanDataExport < DataExport
   #TODO this needs actual dates in it babe
   def main_header_row
     year_to_start_and_end = year_to_date_range
-    #puts header_symbols.count
     result = []
     header_symbols.each do |h|
-      #puts h
       if /^(20)[\d]{2,2}\S*$/.match(h) #is a year header
         year_string = h[0..3] #h[4] is an _
         remainder = h[5..]
-        start_date = year_to_date_range[year_string][0].strftime("%d-%b-%Y")
-        end_date  = year_to_date_range[year_string][1].strftime("%d-%b-%Y")
-        header = I18n.t("annual_accounting_loan_data_exports.headers.#{remainder}", start_date: start_date, end_date: end_date)
-        #puts header
+        period_start_date = year_to_date_range[year_string][0].strftime("%d-%b-%Y")
+        period_end_date  = year_to_date_range[year_string][1].strftime("%d-%b-%Y")
+        header = I18n.t("annual_accounting_loan_data_exports.headers.#{remainder}", start_date: period_start_date, end_date: period_end_date)
         result << header
+      elsif /^\S*(balance)$/.match(h) # is a end-of-report balance
+        # balance is calculated for whole loan history, so including report start date is misleading
+        result << I18n.t("annual_accounting_loan_data_exports.headers.#{h}", date: end_date.strftime("%d-%b-%Y"))
       else
-        result << I18n.t("annual_accounting_loan_data_exports.headers.#{h}", start_date: start_date, end_date: end_date)
+        result << I18n.t("annual_accounting_loan_data_exports.headers.#{h}", start_date: start_date.strftime("%d-%b-%Y"), end_date: end_date.strftime("%d-%b-%Y"))
       end
     end
-    #puts result
     result
   end
 
