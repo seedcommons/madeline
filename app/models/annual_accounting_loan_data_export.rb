@@ -65,7 +65,7 @@ class AnnualAccountingLoanDataExport < DataExport
       headers << "#{year_string}_interest_accrued"
     end
     # iterate over date ranges
-    headers += [:end_principal_balance, :end_interest_balance, :end_total_balance, :total_sum_disbursements, :total_sum_repayments, :total_interest_accrued]
+    headers += [:total_sum_disbursements, :total_sum_repayments, :total_interest_accrued, :end_principal_balance, :end_interest_balance, :end_total_balance]
     headers
   end
 
