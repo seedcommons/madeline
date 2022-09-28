@@ -10,111 +10,111 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_28_235520) do
+ActiveRecord::Schema.define(version: 2022_09_28_202510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounting_accounts", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.string "name", null: false
     t.string "qb_account_classification"
     t.string "qb_id", null: false
     t.jsonb "quickbooks_data"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["qb_id"], name: "index_accounting_accounts_on_qb_id"
   end
 
   create_table "accounting_customers", force: :cascade do |t|
-    t.string "qb_id", null: false
-    t.string "name", null: false
-    t.jsonb "quickbooks_data"
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "qb_id", null: false
+    t.jsonb "quickbooks_data"
     t.datetime "updated_at", null: false
   end
 
   create_table "accounting_line_items", id: :serial, force: :cascade do |t|
-    t.integer "qb_line_id"
-    t.integer "accounting_transaction_id", null: false
     t.integer "accounting_account_id", null: false
-    t.string "posting_type", null: false
-    t.string "description"
+    t.integer "accounting_transaction_id", null: false
     t.decimal "amount", null: false
     t.datetime "created_at", null: false
+    t.string "description"
+    t.string "posting_type", null: false
+    t.integer "qb_line_id"
     t.datetime "updated_at", null: false
     t.index ["accounting_account_id"], name: "index_accounting_line_items_on_accounting_account_id"
     t.index ["accounting_transaction_id"], name: "index_accounting_line_items_on_accounting_transaction_id"
   end
 
   create_table "accounting_qb_connections", id: :serial, force: :cascade do |t|
-    t.integer "division_id", null: false
-    t.string "realm_id", null: false
-    t.datetime "token_expires_at", null: false
-    t.datetime "last_updated_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "access_token", null: false
-    t.string "refresh_token", null: false
+    t.datetime "created_at", null: false
+    t.integer "division_id", null: false
     t.boolean "invalid_grant", default: false, null: false
+    t.datetime "last_updated_at"
+    t.string "realm_id", null: false
+    t.string "refresh_token", null: false
+    t.datetime "token_expires_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_accounting_qb_connections_on_division_id", unique: true
   end
 
   create_table "accounting_qb_departments", force: :cascade do |t|
-    t.string "qb_id", null: false
-    t.string "name", null: false
-    t.jsonb "quickbooks_data"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "division_id"
+    t.string "name", null: false
+    t.string "qb_id", null: false
+    t.jsonb "quickbooks_data"
+    t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_accounting_qb_departments_on_division_id"
   end
 
   create_table "accounting_qb_vendors", force: :cascade do |t|
-    t.string "qb_id", null: false
-    t.string "name", null: false
-    t.jsonb "quickbooks_data"
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "qb_id", null: false
+    t.jsonb "quickbooks_data"
     t.datetime "updated_at", null: false
   end
 
   create_table "accounting_sync_issues", force: :cascade do |t|
-    t.bigint "project_id"
     t.bigint "accounting_transaction_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "message", null: false
-    t.string "level"
     t.jsonb "custom_data"
+    t.string "level"
+    t.string "message", null: false
+    t.bigint "project_id"
+    t.datetime "updated_at", null: false
     t.index ["accounting_transaction_id"], name: "index_plt_on_txn_id"
     t.index ["project_id"], name: "index_accounting_sync_issues_on_project_id"
   end
 
   create_table "accounting_transactions", id: :serial, force: :cascade do |t|
+    t.integer "accounting_account_id"
+    t.string "accounting_customer_id"
+    t.decimal "amount"
+    t.decimal "change_in_interest", precision: 15, scale: 2
+    t.decimal "change_in_principal", precision: 15, scale: 2
+    t.string "check_number"
+    t.datetime "created_at", null: false
+    t.integer "currency_id"
+    t.string "description"
+    t.string "disbursement_type", default: "other"
+    t.decimal "interest_balance", default: "0.0"
+    t.string "loan_transaction_type_value"
+    t.boolean "managed", default: false, null: false
+    t.boolean "needs_qb_push", default: true, null: false
+    t.decimal "principal_balance", default: "0.0"
+    t.string "private_note"
+    t.integer "project_id"
     t.string "qb_id"
     t.string "qb_object_type", default: "JournalEntry", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "accounting_account_id"
-    t.integer "project_id"
-    t.jsonb "quickbooks_data"
-    t.decimal "amount"
-    t.date "txn_date"
-    t.decimal "total"
-    t.string "private_note"
-    t.string "description"
-    t.string "loan_transaction_type_value"
-    t.integer "currency_id"
-    t.decimal "principal_balance", default: "0.0"
-    t.decimal "interest_balance", default: "0.0"
-    t.boolean "needs_qb_push", default: true, null: false
-    t.boolean "managed", default: false, null: false
-    t.decimal "change_in_principal", precision: 15, scale: 2
-    t.decimal "change_in_interest", precision: 15, scale: 2
-    t.string "accounting_customer_id"
-    t.string "check_number"
     t.integer "qb_vendor_id"
-    t.string "disbursement_type", default: "other"
+    t.jsonb "quickbooks_data"
     t.string "sync_token"
+    t.decimal "total"
+    t.date "txn_date"
+    t.datetime "updated_at", null: false
     t.index ["accounting_account_id"], name: "index_accounting_transactions_on_accounting_account_id"
     t.index ["currency_id"], name: "index_accounting_transactions_on_currency_id"
     t.index ["project_id"], name: "index_accounting_transactions_on_project_id"
@@ -133,23 +133,23 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
 
   create_table "currencies", id: :serial, force: :cascade do |t|
     t.string "code"
+    t.string "country_code"
     t.datetime "created_at", null: false
     t.string "name"
     t.string "short_symbol"
     t.string "symbol"
     t.datetime "updated_at", null: false
-    t.string "country_code"
   end
 
   create_table "data_exports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.jsonb "data"
     t.bigint "division_id", null: false
-    t.string "name", null: false
-    t.datetime "start_date"
     t.datetime "end_date"
     t.string "locale_code", null: false
-    t.jsonb "data"
+    t.string "name", null: false
+    t.datetime "start_date"
     t.string "type", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_data_exports_on_division_id"
   end
@@ -167,36 +167,36 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.string "accent_main_color"
     t.string "banner_bg_color"
     t.string "banner_fg_color"
+    t.date "closed_books_date"
     t.datetime "created_at", null: false
     t.integer "currency_id"
     t.jsonb "custom_data"
     t.text "description"
+    t.text "homepage"
+    t.integer "interest_income_account_id"
+    t.integer "interest_receivable_account_id"
     t.string "internal_name"
+    t.jsonb "locales"
+    t.string "logo"
     t.string "logo_content_type"
     t.string "logo_file_name"
     t.integer "logo_file_size"
     t.string "logo_text"
     t.datetime "logo_updated_at"
+    t.string "membership_status", default: "ally", null: false
     t.string "name"
     t.boolean "notify_on_new_logs", default: false
     t.integer "organization_id"
     t.integer "parent_id"
-    t.datetime "updated_at", null: false
-    t.jsonb "locales"
     t.integer "principal_account_id"
-    t.integer "interest_receivable_account_id"
-    t.integer "interest_income_account_id"
     t.boolean "public", default: false, null: false
-    t.string "short_name"
-    t.string "qb_parent_class_id"
-    t.date "closed_books_date"
-    t.boolean "qb_read_only", default: true, null: false
-    t.string "logo"
-    t.text "homepage"
+    t.string "public_accent_color"
     t.string "public_primary_color"
     t.string "public_secondary_color"
-    t.string "public_accent_color"
-    t.string "membership_status", default: "ally", null: false
+    t.string "qb_parent_class_id"
+    t.boolean "qb_read_only", default: true, null: false
+    t.string "short_name"
+    t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"
@@ -206,50 +206,50 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
   end
 
   create_table "documentations", force: :cascade do |t|
-    t.string "html_identifier"
-    t.string "calling_controller"
     t.string "calling_action"
+    t.string "calling_controller"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "division_id"
+    t.string "html_identifier"
+    t.datetime "updated_at", null: false
     t.index ["division_id"], name: "index_documentations_on_division_id"
     t.index ["html_identifier"], name: "index_documentations_on_html_identifier", unique: true
   end
 
   create_table "loan_health_checks", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "has_late_steps"
+    t.boolean "has_sporadic_updates"
+    t.date "last_log_date"
     t.integer "loan_id", null: false
     t.boolean "missing_contract"
     t.decimal "progress_pct"
-    t.date "last_log_date"
-    t.boolean "has_late_steps"
-    t.boolean "has_sporadic_updates"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["loan_id"], name: "index_loan_health_checks_on_loan_id"
   end
 
   create_table "loan_question_requirements", id: :serial, force: :cascade do |t|
     t.decimal "amount"
-    t.integer "question_id"
     t.integer "option_id"
+    t.integer "question_id"
   end
 
   create_table "media", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.boolean "featured", default: false, null: false
     t.string "item"
     t.string "item_content_type"
     t.integer "item_file_size"
     t.integer "item_height"
     t.integer "item_width"
     t.string "kind_value"
+    t.integer "legacy_id"
+    t.string "legacy_path"
     t.integer "media_attachable_id"
     t.string "media_attachable_type"
     t.integer "sort_order"
     t.datetime "updated_at", null: false
     t.integer "uploader_id"
-    t.boolean "featured", default: false, null: false
-    t.string "legacy_path"
-    t.integer "legacy_id"
     t.index ["media_attachable_type", "media_attachable_id"], name: "index_media_on_media_attachable_type_and_media_attachable_id"
   end
 
@@ -285,17 +285,22 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
 
   create_table "organizations", id: :serial, force: :cascade do |t|
     t.string "alias"
+    t.string "census_tract_code"
     t.string "city"
     t.text "contact_notes"
     t.integer "country_id", null: false
     t.datetime "created_at", null: false
     t.jsonb "custom_data"
+    t.date "date_established"
     t.integer "division_id"
     t.string "email"
+    t.string "entity_structure", default: "llc", null: false
     t.string "fax"
+    t.string "inception_value"
     t.string "industry"
     t.string "last_name"
     t.string "legal_name"
+    t.string "naics_code"
     t.string "name"
     t.string "neighborhood"
     t.string "postal_code"
@@ -309,11 +314,6 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.string "tax_no"
     t.datetime "updated_at", null: false
     t.string "website"
-    t.string "inception_value"
-    t.string "entity_structure", default: "not_selected", null: false
-    t.date "date_established"
-    t.string "census_tract_code"
-    t.string "naics_code"
     t.index ["division_id"], name: "index_organizations_on_division_id"
   end
 
@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.string "first_name"
     t.boolean "has_system_access", default: false, null: false
     t.string "last_name"
+    t.integer "legacy_id"
     t.string "legal_name"
     t.string "name"
     t.string "neighborhood"
@@ -341,7 +342,6 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.string "tax_no"
     t.datetime "updated_at", null: false
     t.string "website"
-    t.integer "legacy_id"
     t.index ["division_id"], name: "index_people_on_division_id"
   end
 
@@ -350,40 +350,41 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.datetime "created_at", null: false
     t.date "date"
     t.date "date_changed_to"
+    t.integer "legacy_id"
     t.string "progress_metric_value"
     t.integer "project_step_id"
     t.datetime "updated_at", null: false
-    t.integer "legacy_id"
     t.index ["agent_id"], name: "index_project_logs_on_agent_id"
     t.index ["project_step_id"], name: "index_project_logs_on_project_step_id"
   end
 
   create_table "projects", id: :serial, force: :cascade do |t|
+    t.date "actual_end_date"
+    t.date "actual_first_payment_date"
     t.decimal "amount"
     t.datetime "created_at", null: false
     t.integer "currency_id"
     t.jsonb "custom_data"
     t.integer "division_id", null: false
-    t.date "actual_first_payment_date"
+    t.text "final_repayment_formula"
     t.integer "length_months"
+    t.string "likelihood_closing", default: "not_applicable", null: false
     t.string "loan_type_value"
     t.string "name"
     t.integer "organization_id"
+    t.integer "original_id"
     t.integer "primary_agent_id"
+    t.date "projected_end_date"
+    t.date "projected_first_payment_date"
     t.string "public_level_value", null: false
     t.decimal "rate"
     t.integer "secondary_agent_id"
     t.date "signing_date"
-    t.string "status_value"
-    t.date "projected_end_date"
-    t.datetime "updated_at", null: false
-    t.string "type", null: false
-    t.integer "original_id"
-    t.date "projected_first_payment_date"
-    t.date "actual_end_date"
-    t.string "txn_handling_mode", default: "automatic", null: false
-    t.text "final_repayment_formula"
     t.string "source_of_capital", default: "shared", null: false
+    t.string "status_value"
+    t.string "txn_handling_mode", default: "automatic", null: false
+    t.string "type", null: false
+    t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_projects_on_currency_id"
     t.index ["division_id"], name: "index_projects_on_division_id"
     t.index ["organization_id"], name: "index_projects_on_organization_id"
@@ -399,28 +400,28 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
 
   create_table "question_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "division_id", null: false
     t.string "kind"
     t.datetime "updated_at", null: false
-    t.bigint "division_id", null: false
     t.index ["division_id"], name: "index_question_sets_on_division_id"
   end
 
   create_table "questions", id: :serial, force: :cascade do |t|
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "data_type", null: false
+    t.boolean "display_in_summary", default: false, null: false
+    t.integer "division_id", null: false
     t.boolean "has_embeddable_media", default: false, null: false
     t.string "internal_name"
-    t.integer "question_set_id"
+    t.integer "legacy_id"
     t.integer "migration_position"
+    t.integer "number"
     t.boolean "override_associations", default: false, null: false
     t.integer "parent_id"
     t.integer "position"
+    t.integer "question_set_id"
     t.datetime "updated_at", null: false
-    t.integer "number"
-    t.integer "division_id", null: false
-    t.boolean "display_in_summary", default: false, null: false
-    t.boolean "active", default: true, null: false
-    t.integer "legacy_id"
     t.index "question_set_id, ((parent_id IS NULL))", name: "index_questions_on_question_set_id_parent_id_IS_NULL", unique: true, where: "(parent_id IS NULL)", comment: "Ensures max one root per question set"
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
@@ -428,13 +429,13 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
   create_table "response_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.jsonb "custom_data"
+    t.integer "legacy_id"
     t.integer "loan_id", null: false
-    t.datetime "updated_at", null: false
-    t.integer "updater_id"
     t.integer "lock_version", default: 0, null: false
     t.bigint "question_set_id", null: false
-    t.integer "legacy_id"
-    t.index ["loan_id", "question_set_id"], name: "index_response_sets_on_loan_id_and_question_set_id"
+    t.datetime "updated_at", null: false
+    t.integer "updater_id"
+    t.index ["loan_id", "question_set_id"], name: "index_response_sets_on_loan_id_and_question_set_id", unique: true
     t.index ["question_set_id"], name: "index_response_sets_on_question_set_id"
   end
 
@@ -449,20 +450,20 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "job_class", limit: 255, null: false
-    t.string "provider_job_id"
-    t.string "job_type_value", limit: 255, null: false
+    t.jsonb "activity_message_data"
     t.string "activity_message_value", limit: 65536, null: false
+    t.datetime "created_at", null: false
+    t.jsonb "custom_error_data"
+    t.string "job_class", limit: 255, null: false
     t.datetime "job_first_started_at"
     t.datetime "job_last_failed_at"
     t.datetime "job_succeeded_at"
+    t.string "job_type_value", limit: 255, null: false
     t.integer "num_attempts", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "custom_error_data"
-    t.string "taskable_type"
+    t.string "provider_job_id"
     t.bigint "taskable_id"
-    t.jsonb "activity_message_data"
+    t.string "taskable_type"
+    t.datetime "updated_at", null: false
     t.index ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id"
   end
 
@@ -473,6 +474,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.integer "date_change_count", default: 0, null: false
     t.datetime "finalized_at"
     t.boolean "is_finalized"
+    t.integer "legacy_id"
     t.integer "old_duration_days", default: 0
     t.date "old_start_date"
     t.integer "parent_id"
@@ -483,7 +485,6 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.string "step_type_value", null: false
     t.string "type", null: false
     t.datetime "updated_at", null: false
-    t.integer "legacy_id"
     t.index ["agent_id"], name: "index_timeline_entries_on_agent_id"
     t.index ["project_id"], name: "index_timeline_entries_on_project_id"
   end
@@ -497,6 +498,7 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
   end
 
   create_table "translations", id: :serial, force: :cascade do |t|
+    t.boolean "allow_html", default: false
     t.datetime "created_at"
     t.string "locale"
     t.text "text"
@@ -504,7 +506,6 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.integer "translatable_id"
     t.string "translatable_type"
     t.datetime "updated_at"
-    t.boolean "allow_html", default: false
     t.index ["translatable_type", "translatable_id"], name: "index_translations_on_translatable_type_and_translatable_id"
   end
 
@@ -516,13 +517,13 @@ ActiveRecord::Schema.define(version: 2022_02_28_235520) do
     t.string "encrypted_password", default: "", null: false
     t.datetime "last_sign_in_at"
     t.inet "last_sign_in_ip"
+    t.string "notification_source", default: "home_only", null: false
     t.integer "profile_id"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "updated_at", null: false
-    t.string "notification_source", default: "home_only", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["profile_id"], name: "index_users_on_profile_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

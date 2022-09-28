@@ -87,6 +87,13 @@
     = documentation_popover(@documentations_by_html,
       html_identifier: "#{form_identifier}_final_repayment_formula", options: popover_options)
 
+  = f.input :likelihood_closing
+    .view-element
+        = t("loan.likelihood_closing.#{@loan.likelihood_closing}")
+    = f.input_field :likelihood_closing, collection: @likelihood_closing_choices, include_blank: false
+    = documentation_popover(@documentations_by_html, html_identifier: "#{form_identifier}_likelihood_closing",
+      options: popover_options)
+
   = render 'admin/projects/translatable', project: @loan, f: f
 
   = authorized_form_field(simple_form: f, model: @loan, field_name: :primary_agent,

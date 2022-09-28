@@ -9,6 +9,7 @@ class Loan < Project
   TXN_MODE_AUTO = 'automatic'
   TXN_MODE_READ_ONLY = 'read_only'
   SOURCE_OF_CAPITAL_OPTIONS = %w(shared allocated proprietary).freeze
+  LIKELIHOOD_CLOSING_OPTIONS = %w(not_applicable almost_certain pretty_likely likely_longer possible)
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
   # These are the ones we're certain of at the moment
