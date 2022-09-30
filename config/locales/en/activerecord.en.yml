@@ -94,6 +94,7 @@ en:
         source_of_capital: "Source of Capital"
         summary: "Summary"
         final_repayment_formula: "Final Repayment Formula"
+        likelihood_closing: "Likelihood of Closing in Next 12 Months"
       note:
         text: "Note"
       organization:
