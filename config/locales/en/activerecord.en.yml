@@ -210,6 +210,8 @@ en:
           attributes:
             primary_agent:
               same_as_secondary: 'The point person for this project cannot be the same as the second point person'
+            likelihood_closing:
+              inclusion: "Loans that are not prospective must have their likelihood of closing in the next 12 months be 'Not applicable'"
         media:
           attributes:
             item:

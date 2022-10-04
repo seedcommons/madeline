@@ -38,13 +38,19 @@ describe "loan flow", js: true do
       select("Allocated Capital", from: "loan_source_of_capital")
       click_on "Update Loan"
       expect(page).to have_content("Source of Capital\nAllocated Capital")
-
-      find("a", text: "Edit Loan").click
-      expect(page).to have_content("Likelihood of Closing in Next 12 Months\nNot applicable")
-      select("Pretty likely in next 12 months", from: "loan_likelihood_closing")
-      click_on "Update Loan"
-      expect(page).to have_content("Likelihood of Closing in Next 12 Months\nPretty likely in next 12 months")
     end
+  end
+
+  scenario "likelihood closing" do
+    visit admin_loan_path(loan)
+    expect(page).to have_content("% Complete")
+    find("a", text: "Edit Loan").click
+    expect(page).to have_content("Likelihood of Closing in Next 12 Months\nNot applicable")
+    select("Pretty likely in next 12 months", from: "loan_likelihood_closing")
+    click_on "Update Loan"
+    expect(page).to have_content("Loans that are not prospective must have their likelihood of closing in the next 12 months be 'Not applicable'")
+    select("Not applicable", from: "loan_likelihood_closing")
+    expect(page).to have_content("Likelihood of Closing in Next 12 Months\nNot applicable")
   end
 
   describe "timeline" do

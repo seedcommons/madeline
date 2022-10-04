@@ -39,6 +39,10 @@ class Loan < Project
 
   validates :organization, :public_level_value, presence: true
   validates :source_of_capital, :inclusion => {:in => SOURCE_OF_CAPITAL_OPTIONS}
+  validates :likelihood_closing, :inclusion => {:in => LIKELIHOOD_CLOSING_OPTIONS}
+  with_options if: ->(loan) { loan&.status_value != "prospective" } do |non_prospective_loan|
+    non_prospective_loan.validates :likelihood_closing, :inclusion => {:in => %w(not_applicable)}
+  end
 
   before_create :build_health_check
 
