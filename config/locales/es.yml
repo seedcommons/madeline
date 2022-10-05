@@ -1428,6 +1428,7 @@ es:
       loan_status:
         active: 'Activo'
         completed: 'Completo'
+        dormant_prospective: 'Prospectivo Inactivo'
         frozen: 'Congelado'
         liquidated: 'Liquidado'
         prospective: 'Prospectivo'
