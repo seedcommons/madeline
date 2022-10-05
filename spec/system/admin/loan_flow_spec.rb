@@ -41,6 +41,18 @@ describe "loan flow", js: true do
     end
   end
 
+  scenario "likelihood closing" do
+    visit admin_loan_path(loan)
+    expect(page).to have_content("% Complete")
+    find("a", text: "Edit Loan").click
+    expect(page).to have_content("Likelihood of Closing in Next 12 Months\nNot applicable")
+    select("Pretty likely in next 12 months", from: "loan_likelihood_closing")
+    click_on "Update Loan"
+    expect(page).to have_content("Loans that are not prospective must have their likelihood of closing in the next 12 months be 'Not applicable'")
+    select("Not applicable", from: "loan_likelihood_closing")
+    expect(page).to have_content("Likelihood of Closing in Next 12 Months\nNot applicable")
+  end
+
   describe "timeline" do
     let(:loan) { create(:loan, :with_timeline, division: division) }
 

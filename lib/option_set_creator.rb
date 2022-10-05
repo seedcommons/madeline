@@ -55,6 +55,13 @@ class OptionSetCreator
     }
     prospective.save
 
+    dormant_prospective = loan_status.options.find_or_create_by(value: 'dormant_prospective')
+    dormant_prospective.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.dormant_prospective', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.dormant_prospective', locale: 'es')
+    }
+    dormant_prospective.save
+
     refinanced = loan_status.options.find_or_create_by(value: 'refinanced')
     refinanced.label_translations = {
       en: I18n.t('database.option_sets.loan_status.refinanced', locale: 'en'),

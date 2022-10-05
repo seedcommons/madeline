@@ -9,6 +9,7 @@ en:
       loan_status:
         active: 'Active'
         completed: 'Completed'
+        dormant_prospective: 'Dormant Prospective'
         frozen: 'Frozen'
         liquidated: 'Liquidated'
         prospective: 'Prospective'

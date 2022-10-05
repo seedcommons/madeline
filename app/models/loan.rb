@@ -9,6 +9,7 @@ class Loan < Project
   TXN_MODE_AUTO = 'automatic'
   TXN_MODE_READ_ONLY = 'read_only'
   SOURCE_OF_CAPITAL_OPTIONS = %w(shared allocated proprietary).freeze
+  LIKELIHOOD_CLOSING_OPTIONS = %w(not_applicable almost_certain pretty_likely likely_longer possible)
   # adding these because if someone clicks 'All' on the loans public page
   # the url divisions are set as strings not symbols
   # These are the ones we're certain of at the moment
@@ -38,6 +39,10 @@ class Loan < Project
 
   validates :organization, :public_level_value, presence: true
   validates :source_of_capital, :inclusion => {:in => SOURCE_OF_CAPITAL_OPTIONS}
+  validates :likelihood_closing, :inclusion => {:in => LIKELIHOOD_CLOSING_OPTIONS}
+  with_options if: ->(loan) { loan&.status_value != "prospective" } do |non_prospective_loan|
+    non_prospective_loan.validates :likelihood_closing, :inclusion => {:in => %w(not_applicable)}
+  end
 
   before_create :build_health_check
 
