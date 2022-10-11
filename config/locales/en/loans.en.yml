@@ -79,12 +79,6 @@ en:
       allocated: "Allocated Capital"
       shared: "Shared Capital"
       proprietary: "Proprietary Capital"
-    likelihood_closing: 
-      not_applicable: "Not applicable"
-      almost_certain: "Almost certain in next 12 months"
-      pretty_likely: "Pretty likely in next 12 months"
-      likely_longer: "Likely but it will take longer than 12 months"
-      possible: "It’s possible, but can’t say when yet"
     start: "Start %{name}"
     spreadsheet_new_tab: "Open document in new tab"
     spreadsheet_inline: "Display document inline"

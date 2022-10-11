@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_28_202510) do
+ActiveRecord::Schema.define(version: 2022_10_11_114334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -368,7 +368,6 @@ ActiveRecord::Schema.define(version: 2022_09_28_202510) do
     t.integer "division_id", null: false
     t.text "final_repayment_formula"
     t.integer "length_months"
-    t.string "likelihood_closing", default: "not_applicable", null: false
     t.string "loan_type_value"
     t.string "name"
     t.integer "organization_id"

@@ -17,7 +17,7 @@ describe "project log flow", js: true do
     click_on("Add Log")
 
     # Wait for modal to load
-    expect(page).to have_content("New Log")
+    expect(page).to have_content("New Log", wait: 10)
     check("Step completed on this date")
     fill_in("project_log_summary_en", with: "Stuff")
 

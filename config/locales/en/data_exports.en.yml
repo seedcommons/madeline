@@ -47,7 +47,6 @@ en:
       final_principal_balance: "Final Principal Balance"
       final_repayment_formula: "Final Repayment Formula"
       length_months: "Length (months)"
-      likelihood_closing: "Likelihood closing in next 12 mos"
       loan_id: "Loan ID"
       loan_type: "Loan Type"
       naics_code: "Coop NAICS Code"

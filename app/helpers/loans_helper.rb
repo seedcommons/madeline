@@ -10,8 +10,4 @@ module LoansHelper
   def source_of_capital_choices
     Loan::SOURCE_OF_CAPITAL_OPTIONS.map { |c| [t("loan.source_of_capital_type.#{c}"), c] }
   end
-
-  def likelihood_closing_choices
-    Loan::LIKELIHOOD_CLOSING_OPTIONS.map { |c| [t("loan.likelihood_closing.#{c}"), c] }
-  end
 end
