@@ -5,8 +5,6 @@ namespace :one_time_changes do
     ActiveRecord::Base.transaction do
       loan_status = OptionSet.find_by(division: Division.root, model_type: Loan.name,
         model_attribute: 'status')
-      active = loan_status.options.find_by(value: 'active')
-      active.update(position: 10)
 
       # rename prospective to possible and add position
       possible = loan_status.options.find_by(value: 'prospective')
@@ -43,7 +41,14 @@ namespace :one_time_changes do
           })
       end
 
-      test_status = loan_status.options.find_or_create_by(value: 'test_status')
+      active = loan_status.options.find_by(value: 'active')
+      active.update(position: 70)
+
+      refinanced = loan_status.options.find_by(value: 'refinanced')
+      refinanced.update(position: 80)
+
+      completed = loan_status.options.find_by(value: 'completed')
+      completed.update(position: 90)
 
       # assign all loans w a relationship status in Seed Commons division to possible
       seed_commons_division_ids = Division.find_by(name: "Seed Commons").self_and_descendants.pluck(:id)
