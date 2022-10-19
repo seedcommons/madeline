@@ -3,8 +3,7 @@ namespace :one_time_changes do
 
   task update_loan_statuses_oct_22: :environment do
     ActiveRecord::Base.transaction do
-      loan_status = OptionSet.find_by(division: Division.root, model_type: Loan.name,
-        model_attribute: 'status')
+      loan_status = OptionSet.find_by(division: Division.root, model_type: Loan.name, model_attribute: 'status')
 
       # rename prospective to possible and add position
       possible = loan_status.options.find_by(value: 'prospective')
@@ -49,6 +48,10 @@ namespace :one_time_changes do
 
       completed = loan_status.options.find_by(value: 'completed')
       completed.update(position: 90)
+
+      # update all loans with renamed status values
+      Loan.where(status_value: "prospective").update(status_value: "possible")
+      Loan.where(status_value: "dormant_prospective").update(status_value: "dormant")
 
       # assign all loans w a relationship status in Seed Commons division to possible
       seed_commons_division_ids = Division.find_by(name: "Seed Commons").self_and_descendants.pluck(:id)
