@@ -48,19 +48,40 @@ class OptionSetCreator
     }
     liquidated.save
 
-    prospective = loan_status.options.find_or_create_by(value: 'prospective')
-    prospective.label_translations = {
-      en: I18n.t('database.option_sets.loan_status.prospective', locale: 'en'),
-      es: I18n.t('database.option_sets.loan_status.prospective', locale: 'es')
+    possible = loan_status.options.find_or_create_by(value: 'possible')
+    possible.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.possible', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.possible', locale: 'es')
     }
-    prospective.save
+    possible.save
 
-    dormant_prospective = loan_status.options.find_or_create_by(value: 'dormant_prospective')
-    dormant_prospective.label_translations = {
-      en: I18n.t('database.option_sets.loan_status.dormant_prospective', locale: 'en'),
-      es: I18n.t('database.option_sets.loan_status.dormant_prospective', locale: 'es')
+    in_process = loan_status.options.find_or_create_by(value: 'in_process')
+    in_process.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.in_process', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.in_process', locale: 'es')
     }
-    dormant_prospective.save
+    in_process.save
+
+    dormant = loan_status.options.find_or_create_by(value: 'dormant')
+    dormant.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.dormant', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.dormant', locale: 'es')
+    }
+    dormant.save
+
+    dead = loan_status.options.find_or_create_by(value: 'dead')
+    dead.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.dead', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.dead', locale: 'es')
+    }
+    dead.save
+
+    approved = loan_status.options.find_or_create_by(value: 'approved')
+    approved.label_translations = {
+      en: I18n.t('database.option_sets.loan_status.approved', locale: 'en'),
+      es: I18n.t('database.option_sets.loan_status.approved', locale: 'es')
+    }
+    approved.save
 
     refinanced = loan_status.options.find_or_create_by(value: 'refinanced')
     refinanced.label_translations = {
