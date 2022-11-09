@@ -13,7 +13,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
         scope: "com.intuit.quickbooks.accounting"
       )
 
-      redirect_to grant_url
+      redirect_to grant_url, status: 302
     end
   end
 
@@ -50,13 +50,13 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     flash[:notice] = t('quickbooks.connection.link_message')
     flash[:alert] = t('quickbooks.connection.import_in_progress_message')
-    redirect_to admin_accounting_settings_path
+    redirect_to admin_accounting_settings_path, status: 302
   end
 
   def disconnect
     authorize :'accounting/quickbooks', :disconnect?
     Division.root.qb_connection.destroy
-    redirect_to admin_accounting_settings_path, notice: t('quickbooks.connection.disconnect_message')
+    redirect_to admin_accounting_settings_path, notice: t('quickbooks.connection.disconnect_message'), status: 302
   end
 
   def update_changed
@@ -69,7 +69,7 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
 
     flash[:notice] = t("quickbooks.update.update_queued_html", url: admin_task_path(@task))
 
-    redirect_back(fallback_location: admin_loans_path)
+    redirect_back(fallback_location: admin_loans_path, status: 302)
   end
 
   private
