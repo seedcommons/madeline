@@ -15,7 +15,7 @@ section.block
           - else
             = t("quickbooks.connection.not_connected")
             | &nbsp;&nbsp;
-            = link_to("Click To Connect", authenticate_admin_accounting_quickbooks_path)
+            = link_to(image_tag("/images/connect_to_qb.png", alt: "Click to Connect to QB", "aria-label": "Click to Connect to QB"), authenticate_admin_accounting_quickbooks_path)
       - if @division.quickbooks_connected?
         = f.input "data_import_status" do
           .read-only
