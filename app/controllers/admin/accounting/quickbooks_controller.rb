@@ -1,4 +1,6 @@
 class Admin::Accounting::QuickbooksController < Admin::AdminController
+  before_action :set_cache_headers
+
   # Kicks off oauth flow by redirecting to Intuit with request token.
   def authenticate
     authorize :'accounting/quickbooks', :authenticate?
@@ -89,5 +91,9 @@ class Admin::Accounting::QuickbooksController < Admin::AdminController
       redirect_uri = oauth_callback_admin_accounting_quickbooks_url
       qb_consumer.auth_code.get_token(params[:code], redirect_uri: redirect_uri)
     end
+  end
+
+  def set_cache_headers
+    response.headers["Cache-Control"] = "no-cache, no-store"
   end
 end
