@@ -71,6 +71,16 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
     end
   end
 
+  def statement
+    @loan = Loan.find_by(id: params[:project_id])
+    @start_date = Time.zone.now.last_year.beginning_of_year
+    @end_date = Time.zone.now.last_year.end_of_year
+    @transactions = @loan.transactions.in_date_range(@start_date, @end_date)
+    authorize(@loan, :show?)
+    # get applicable transactions
+    render partial: "admin/accounting/transactions/statement", layout: false
+  end
+
   private
 
   # Saves transaction record and runs updater.

@@ -91,6 +91,7 @@ Rails.application.routes.draw do
       resources :transactions, except: [:index, :destroy] do
         collection do
           post :sync
+          get :statement
         end
       end
       resources :sync_issues, only: [:index, :show]
