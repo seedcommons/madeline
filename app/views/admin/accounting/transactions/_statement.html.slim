@@ -30,7 +30,7 @@ table
         td = "#{t.amount}" if t.loan_transaction_type_value == "disbursement"
         td = "#{t.amount}" if t.loan_transaction_type_value == "repayment"
         td = "#{t.amount}" if t.loan_transaction_type_value == "interest"
-        td = "TO CALCULATE"
-        td = "TO CALCULATE"
+        td = "#{t.loan.repayments_of_principal(start_date: nil, end_date: t.txn_date)}"
+        td = "#{t.principal_balance}"
         td = "#{t.total_balance}"
       end
