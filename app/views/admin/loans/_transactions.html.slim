@@ -18,6 +18,8 @@ section.transactions
       - if policy(@sample_transaction).create?
         = link_to t(".new_transaction"), "#", class: "btn btn-primary",
           data: {action: "new-transaction", project_id: @loan.id}
+      = link_to "Statement for last year", statement_admin_loan_url, class: "btn btn-primary",
+            data: {project_id: @loan.id}
     - if @transactions.empty?
       .no-records-msg = t('common.no_records')
     - else
