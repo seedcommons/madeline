@@ -132,6 +132,16 @@ module Admin
       prep_attached_links if @mode != "details-only"
     end
 
+    def statement
+      @loan = Loan.find(params[:id])
+      @start_date = Time.zone.now.last_year.beginning_of_year
+      @end_date = Time.zone.now.last_year.end_of_year
+      @transactions = @loan.transactions.in_date_range(@start_date, @end_date)
+      authorize(@loan, :show?)
+      # get applicable transactions
+      render partial: "admin/loans/statement", layout: false
+    end
+
     private
 
     def loan_params

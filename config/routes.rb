@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         get :questionnaires
         get :print
         get :duplicate
+        get :statement
       end
     end
     resources :questions do
@@ -91,7 +92,6 @@ Rails.application.routes.draw do
       resources :transactions, except: [:index, :destroy] do
         collection do
           post :sync
-          get :statement
         end
       end
       resources :sync_issues, only: [:index, :show]
