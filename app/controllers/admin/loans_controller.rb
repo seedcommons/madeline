@@ -134,12 +134,11 @@ module Admin
 
     def statement
       @loan = Loan.find(params[:id])
+      authorize(@loan, :show?)
       @start_date = Time.zone.now.last_year.beginning_of_year
       @end_date = Time.zone.now.last_year.end_of_year
       @transactions = @loan.transactions.in_date_range(@start_date, @end_date)
-      authorize(@loan, :show?)
-      # get applicable transactions
-      render partial: "admin/loans/statement", layout: false
+      @print_view = true
     end
 
     private
