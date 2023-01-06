@@ -1,37 +1,40 @@
-p Statement for loan #{@loan.id}
+div.statement
+  div.statement-header
+    - if @loan.division.logo.present?
+      = image_tag @loan.division.logo.url(:banner)
+    - else
+      h1 #{@loan.division.name}
 
-h1 #{@loan.division.name}
+  p #{@loan.organization.name}
+  p Contract Loan Amount: #{@loan.amount}
+  p Interest Rate: #{@loan.rate}
+  p #{@loan.name}
 
-p #{@loan.organization.name}
-p Contract Loan Amount: #{@loan.amount}
-p Interest Rate: #{@loan.rate}
-p #{@loan.name}
+  p #{@start_date} - #{@end_date}
+  p Loan Statement
 
-p #{@start_date} - #{@end_date}
-p Loan Statement
+  table.table.table-bordered
 
-table.table.table-bordered
-
-  thead
-      tr
-        th Date
-        th Description
-        th Debit
-        th Credit
-        th Interest Paid
-        th Interest Balance
-        th Capital Returned
-        th Capital Balance
-        th Total Balance
-  tbody
-    - @transactions.each do |t|
-      tr
-        td = "#{t.txn_date}"
-        td = "#{t.description}"
-        td = "#{t.amount}" if t.loan_transaction_type_value == "disbursement"
-        td = "#{t.amount}" if t.loan_transaction_type_value == "repayment"
-        td = "#{t.amount}" if t.loan_transaction_type_value == "interest"
-        td = "#{t.loan.repayments_of_principal(start_date: nil, end_date: t.txn_date)}"
-        td = "#{t.principal_balance}"
-        td = "#{t.total_balance}"
-      end
+    thead
+        tr
+          th Date
+          th Description
+          th Debit
+          th Credit
+          th Interest Paid
+          th Interest Balance
+          th Capital Returned
+          th Capital Balance
+          th Total Balance
+    tbody
+      - @transactions.each do |t|
+        tr
+          td = "#{t.txn_date}"
+          td = "#{t.description}"
+          td = "#{t.amount}" if t.loan_transaction_type_value == "disbursement"
+          td = "#{t.amount}" if t.loan_transaction_type_value == "repayment"
+          td = "#{t.amount}" if t.loan_transaction_type_value == "interest"
+          td = "#{t.loan.repayments_of_principal(start_date: nil, end_date: t.txn_date)}"
+          td = "#{t.principal_balance}"
+          td = "#{t.total_balance}"
+        end

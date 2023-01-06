@@ -1,7 +1,9 @@
 body.admin.print-view {
-  width: 8in;
   padding: 0; // Browser adds margins. No need for padding here.
 
+  .print-loan-memo {
+      width: 8in;
+  }
   .content .block {
     background: none;
   }
