@@ -5,15 +5,17 @@ div.statement
     - else
       h1 #{@loan.division.name}
 
-  p #{@loan.organization.name}
-  p Contract Loan Amount: #{@loan.amount}
-  p Interest Rate: #{@loan.rate}
-  p #{@loan.name}
+  div.statement-block.loan-info
+    p.coop-name #{@loan.organization.name}
+    p Contract Loan Amount: #{@loan.amount}
+    p Interest Rate: #{@loan.rate}
+    p #{@loan.name}
 
-  p #{@start_date} - #{@end_date}
-  p Loan Statement
+  div.statement-block.statement-dates
+    p #{@start_date} - #{@end_date}
+    p Loan Statement
 
-  table.table.table-bordered
+  table.table.table-bordered.statement-table
 
     thead
         tr
@@ -33,7 +35,8 @@ div.statement
           td = "#{t.description}"
           td = "#{t.amount}" if t.loan_transaction_type_value == "disbursement"
           td = "#{t.amount}" if t.loan_transaction_type_value == "repayment"
-          td = "#{t.amount}" if t.loan_transaction_type_value == "interest"
+          td = "#{t.interest_paid}"
+          td = "#{t.interest_balance}"
           td = "#{t.loan.repayments_of_principal(start_date: nil, end_date: t.txn_date)}"
           td = "#{t.principal_balance}"
           td = "#{t.total_balance}"

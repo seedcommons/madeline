@@ -1,9 +1,39 @@
 body.admin.print-view.statement {
   width: 100%;
+  padding: 2%;
+
 }
 
 .statement-header {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.statement-block {
+  color: #383636; //seedcommons gray
+  border: solid 1px #517b91; //seedcommons blue
+  padding: 1em;
+  margin-bottom: 2em;
+  p {
+    margin: 0 0 0 2px;
+  }
+}
+
+.loan-info {
+  float: left;
+  .coop-name {
+    font-weight: bold;
+  }
+}
+
+.statement-dates {
+  float: right;
+}
+
+.statement-table {
+  margin-top: 2em;
+  thead {
+    background-color: #517b91; //seedcommons blue
+  }
 }
