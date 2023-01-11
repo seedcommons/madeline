@@ -12,7 +12,7 @@ div.statement
     p #{@loan.name}
 
   div.statement-block.statement-dates
-    p #{@start_date} - #{@end_date}
+    p #{ldate(@start_date, format: "%B %-d, %Y")} - #{ldate(@end_date, format: "%B %-d, %Y")}
     p Loan Statement
 
   table.table.table-bordered.statement-table
@@ -33,11 +33,12 @@ div.statement
         tr
           td = "#{t.txn_date}"
           td = "#{t.description}"
-          td = "#{t.amount}" if t.loan_transaction_type_value == "disbursement"
-          td = "#{t.amount}" if t.loan_transaction_type_value == "repayment"
-          td = "#{t.interest_paid}"
-          td = "#{t.interest_balance}"
-          td = "#{t.loan.repayments_of_principal(start_date: nil, end_date: t.txn_date)}"
-          td = "#{t.principal_balance}"
-          td = "#{t.total_balance}"
+          td = "#{format_currency(t.amount, t.currency, tooltip: false)}" if t.loan_transaction_type_value == "disbursement"
+          td = "#{format_currency(t.amount, t.currency, tooltip: false)}" if t.loan_transaction_type_value == "repayment"
+          td = "#{format_currency(t.interest_paid, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.interest_balance, t.currency, tooltip: false)}"
+          - principal_returned = t.loan.repayments_of_principal(start_date: nil, end_date: t.txn_date)
+          td = "#{format_currency(principal_returned, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.principal_balance, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.total_balance, t.currency, tooltip: false)}"
         end
