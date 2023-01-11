@@ -1,0 +1,16 @@
+en:
+  statement:
+    last_year_statement: "Statement for Last Year"
+    contract_loan_amount: "Contract Loan Amount"
+    interest_rate: "Interest Rate"
+    loan_statement: "Loan Statement"
+    headers:
+      date: "Date"
+      description: "Description"
+      debit: "Debit"
+      credit: "Credit"
+      interest_paid: "Interest Paid"
+      interest_balance: "Interest Balance"
+      capital_returned: "Capital Returned"
+      capital_balance: "Capital Balance"
+      total_balance: "Total Balance"
