@@ -150,4 +150,10 @@ class Division < ApplicationRecord
     self.short_name ||= name.parameterize
     self.short_name = "#{self.short_name}-#{SecureRandom.uuid}" if Division.pluck(:short_name).include?(self.short_name)
   end
+
+  # there is only one closed books date system wide
+  # it is managed in Accounting Settings and belongs to root division
+  def shared_closed_books_date
+    root.closed_books_date
+  end
 end

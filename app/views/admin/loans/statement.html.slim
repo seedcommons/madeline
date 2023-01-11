@@ -15,7 +15,6 @@ div.statement
     - if @is_draft
       div.statement-block.draft-warning
         p #{t("statement.draft_warning")}
-        p #{@is_draft}, #{@end_date}, #{@loan.division.root.closed_books_date}
 
     div.statement-block.statement-dates
       p #{ldate(@start_date, format: "%B %-d, %Y")} - #{ldate(@end_date, format: "%B %-d, %Y")}
