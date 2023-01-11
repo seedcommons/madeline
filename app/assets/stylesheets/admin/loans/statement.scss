@@ -10,6 +10,11 @@ body.admin.print-view.statement {
   justify-content: center;
 }
 
+.block_container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .statement-block {
   color: #383636; //seedcommons gray
   border: solid 1px #517b91; //seedcommons blue
@@ -20,15 +25,21 @@ body.admin.print-view.statement {
   }
 }
 
+.draft-warning {
+  color: #83353b; //red requested by tww
+  font-weight: bolder;
+  font-size: 18pt;
+  border: none;
+}
+
 .loan-info {
-  float: left;
   .coop-name {
     font-weight: bold;
   }
 }
 
 .statement-dates {
-  float: right;
+  //float: right;
 }
 
 .statement-table {

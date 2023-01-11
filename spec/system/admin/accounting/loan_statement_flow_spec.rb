@@ -32,6 +32,7 @@ describe "loan statement flow", :accounting do
       OptionSetCreator.new.create_loan_transaction_type
     end
 
+
     describe "generate last year's statement" do
       context "when transactions present" do
         let!(:transactions_to_old) { create_list(:accounting_transaction, 3,
@@ -73,6 +74,28 @@ describe "loan statement flow", :accounting do
             visit "/admin/loans/#{loan.id}/transactions"
             click_on "Statement for last year"
             expect(page).to have_content("Print")
+          end
+        end
+
+        context "end date is after closed books date" do
+          before do
+            division.update(closed_books_date:Time.zone.now.last_year.beginning_of_year)
+          end
+          scenario "shows draft warning" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            click_on "Statement for last year"
+            expect(page).to have_content("DRAFT")
+          end
+        end
+
+        context "end date is before closed books date" do
+          before do
+            division.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+          end
+          scenario "hides draft warning" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            click_on "Statement for last year"
+            expect(page).not_to have_content("DRAFT")
           end
         end
       end

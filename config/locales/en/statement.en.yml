@@ -1,8 +1,9 @@
 en:
   statement:
-    last_year_statement: "Statement for Last Year"
     contract_loan_amount: "Contract Loan Amount"
+    draft_warning: "WARNING: This is a DRAFT. Information subject to change."
     interest_rate: "Interest Rate"
+    last_year_statement: "Statement for Last Year"
     loan_statement: "Loan Statement"
     headers:
       date: "Date"
