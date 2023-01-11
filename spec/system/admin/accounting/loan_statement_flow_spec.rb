@@ -79,7 +79,7 @@ describe "loan statement flow", :accounting do
 
         context "end date is after closed books date" do
           before do
-            division.update(closed_books_date:Time.zone.now.last_year.beginning_of_year)
+            division.root.update(closed_books_date:Time.zone.now.last_year.beginning_of_year)
           end
           scenario "shows draft warning" do
             visit "/admin/loans/#{loan.id}/transactions"
@@ -90,7 +90,7 @@ describe "loan statement flow", :accounting do
 
         context "end date is before closed books date" do
           before do
-            division.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+            division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
           end
           scenario "hides draft warning" do
             visit "/admin/loans/#{loan.id}/transactions"
