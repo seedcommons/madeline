@@ -12,11 +12,9 @@ section.transactions
   - if @errors.empty?
     .show-actions.hidden-print
       - if policy(@sample_transaction).sync?
-        a.view-element
-          i.fa.fa-pencil.fa-large
-          = link_to t(".sync_data"),
-            sync_admin_accounting_transactions_path(project_id: @loan.id),
-            data: {action: "sync-data"}, method: :post
+          = link_to sync_admin_accounting_transactions_path(project_id: @loan.id), data: {action: "sync-data"}, method: :post
+              i.fa.fa-pencil.fa-large>
+              = t(".sync_data")
       - if policy(@sample_transaction).show?
         span.dropdown
           a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
