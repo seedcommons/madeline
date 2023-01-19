@@ -35,7 +35,7 @@ describe "loan statement flow", :accounting do
 
     describe "generate last year's statement" do
       context "when transactions present" do
-        let!(:transactions_to_old) { create_list(:accounting_transaction, 3,
+        let!(:transactions_too_old) { create_list(:accounting_transaction, 3,
           project: loan,
           description: "old",
           txn_date: Time.zone.now.last_year.beginning_of_year - 1.day,
@@ -45,7 +45,7 @@ describe "loan statement flow", :accounting do
           description: "test transaction",
           txn_date: Time.zone.now.last_year.beginning_of_year + 3.days,
         )}
-        let!(:transactions_to_old) { create_list(:accounting_transaction, 3,
+        let!(:transactions_too_recent) { create_list(:accounting_transaction, 3,
           project: loan,
           description: "too recent",
           txn_date: Time.zone.now.last_year.end_of_year + 30.days,
@@ -53,27 +53,40 @@ describe "loan statement flow", :accounting do
 
         context "as admin" do
           let(:user) { create_admin(division) }
+          before do
+            division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+          end
 
           scenario "able to access statement" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Statement for last year"
-            expect(page).to have_content("Print")
-            expect(page).to have_content(division.name)
-            expect(page).to have_content("test transaction")
+            click_on "Print"
+            new_window = window_opened_by { click_link "Statement for Last Year" }
+            within_window new_window do
+              expect(page).to have_content("Print")
 
-            # exclude txns outside last year
-            expect(page).not_to have_content("old")
-            expect(page).not_to have_content("too recent")
+              expect(page).to have_content(division.name)
+              expect(page).to have_content("test transaction")
+
+              # exclude txns outside last year
+              expect(page).not_to have_content("old")
+              expect(page).not_to have_content("too recent")
+            end
           end
         end
 
         context "as member" do
+          before do
+            division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+          end
           let(:user) { create_member(division) }
 
           scenario "able to access statement" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Statement for last year"
-            expect(page).to have_content("Print")
+            click_on "Print"
+            new_window = window_opened_by { click_link "Statement for Last Year" }
+            within_window new_window do
+              expect(page).to have_content("Print")
+            end
           end
         end
 
@@ -83,8 +96,11 @@ describe "loan statement flow", :accounting do
           end
           scenario "shows draft warning" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Statement for last year"
-            expect(page).to have_content("DRAFT")
+            click_on "Print"
+            new_window = window_opened_by { click_link "Statement for Last Year" }
+            within_window new_window do
+              expect(page).to have_content("DRAFT")
+            end
           end
         end
 
@@ -94,8 +110,11 @@ describe "loan statement flow", :accounting do
           end
           scenario "hides draft warning" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Statement for last year"
-            expect(page).not_to have_content("DRAFT")
+            click_on "Print"
+            new_window = window_opened_by { click_link "Statement for Last Year" }
+            within_window new_window do
+              expect(page).not_to have_content("DRAFT")
+            end
           end
         end
       end
