@@ -1,0 +1,50 @@
+div.statement
+  div.statement-header
+    - if @loan.division.logo.present?
+      = image_tag @loan.division.logo.url(:banner)
+    - else
+      h1 #{@loan.division.name}
+
+  div.block_container
+    div.statement-block.loan-info
+      p.coop-name #{@loan.organization.name}
+      p #{t("statement.contract_loan_amount")}: #{@loan.amount}
+      p #{t("statement.interest_rate")}: #{@loan.rate}
+      p #{@loan.name}
+
+    - if @is_draft
+      div.statement-block.draft-warning
+        p #{t("statement.draft_warning")}
+
+    div.statement-block.statement-dates
+      p #{ldate(@start_date, format: "%B %-d, %Y")} - #{ldate(@end_date, format: "%B %-d, %Y")}
+      p #{t("statement.loan_statement")}
+
+  table.table.table-bordered.statement-table
+
+    thead
+        tr
+          th #{t("statement.headers.date")}
+          th #{t("statement.headers.type")}
+          th #{t("statement.headers.description")}
+          th #{t("statement.headers.vendor")}
+          th #{t("statement.headers.amount")}
+          th #{t("statement.headers.change_in_interest")}
+          th #{t("statement.headers.change_in_principal")}
+          th #{t("statement.headers.interest_balance")}
+          th #{t("statement.headers.principal_balance")}
+          th #{t("statement.headers.total_balance")}
+    tbody
+      - @transactions.each do |t|
+        tr
+          td = "#{t.txn_date}"
+          td = "#{t.loan_transaction_type_label}"
+          td = "#{t.description}"
+          td = "#{t.vendor.try(:name)}"
+          td = "#{format_currency(t.amount, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.change_in_interest, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.change_in_principal, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.interest_balance, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.principal_balance, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.total_balance, t.currency, tooltip: false)}"
+        end

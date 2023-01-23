@@ -1,0 +1,23 @@
+en:
+  statement:
+    contract_loan_amount: "Contract Loan Amount"
+    draft_warning: "WARNING: This is a DRAFT. Information subject to change."
+    interest_rate: "Interest Rate"
+    last_year_statement: "Statement for Last Year"
+    loan_statement: "Loan Statement"
+    headers:
+      amount: "Amount"
+      date: "Date"
+      description: "Description"
+      debit: "Debit"
+      capital_returned: "Capital Returned"
+      capital_balance: "Capital Balance"
+      change_in_interest: "Change in Interest"
+      change_in_principal: "Change in Principal"
+      credit: "Credit"
+      interest_paid: "Interest Paid"
+      interest_balance: "Interest Balance"
+      principal_balance: "Principal Balance"
+      total_balance: "Total Balance"
+      type: "Type"
+      vendor: "Vendor"

@@ -132,6 +132,16 @@ module Admin
       prep_attached_links if @mode != "details-only"
     end
 
+    def statement
+      @loan = Loan.find(params[:id])
+      authorize(@loan, :show?)
+      @start_date = Time.zone.today.last_year.beginning_of_year
+      @end_date = Time.zone.today.last_year.end_of_year
+      @transactions = @loan.transactions.in_date_range(@start_date, @end_date)
+      @print_view = true
+      @is_draft = @loan.division.shared_closed_books_date.nil? || @end_date > @loan.division.shared_closed_books_date
+    end
+
     private
 
     def loan_params

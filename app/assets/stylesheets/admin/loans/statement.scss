@@ -1,0 +1,50 @@
+body.admin.print-view.statement {
+  width: 100%;
+  padding: 2%;
+
+}
+
+.statement-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.statement-block {
+  color: #383636; //seedcommons gray
+  border: solid 1px #517b91; //seedcommons blue
+  padding: 1em;
+  margin-bottom: 2em;
+  p {
+    margin: 0 0 0 2px;
+  }
+}
+
+.draft-warning {
+  color: #83353b; //red requested by tww
+  font-weight: bolder;
+  font-size: 18pt;
+  border: none;
+}
+
+.loan-info {
+  .coop-name {
+    font-weight: bold;
+  }
+}
+
+.statement-dates {
+  //float: right;
+}
+
+.statement-table {
+  margin-top: 2em;
+  thead {
+    background-color: #517b91; //seedcommons blue
+  }
+}
