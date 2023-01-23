@@ -25,25 +25,26 @@ div.statement
     thead
         tr
           th #{t("statement.headers.date")}
+          th #{t("statement.headers.type")}
           th #{t("statement.headers.description")}
-          th #{t("statement.headers.debit")}
-          th #{t("statement.headers.credit")}
-          th #{t("statement.headers.interest_Paid")}
-          th #{t("statement.headers.interest_Balance")}
-          th #{t("statement.headers.capital_returned")}
-          th #{t("statement.headers.capital_balance")}
+          th #{t("statement.headers.vendor")}
+          th #{t("statement.headers.amount")}
+          th #{t("statement.headers.change_in_interest")}
+          th #{t("statement.headers.change_in_principal")}
+          th #{t("statement.headers.interest_balance")}
+          th #{t("statement.headers.principal_balance")}
           th #{t("statement.headers.total_balance")}
     tbody
       - @transactions.each do |t|
         tr
           td = "#{t.txn_date}"
+          td = "#{t.loan_transaction_type_label}"
           td = "#{t.description}"
-          td = "#{format_currency(t.amount, t.currency, tooltip: false)}" if t.loan_transaction_type_value == "disbursement"
-          td = "#{format_currency(t.amount, t.currency, tooltip: false)}" if t.loan_transaction_type_value == "repayment"
-          td = "#{format_currency(t.interest_paid, t.currency, tooltip: false)}"
+          td = "#{t.vendor.try(:name)}"
+          td = "#{format_currency(t.amount, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.change_in_interest, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.change_in_principal, t.currency, tooltip: false)}"
           td = "#{format_currency(t.interest_balance, t.currency, tooltip: false)}"
-          - principal_returned = t.loan.repayments_of_principal(start_date: nil, end_date: t.txn_date)
-          td = "#{format_currency(principal_returned, t.currency, tooltip: false)}"
           td = "#{format_currency(t.principal_balance, t.currency, tooltip: false)}"
           td = "#{format_currency(t.total_balance, t.currency, tooltip: false)}"
         end
