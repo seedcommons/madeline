@@ -310,7 +310,7 @@ GEM
     mime-types-data (3.2020.0512)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
+    mini_portile2 (2.8.1)
     minitest (5.17.0)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
@@ -364,7 +364,7 @@ GEM
       nokogiri
       oauth2 (~> 1.4)
       roxml (~> 4.0)
-    racc (1.6.1)
+    racc (1.6.2)
     rack (2.2.4)
     rack-livereload (0.3.17)
       rack
@@ -400,8 +400,8 @@ GEM
       activesupport (>= 3.2)
       choice (~> 0.2.0)
       ruby-graphviz (~> 1.2)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.5.0)
+      loofah (~> 2.19, >= 2.19.1)
     rails-i18n (6.0.0)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 7)
