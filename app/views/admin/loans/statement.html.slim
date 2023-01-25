@@ -1,3 +1,5 @@
+- content_for(:title, t("statement.title", name: @loan.name, start_date: @start_date, end_date:@end_date))
+
 div.statement
   div.statement-header
     - if @loan.division.logo.present?
