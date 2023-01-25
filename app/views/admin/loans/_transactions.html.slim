@@ -22,7 +22,9 @@ section.transactions
             => t('loan.print')
             span.caret
           ul.dropdown-menu.dropdown-menu-right.print-actions
-            li = link_to(t('statement.last_year_statement'), statement_admin_loan_url,
+            li = link_to(t('statement.last_year_statement'), statement_admin_loan_url(start_date: Time.zone.today.last_year.beginning_of_year, end_date: Time.zone.today.last_year.end_of_year),
+              data: {project_id: @loan.id}, target: '_blank')
+            li = link_to('2021 statement', statement_admin_loan_url(start_date: "2021-01-01", end_date: "2021-12-31"),
               data: {project_id: @loan.id}, target: '_blank')
 
       - if policy(@sample_transaction).create?
