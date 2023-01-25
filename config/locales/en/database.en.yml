@@ -17,8 +17,8 @@ en:
         liquidated: 'Liquidated'
         possible: 'Possible'
         refinanced: 'Refinanced'
-        relationship: 'Relationship'
-        relationship_active: 'Relationship Active'
+        relationship: '----'
+        relationship_active: '----'
       loan_transaction_type:
         interest: 'Interest'
         disbursement: 'Disbursement'
