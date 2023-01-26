@@ -25,6 +25,19 @@ en:
       standard_loan_data_export: "Standard Loan Data Export"
       enhanced_loan_data_export: "Enhanced Loan Data Export"
       numeric_answer_data_export: "Numeric Answer Only Loan Data Export"
+      annual_accounting_loan_data_export: "Annual Accounting Loan Data Export"
+  annual_accounting_loan_data_exports:
+    headers:
+      loan_id: "Loan ID"
+      total_sum_repayments: "Total Repayments %{start_date} - %{end_date}"
+      total_sum_disbursements: "Total Disbursements %{start_date} - %{end_date}"
+      total_interest_accrued: "Total Interest Accrued %{start_date} - %{end_date}"
+      end_total_balance: "Loan Total Balance as of %{date}"
+      end_interest_balance: "Loan Interest Balance as of %{date}"
+      end_principal_balance: "Loan Principal Balance as of %{date}"
+      sum_repayments: "Repayments %{start_date} - %{end_date}"
+      sum_disbursements: "Disbursements %{start_date} - %{end_date}"
+      interest_accrued: "Interest Accrued %{start_date} - %{end_date}"
   standard_loan_data_exports:
     headers:
       accrued_interest: "Accrued Interest"

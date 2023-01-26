@@ -20,6 +20,10 @@ FactoryBot.define do
       type { NumericAnswerDataExport }
     end
 
+    factory :annual_accounting_loan_data_export, class: 'AnnualAccountingLoanDataExport' do
+      type { AnnualAccountingLoanDataExport}
+    end
+
     trait :with_task do
       after(:create) do |export|
         create(:task, taskable: export, job_class: DataExportTaskJob)
