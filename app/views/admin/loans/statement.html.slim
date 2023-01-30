@@ -7,20 +7,21 @@ div.statement
     - else
       h1 #{@loan.division.name}
 
-  div.block_container
+  div.block-container
     div.statement-block.loan-info
       p.coop-name #{@loan.organization.name}
       p #{t("statement.contract_loan_amount")}: #{@loan.amount}
       p #{t("statement.interest_rate")}: #{@loan.rate}
       p #{@loan.name}
 
-    - if @is_draft
-      div.statement-block.draft-warning
-        p #{t("statement.draft_warning")}
 
     div.statement-block.statement-dates
-      p #{ldate(@start_date, format: "%B %-d, %Y")} - #{ldate(@end_date, format: "%B %-d, %Y")}
+      p #{ldate(@start_date, format: "%b %-d, %Y")} - #{ldate(@end_date, format: "%b %-d, %Y")}
       p #{t("statement.loan_statement")}
+
+  - if @is_draft
+    div.draft-warning
+      p #{t("statement.draft_warning")}
 
   table.table.table-bordered.statement-table
 
