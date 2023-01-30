@@ -250,8 +250,9 @@ class Loan < Project
      end
      date_ranges << [end_date.beginning_of_year, end_date]
    end
+
   # for use in statements, returns tuples of statement start & end dates
-  def annual_statement_date_pairs
+  def annual_statement_ranges
     date_ranges = []
     start_date = transactions.pluck(:txn_date).sort.first
     end_date = Date.today
@@ -266,7 +267,7 @@ class Loan < Project
   end
 
   # for use in statements, returns tuples of statement start & end dates
-  def quarterly_statement_date_pairs
+  def quarterly_statement_ranges
     date_ranges = []
     start_date = Date.today.last_year.beginning_of_year
     end_date = Date.today
