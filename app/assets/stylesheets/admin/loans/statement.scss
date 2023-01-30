@@ -1,8 +1,13 @@
 body.admin.print-view.statement {
   width: 100%;
   padding: 2%;
-
 }
+
+.for-statement {
+  background-color: #33647E !important; //seedcommons dark blue
+  width: 300%;
+  font-size: 4em;
+ }
 
 .statement-header {
   display: flex;

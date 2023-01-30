@@ -139,7 +139,7 @@ module Admin
       @end_date = Time.zone.today.last_year.end_of_year
       @transactions = @loan.transactions.in_date_range(@start_date, @end_date)
       @print_view = true
-      @hide_title = true
+      @for_statement = true
       @is_draft = @loan.division.shared_closed_books_date.nil? || @end_date > @loan.division.shared_closed_books_date
     end
 

@@ -4,10 +4,10 @@ div.visible-print-preview
 section.content
 
   .page-header
-    - unless @hide_title
+    - unless @for_statement
       h1.page-title = yield :title
     .with-title.visible-print-preview
-      .btn.btn-primary data-action="print" = t('common.print')
+      .btn.btn-primary class=("for-statement" if @for_statement) data-action="print" = t('common.print') 
 
   = yield
 
