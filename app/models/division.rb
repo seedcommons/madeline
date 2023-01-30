@@ -89,6 +89,14 @@ class Division < ApplicationRecord
     @self_and_ancestors_hash.key?(other_division.id)
   end
 
+  # returns the oldest ancestor before root for the division (can be oneself)
+  # returns nil for root division
+  # pls use this method sparingly per page load, or memoize
+  def top_level_division
+    top_level_name = self.ancestry_path.try(:[], 1)
+    return Division.find_by(name: top_level_name) if top_level_name.present?
+  end
+
   def has_logo_text?
     logo_text.present?
   end
