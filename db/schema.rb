@@ -175,7 +175,6 @@ ActiveRecord::Schema.define(version: 2023_01_30_223046) do
     t.text "homepage"
     t.integer "interest_income_account_id"
     t.integer "interest_receivable_account_id"
-    t.string "internal_name"
     t.jsonb "locales"
     t.string "logo"
     t.string "logo_content_type"
