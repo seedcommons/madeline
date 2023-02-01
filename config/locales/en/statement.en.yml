@@ -1,5 +1,6 @@
 en:
   statement:
+    annual: "%{year} Statement"
     contract_loan_amount: "Contract Loan Amount"
     draft_warning: "WARNING: This is a DRAFT. Information subject to change."
     interest_rate: "Interest Rate"
@@ -21,3 +22,5 @@ en:
       total_balance: "Total Balance"
       type: "Type"
       vendor: "Vendor"
+    quarterly: "%{quarter} Statement %{year}"
+    title: "Statement for %{name}, %{start_date} - %{end_date}"

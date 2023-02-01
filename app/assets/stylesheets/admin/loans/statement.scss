@@ -1,8 +1,13 @@
 body.admin.print-view.statement {
   width: 100%;
   padding: 2%;
-
 }
+
+.for-statement {
+  background-color: #33647E !important; //seedcommons dark blue
+  width: 300%;
+  font-size: 4em;
+ }
 
 .statement-header {
   display: flex;
@@ -10,19 +15,26 @@ body.admin.print-view.statement {
   justify-content: center;
 }
 
-.block_container {
-  display: flex;
-  justify-content: space-between;
+.block-container {
+ height: 8em;
 }
 
 .statement-block {
   color: #383636; //seedcommons gray
   border: solid 1px #517b91; //seedcommons blue
-  padding: 1em;
+  padding: .5em;
   margin-bottom: 2em;
   p {
     margin: 0 0 0 2px;
   }
+}
+
+.loan-info {
+  float: left;
+}
+
+.statement-dates {
+  float: right;
 }
 
 .draft-warning {
@@ -30,6 +42,10 @@ body.admin.print-view.statement {
   font-weight: bolder;
   font-size: 18pt;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .loan-info {
