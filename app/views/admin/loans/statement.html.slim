@@ -2,10 +2,10 @@
 
 div.statement
   div.statement-header
-    - if @loan.top_level_division.logo.present?
+    - if @loan.top_level_division.try(:logo).present?
       = image_tag @loan.division.logo.url(:banner)
     - else
-      h1 #{@loan.top_level_division.name}
+      h1 #{@loan.top_level_division.try(:name) || @loan.division.name}
 
   div.block-container
     div.statement-block.loan-info

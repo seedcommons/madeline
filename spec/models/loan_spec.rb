@@ -55,6 +55,50 @@ describe Loan, type: :model do
   context 'model methods' do
     let(:loan) { create(:loan) }
 
+    describe ".top_level_division" do
+      before do
+        @top_level_division_A = create(:division, parent: root_division)
+        @top_level_division_B = create(:division, parent: root_division)
+        @div_A_1 = create(:division, parent: @top_level_division_A)
+        @div_B_1 = create(:division, parent: @top_level_division_B)
+        @div_B_1_a = create(:division, parent: @div_B_1)
+        @div_B_1_b = create(:division, parent: @div_B_1)
+        @div_B_1_a_i = create(:division, parent: @div_B_1_a)
+      end
+
+      context "root division" do
+        before do
+          @loan = create(:loan, division: root_division)
+        end
+
+        it "returns nil" do
+          expect(@loan.top_level_division).to be_nil
+        end
+      end
+
+      context "loan belongs to top level division" do
+        before do
+          @loan = create(:loan, division: @top_level_division_A)
+        end
+
+        it "returns own division" do
+          puts @loan.division.ancestry_path
+          expect(@loan.top_level_division).to eq @top_level_division_A
+        end
+      end
+
+      context "loan belongs to grandchild division of a top level" do
+        before do
+          @loan = create(:loan, division: @div_B_1_a_i)
+        end
+
+        it "returns returns child of root this loan's division descended from" do
+          puts @loan.division.ancestry_path
+          expect(@loan.top_level_division).to eq @top_level_division_B
+        end
+      end
+    end
+
     describe '.country' do
       context 'with country' do
         before do
@@ -89,23 +133,12 @@ describe Loan, type: :model do
         create(
           :loan,
           organization: create(:organization, country: @country_us, city: 'Ann Arbor'),
-          division: create(:division, parent: root_division, organization: create(:organization, country: @country_us))
+          division: create(:division, parent: root_division)
         )
       end
       it 'returns city and country' do
         expect(loan.location).to eq "Ann Arbor, United States"
       end
-
-      context 'without city' do
-        before { pending 'confirm if the default country is still relevant and desireable' }
-        let(:loan) { create(:loan, organization: create(:organization, country: @country_us, city: "")) }
-
-        it 'returns country' do
-          expect(loan.location).to eq loan.country.name
-        end
-      end
-
-      ## JE todo: confirm if a need to implement and test logic to inherit country from divisions associated org
     end
 
     describe '.signing_date_long' do

@@ -22,6 +22,20 @@ describe "loan statement flow", :accounting do
     login_as(user, scope: :user)
   end
 
+  context "loan has no transactions", js: true do
+    context "as admin" do
+      let(:user) { create_admin(division) }
+      before do
+        division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+      end
+
+      scenario "loan statements not available to print" do
+        visit "/admin/loans/#{loan.id}/transactions"
+        expect(page).not_to have_content("Print Loan Statement")
+      end
+    end
+  end
+
   context "transactions for loan", js: true do
     let(:acct_one) { create(:accounting_account) }
     let(:acct_two) { create(:accounting_account) }
@@ -59,7 +73,7 @@ describe "loan statement flow", :accounting do
 
           scenario "able to access statement" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Print"
+            click_on "Print Loan Statement"
             new_window = window_opened_by { click_link "Statement for Last Year" }
             within_window new_window do
               expect(page).to have_content("Print")
@@ -72,6 +86,34 @@ describe "loan statement flow", :accounting do
               expect(page).not_to have_content("too recent")
             end
           end
+
+          context "end date is after closed books date" do
+            before do
+              division.root.update(closed_books_date:Time.zone.now.last_year.beginning_of_year)
+            end
+            scenario "shows draft warning" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              click_on "Print Loan Statement"
+              new_window = window_opened_by { click_link "Statement for Last Year" }
+              within_window new_window do
+                expect(page).to have_content("DRAFT")
+              end
+            end
+          end
+
+          context "end date is before closed books date" do
+            before do
+              division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+            end
+            scenario "hides draft warning" do
+              visit "/admin/loans/#{loan.id}/transactions"
+              click_on "Print Loan Statement"
+              new_window = window_opened_by { click_link "Statement for Last Year" }
+              within_window new_window do
+                expect(page).not_to have_content("DRAFT")
+              end
+            end
+          end
         end
 
         context "as member" do
@@ -82,38 +124,10 @@ describe "loan statement flow", :accounting do
 
           scenario "able to access statement" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Print"
+            click_on "Print Loan Statement"
             new_window = window_opened_by { click_link "Statement for Last Year" }
             within_window new_window do
               expect(page).to have_content("Print")
-            end
-          end
-        end
-
-        context "end date is after closed books date" do
-          before do
-            division.root.update(closed_books_date:Time.zone.now.last_year.beginning_of_year)
-          end
-          scenario "shows draft warning" do
-            visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Print"
-            new_window = window_opened_by { click_link "Statement for Last Year" }
-            within_window new_window do
-              expect(page).to have_content("DRAFT")
-            end
-          end
-        end
-
-        context "end date is before closed books date" do
-          before do
-            division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
-          end
-          scenario "hides draft warning" do
-            visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Print"
-            new_window = window_opened_by { click_link "Statement for Last Year" }
-            within_window new_window do
-              expect(page).not_to have_content("DRAFT")
             end
           end
         end
