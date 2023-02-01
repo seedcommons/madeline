@@ -71,7 +71,7 @@ describe "loan statement flow", :accounting do
             division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
           end
 
-          scenario "able to access statement" do
+          scenario "statement available and only shows txns from last year" do
             visit "/admin/loans/#{loan.id}/transactions"
             click_on "Print Loan Statement"
             new_window = window_opened_by { click_link "Statement for Last Year" }

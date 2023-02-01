@@ -24,14 +24,16 @@ section.transactions
           ul.dropdown-menu.dropdown-menu-right.print-actions
             li = link_to(t('statement.last_year_statement'), statement_admin_loan_url(start_date: Time.zone.today.last_year.beginning_of_year, end_date: Time.zone.today.last_year.end_of_year),
               data: {project_id: @loan.id}, target: '_blank')
-            li.divider role="separator"
-            - @loan.annual_statement_ranges.each do |range|
-              li = link_to(statement_name(range[0]), statement_admin_loan_url(start_date: range[0], end_date: range[1]),
-                data: {project_id: @loan.id}, target: '_blank')
-            li.divider role="separator"
-            - @loan.quarterly_statement_ranges.each do |range|
-              li = link_to(statement_name(range[0], is_quarterly: true), statement_admin_loan_url(start_date: range[0], end_date: range[1]),
-                data: {project_id: @loan.id}, target: '_blank')
+            /! # links to add'l statements, waiting for go ahead (Jan 2023)
+              li.divider role="separator"
+              - @loan.annual_statement_ranges.each do |range|
+                li = link_to(statement_name(range[0]), statement_admin_loan_url(start_date: range[0], end_date: range[1]),
+                  data: {project_id: @loan.id}, target: '_blank')
+              li.divider role="separator"
+              - @loan.quarterly_statement_ranges.each do |range|
+                li = link_to(statement_name(range[0], is_quarterly: true), statement_admin_loan_url(start_date: range[0], end_date: range[1]),
+                  data: {project_id: @loan.id}, target: '_blank')
+
 
       - if policy(@sample_transaction).create?
         = link_to t(".new_transaction"), "#", class: "btn btn-primary",
