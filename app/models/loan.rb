@@ -237,4 +237,48 @@ class Loan < Project
     return nil if transactions.empty?
     Accounting::SyncIssue.where(project_id: id, level: level).size
   end
+
+
+    #start_date is the data export's start date; end_date is the data export's end_date
+   def calculate_date_ranges
+     date_ranges = []
+     next_start_date = loan.transactions
+     next_end_date = start_date.end_of_year
+     while next_end_date < end_date.beginning_of_year
+       date_ranges << [next_start_date, next_end_date]
+       next_end_date = next_end_date + 1.year
+       next_start_date = next_end_date.beginning_of_year
+     end
+     date_ranges << [end_date.beginning_of_year, end_date]
+   end
+
+  # for use in statements, returns tuples of statement start & end dates
+  def annual_statement_ranges
+    date_ranges = []
+    start_date = transactions.pluck(:txn_date).sort.first
+    end_date = Date.today
+    next_start_date = start_date
+    next_end_date = start_date.end_of_year
+    while next_end_date < end_date
+      date_ranges << [next_start_date, next_end_date]
+      next_end_date = next_end_date + 1.year
+      next_start_date = next_end_date.beginning_of_year
+    end
+    date_ranges << [end_date.beginning_of_year, end_date]
+  end
+
+  # for use in statements, returns tuples of statement start & end dates
+  def quarterly_statement_ranges
+    date_ranges = []
+    start_date = Date.today.last_year.beginning_of_year
+    end_date = Date.today
+    next_start_date = start_date
+    next_end_date = start_date.end_of_quarter
+    while next_end_date < end_date
+      date_ranges << [next_start_date, next_end_date]
+      next_start_date = next_end_date.end_of_quarter + 1.day
+      next_end_date = next_start_date.end_of_quarter
+    end
+    date_ranges << [end_date.beginning_of_year, end_date]
+  end
 end
