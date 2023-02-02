@@ -224,8 +224,8 @@ GEM
       nokogiri (>= 1.5.11, < 2.0.0)
     font-awesome-rails (4.7.0.7)
       railties (>= 3.2, < 7)
-    font-awesome-sass (5.15.1)
-      sassc (>= 1.11)
+    font-awesome-sass (6.2.1)
+      sassc (~> 2.0)
     formatador (0.2.5)
     fullcalendar-rails (3.9.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
@@ -600,7 +600,7 @@ DEPENDENCIES
   fix-db-schema-conflicts
   fog-aws
   font-awesome-rails
-  font-awesome-sass (~> 5.12)
+  font-awesome-sass (~> 6.2.1)
   fullcalendar-rails
   goldiloader
   gon

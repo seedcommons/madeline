@@ -46,6 +46,10 @@ body.admin.print-view.statement {
   align-items: center;
   justify-content: center;
   width: 100%;
+  .fa {
+    margin-right: .25em;
+    margin-top: -.25em;
+  }
 }
 
 .loan-info {
