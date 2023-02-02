@@ -12,6 +12,7 @@ gem "bootstrap-datepicker-rails"
 gem "bootstrap-sass"
 gem "coffee-rails", "~> 5.0.0"
 gem "font-awesome-rails"
+gem "font-awesome-sass", "~> 6.2.1"
 gem "fullcalendar-rails"
 gem "jquery-rails"
 gem "momentjs-rails"
@@ -48,9 +49,7 @@ gem "route_translator", "~> 10.0"
 gem "closure_tree", "~> 7.3"
 
 # Tables
-gem "font-awesome-sass", "~> 5.12"
 gem "jquery-ui-rails"
-
 gem "wice_grid", git: "https://github.com/sassafrastech/wice_grid.git", branch: "fix/all"
 
 gem "active_model_serializers" # Generating JSON data
