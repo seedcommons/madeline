@@ -94,11 +94,11 @@ describe "loan statement flow", :accounting do
               expect(page).not_to have_content("too recent")
 
               within(:xpath, "//table/tbody/tr[1]/td[3]") do
-                page.should have_content('most recent of last year')
+                expect(page).to have_content('most recent of last year')
               end
 
               within(:xpath, "//table/tbody/tr[3]/td[3]") do
-                page.should have_content('oldest of last year')
+                expect(page).to have_content('oldest of last year')
               end
             end
           end
@@ -112,7 +112,6 @@ describe "loan statement flow", :accounting do
               click_on "Print Loan Statement"
               new_window = window_opened_by { click_link "Statement for Last Year" }
               within_window new_window do
-                save_and_open_page
                 expect(page).to have_content("DRAFT")
               end
             end
@@ -133,19 +132,28 @@ describe "loan statement flow", :accounting do
           end
         end
 
+        context "as admin of non-root division" do
+          before do
+            division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+          end
+          let(:non_root_div) { create(:division, parent: division, name: "non root") }
+          let(:user) { create_admin(non_root_div) }
+
+          scenario "is not able to access statement" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).not_to have_content "Print Loan Statement"
+          end
+        end
+
         context "as member" do
           before do
             division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
           end
           let(:user) { create_member(division) }
 
-          scenario "able to access statement" do
+          scenario "is not able to access statement" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Print Loan Statement"
-            new_window = window_opened_by { click_link "Statement for Last Year" }
-            within_window new_window do
-              expect(page).to have_content("Print")
-            end
+            expect(page).not_to have_content "Print Loan Statement"
           end
         end
       end
