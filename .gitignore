@@ -26,6 +26,7 @@ scratch.*
 *.scratch
 *.swp
 *.swo
+tx/*
 config/secrets.yml
 config/scout_apm.yml
 setenv.sh
