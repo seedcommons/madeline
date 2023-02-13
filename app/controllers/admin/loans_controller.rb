@@ -134,7 +134,7 @@ module Admin
 
     def statement
       @loan = Loan.find(params[:id])
-      authorize(@loan, :show?)
+      authorize(@loan, :statement_access?)
       @start_date = Date.parse(params[:start_date]) #Time.zone.today.last_year.beginning_of_year
       @end_date = Date.parse(params[:end_date]) #Time.zone.today.last_year.end_of_year
       @transactions = @loan.transactions.in_date_range(@start_date, @end_date).most_recent_first
