@@ -93,7 +93,6 @@ describe "loan statement flow", :accounting do
               expect(page).not_to have_content("too old")
               expect(page).not_to have_content("too recent")
 
-              save_and_open_page
               within(:xpath, "//table/tbody/tr[1]/td[3]") do
                 page.should have_content('most recent of last year')
               end
@@ -113,6 +112,7 @@ describe "loan statement flow", :accounting do
               click_on "Print Loan Statement"
               new_window = window_opened_by { click_link "Statement for Last Year" }
               within_window new_window do
+                save_and_open_page
                 expect(page).to have_content("DRAFT")
               end
             end

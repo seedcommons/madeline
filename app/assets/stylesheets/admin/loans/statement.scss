@@ -45,6 +45,11 @@ body.admin.print-view.statement {
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  // START always hide this warning until notice from TWW
+  display: none;
+  // END always hide this warning until notice from TWW
+
   width: 100%;
   .fa {
     margin-right: .25em;
