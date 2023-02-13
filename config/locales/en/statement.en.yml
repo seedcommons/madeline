@@ -25,4 +25,4 @@ en:
       type: "Type"
       vendor: "Vendor"
     quarterly: "%{quarter} Statement %{year}"
-    title: "Statement for %{name}, %{start_date} - %{end_date}"
+    title: "Loan %{name} Statement %{start_date} - %{end_date}"
