@@ -5,6 +5,7 @@ en:
     draft_warning: "WARNING: This is a DRAFT. Information subject to change."
     interest_rate: "Interest Rate"
     last_year_statement: "Statement for Last Year"
+    loan_id: "Loan ID"
     loan_statement: "Loan Statement"
     headers:
       amount: "Amount"
