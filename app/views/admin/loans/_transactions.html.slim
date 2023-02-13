@@ -24,6 +24,9 @@ section.transactions
           ul.dropdown-menu.dropdown-menu-right.print-actions
             li = link_to(t('statement.last_year_statement'), statement_admin_loan_url(start_date: Time.zone.today.last_year.beginning_of_year, end_date: Time.zone.today.last_year.end_of_year),
               data: {project_id: @loan.id}, target: '_blank')
+            li.divider role="separator"
+            li = link_to(t('statement.historical'), statement_admin_loan_url(start_date: (@loan.signing_date || Date.parse("01-01-2000")), end_date: Time.zone.today),
+              data: {project_id: @loan.id}, target: '_blank')
             /! # links to add'l statements, waiting for go ahead (Jan 2023)
               li.divider role="separator"
               - @loan.annual_statement_ranges.each do |range|
