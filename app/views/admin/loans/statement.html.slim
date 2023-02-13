@@ -10,7 +10,7 @@ div.statement
   div.block-container
     div.statement-block.loan-info
       p.coop-name #{@loan.organization.name}
-      p #{t("statement.contract_loan_amount")}: #{@loan.amount}
+      p #{t("statement.contract_loan_amount")}: #{format_currency(@loan.amount, @loan.currency, tooltip: false)}
       p #{t("statement.interest_rate")}: #{@loan.rate}
       p #{@loan.name}
 
