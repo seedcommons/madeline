@@ -18,6 +18,10 @@ div.statement
     div.statement-block.statement-dates
       p #{ldate(@start_date, format: "%b %-d, %Y")} - #{ldate(@end_date, format: "%b %-d, %Y")}
       p #{t("statement.loan_statement")}
+      // the following value is estimated, because it is total of change in interest in all txns Madeline classifies as repayments
+      // it is possible that an organization could repay interest outside of these transactions (e.g. "other")
+      // but not all changes in interest across all txn types are repayments of interest either
+      p #{t("statement.estimated_interest_repaid")}: #{format_currency(@loan.total_interest_repaid(@start_date, @end_date), @loan.currency, tooltip: false)}
 
   - if @is_draft
     div.draft-warning

@@ -184,7 +184,7 @@ class Loan < Project
     transactions.by_type("repayment").in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
   end
 
-  def total_interest_repaid(start_date: nil, end_date: nil)
+  def total_interest_repaid(start_date, end_date)
     return repayments_of_interest(start_date: start_date, end_date: end_date) * -1
   end
 
