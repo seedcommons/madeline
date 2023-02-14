@@ -10,7 +10,7 @@ div.statement
   div.block-container
     div.statement-block.loan-info
       p.coop-name #{@loan.organization.name}
-      p #{t("statement.contract_loan_amount")}: #{format_currency(@loan.amount, @loan.currency, tooltip: false)}
+      p #{t("statement.contract_loan_amount")}: #{format_currency(@loan.amount, @loan.currency, tooltip: false, show_country: false)}
       p #{t("statement.interest_rate")}: #{@loan.rate}
       p #{t("statement.loan_id")}: #{@loan.id}
 
@@ -18,6 +18,10 @@ div.statement
     div.statement-block.statement-dates
       p #{ldate(@start_date, format: "%b %-d, %Y")} - #{ldate(@end_date, format: "%b %-d, %Y")}
       p #{t("statement.loan_statement")}
+      // the following value is estimated, because it is total of change in interest in all txns Madeline classifies as repayments
+      // it is possible that an organization could repay interest outside of these transactions (e.g. "other")
+      // but not all changes in interest across all txn types are repayments of interest either
+      p #{t("statement.estimated_interest_repaid")}: #{format_currency(@loan.total_interest_repaid(@start_date, @end_date), @loan.currency, tooltip: false, show_country: false)}
 
   - if @is_draft
     div.draft-warning
@@ -31,13 +35,13 @@ div.statement
           th.date #{t("statement.headers.date")}
           th.type #{t("statement.headers.type")}
           th.vendor #{t("statement.headers.vendor")}
-          th.description #{t("statement.headers.description")}
-          th.amount #{t("statement.headers.amount")}
-          th.money #{t("statement.headers.change_in_interest")}
-          th.money #{t("statement.headers.change_in_principal")}
-          th.money #{t("statement.headers.interest_balance")}
-          th.money #{t("statement.headers.principal_balance")}
-          th.money #{t("statement.headers.total_balance")}
+          th.txn_description #{t("statement.headers.description")}
+          th.amount #{t("statement.headers.amount", currency: currency_abbr(@loan.currency))}
+          th.money #{t("statement.headers.change_in_interest", currency: currency_abbr(@loan.currency))}
+          th.money #{t("statement.headers.change_in_principal", currency: currency_abbr(@loan.currency))}
+          th.money #{t("statement.headers.interest_balance", currency: currency_abbr(@loan.currency))}
+          th.money #{t("statement.headers.principal_balance", currency: currency_abbr(@loan.currency))}
+          th.money #{t("statement.headers.total_balance", currency: currency_abbr(@loan.currency))}
     tbody
       - @transactions.each do |t|
         tr
@@ -45,10 +49,10 @@ div.statement
           td = "#{t.loan_transaction_type_label}"
           td = "#{t.vendor.try(:name)}"
           td = "#{t.description}"
-          td = "#{format_currency(t.amount, t.currency, tooltip: false)}"
-          td = "#{format_currency(t.change_in_interest, t.currency, tooltip: false)}"
-          td = "#{format_currency(t.change_in_principal, t.currency, tooltip: false)}"
-          td = "#{format_currency(t.interest_balance, t.currency, tooltip: false)}"
-          td = "#{format_currency(t.principal_balance, t.currency, tooltip: false)}"
-          td = "#{format_currency(t.total_balance, t.currency, tooltip: false)}"
+          td = "#{format_currency(t.amount, t.currency, tooltip: false, show_country: false)}"
+          td = "#{format_currency(t.change_in_interest, t.currency, tooltip: false, show_country: false)}"
+          td = "#{format_currency(t.change_in_principal, t.currency, tooltip: false, show_country: false)}"
+          td = "#{format_currency(t.interest_balance, t.currency, tooltip: false, show_country: false)}"
+          td = "#{format_currency(t.principal_balance, t.currency, tooltip: false, show_country: false)}"
+          td = "#{format_currency(t.total_balance, t.currency, tooltip: false, show_country: false)}"
         end
