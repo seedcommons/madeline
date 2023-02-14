@@ -51,13 +51,13 @@ describe "loan statement flow", :accounting do
       context "when transactions present" do
         let!(:transactions_too_old) { create_list(:accounting_transaction, 3,
           project: loan,
-          description: "old",
+          description: "too old",
           txn_date: Time.zone.now.last_year.beginning_of_year - 1.day,
         )}
         let!(:transactions_to_include) { create_list(:accounting_transaction, 3,
           project: loan,
           description: "test transaction",
-          txn_date: Time.zone.now.last_year.beginning_of_year + 3.days,
+          txn_date: Time.zone.now.last_year.beginning_of_year + 10.days,
         )}
         let!(:transactions_too_recent) { create_list(:accounting_transaction, 3,
           project: loan,
@@ -69,9 +69,17 @@ describe "loan statement flow", :accounting do
           let(:user) { create_admin(division) }
           before do
             division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+            transactions_to_include.last.update(
+              txn_date: Time.zone.now.last_year.beginning_of_year + 10.months,
+              description: "most recent of last year"
+            )
+            transactions_to_include.first.update(
+              txn_date: Time.zone.now.last_year.beginning_of_year + 3.days,
+              description: "oldest of last year"
+            )
           end
 
-          scenario "statement available and only shows txns from last year" do
+          scenario "statement available and only shows txns from last year, in order" do
             visit "/admin/loans/#{loan.id}/transactions"
             click_on "Print Loan Statement"
             new_window = window_opened_by { click_link "Statement for Last Year" }
@@ -82,12 +90,21 @@ describe "loan statement flow", :accounting do
               expect(page).to have_content("test transaction")
 
               # exclude txns outside last year
-              expect(page).not_to have_content("old")
+              expect(page).not_to have_content("too old")
               expect(page).not_to have_content("too recent")
+
+              within(:xpath, "//table/tbody/tr[1]/td[4]") do
+                expect(page).to have_content('most recent of last year')
+              end
+
+              within(:xpath, "//table/tbody/tr[3]/td[4]") do
+                expect(page).to have_content('oldest of last year')
+              end
             end
           end
 
-          context "end date is after closed books date" do
+          # TODO: turn this spec back on when draft msg styles updated from display:none
+          xcontext "end date is after closed books date" do
             before do
               division.root.update(closed_books_date:Time.zone.now.last_year.beginning_of_year)
             end
@@ -116,19 +133,28 @@ describe "loan statement flow", :accounting do
           end
         end
 
+        context "as admin of non-root division" do
+          before do
+            division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
+          end
+          let(:non_root_div) { create(:division, parent: division, name: "non root") }
+          let(:user) { create_admin(non_root_div) }
+
+          scenario "is not able to access statement" do
+            visit "/admin/loans/#{loan.id}/transactions"
+            expect(page).not_to have_content "Print Loan Statement"
+          end
+        end
+
         context "as member" do
           before do
             division.root.update(closed_books_date: Time.zone.now.last_year.end_of_year)
           end
           let(:user) { create_member(division) }
 
-          scenario "able to access statement" do
+          scenario "is not able to access statement" do
             visit "/admin/loans/#{loan.id}/transactions"
-            click_on "Print Loan Statement"
-            new_window = window_opened_by { click_link "Statement for Last Year" }
-            within_window new_window do
-              expect(page).to have_content("Print")
-            end
+            expect(page).not_to have_content "Print Loan Statement"
           end
         end
       end

@@ -13,6 +13,10 @@ body.admin.print-view.statement {
   display: flex;
   align-items: center;
   justify-content: center;
+  .header-logo {
+    width: 50%;
+    margin: 2em;
+  }
 }
 
 .block-container {
@@ -22,7 +26,7 @@ body.admin.print-view.statement {
 .statement-block {
   color: #383636; //seedcommons gray
   border: solid 1px #517b91; //seedcommons blue
-  padding: .5em;
+  padding: 1em;
   margin-bottom: 2em;
   p {
     margin: 0 0 0 2px;
@@ -45,6 +49,11 @@ body.admin.print-view.statement {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  // START always hide this warning until notice from TWW
+  display: none;
+  // END always hide this warning until notice from TWW
+
   width: 100%;
   .fa {
     margin-right: .25em;
@@ -66,5 +75,8 @@ body.admin.print-view.statement {
   margin-top: 2em;
   thead {
     background-color: #517b91; //seedcommons blue
+  }
+  th.date {
+    width: 110px;
   }
 }

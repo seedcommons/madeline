@@ -15,7 +15,7 @@ section.transactions
           = link_to sync_admin_accounting_transactions_path(project_id: @loan.id), data: {action: "sync-data"}, method: :post
               i.fa.fa-pencil.fa-large>
               = t(".sync_data")
-      - if @loan.transactions.count > 0 && policy(@sample_transaction).show?
+      - if @loan.transactions.count > 0 && policy(@loan).statement_access?
         span.dropdown
           a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
             i.fa.fa-print>
@@ -23,6 +23,9 @@ section.transactions
             span.caret
           ul.dropdown-menu.dropdown-menu-right.print-actions
             li = link_to(t('statement.last_year_statement'), statement_admin_loan_url(start_date: Time.zone.today.last_year.beginning_of_year, end_date: Time.zone.today.last_year.end_of_year),
+              data: {project_id: @loan.id}, target: '_blank')
+            li.divider role="separator"
+            li = link_to(t('statement.historical'), statement_admin_loan_url(start_date: (@loan.signing_date || Date.parse("01-01-2000")), end_date: Time.zone.today),
               data: {project_id: @loan.id}, target: '_blank')
             /! # links to add'l statements, waiting for go ahead (Jan 2023)
               li.divider role="separator"

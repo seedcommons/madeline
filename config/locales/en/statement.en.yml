@@ -3,8 +3,10 @@ en:
     annual: "%{year} Statement"
     contract_loan_amount: "Contract Loan Amount"
     draft_warning: "WARNING: This is a DRAFT. Information subject to change."
+    historical: "Historical Loan Schedule"
     interest_rate: "Interest Rate"
     last_year_statement: "Statement for Last Year"
+    loan_id: "Loan ID"
     loan_statement: "Loan Statement"
     headers:
       amount: "Amount"
@@ -23,4 +25,4 @@ en:
       type: "Type"
       vendor: "Vendor"
     quarterly: "%{quarter} Statement %{year}"
-    title: "Statement for %{name}, %{start_date} - %{end_date}"
+    title: "Loan %{name} Statement %{start_date} - %{end_date}"
