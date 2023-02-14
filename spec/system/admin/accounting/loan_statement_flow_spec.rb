@@ -94,11 +94,11 @@ describe "loan statement flow", :accounting do
               expect(page).not_to have_content("too recent")
 
               within(:xpath, "//table/tbody/tr[1]/td[4]") do
-                expect(page).to have_content('most recent of last year')
+                expect(page).to have_content('oldest of last year')
               end
 
               within(:xpath, "//table/tbody/tr[3]/td[4]") do
-                expect(page).to have_content('oldest of last year')
+                expect(page).to have_content('most recent of last year')
               end
             end
           end
