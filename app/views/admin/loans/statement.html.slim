@@ -36,12 +36,12 @@ div.statement
           th.type #{t("statement.headers.type")}
           th.vendor #{t("statement.headers.vendor")}
           th.txn_description #{t("statement.headers.description")}
-          th.amount #{t("statement.headers.amount", currency: currency_abbr(@loan.currency))}
-          th.money #{t("statement.headers.change_in_interest", currency: currency_abbr(@loan.currency))}
-          th.money #{t("statement.headers.change_in_principal", currency: currency_abbr(@loan.currency))}
-          th.money #{t("statement.headers.interest_balance", currency: currency_abbr(@loan.currency))}
-          th.money #{t("statement.headers.principal_balance", currency: currency_abbr(@loan.currency))}
-          th.money #{t("statement.headers.total_balance", currency: currency_abbr(@loan.currency))}
+          th.amount #{t("statement.headers.amount")} <br> (#{currency_abbr(@loan.currency)})
+          th.money #{t("statement.headers.change_in_interest")} <br> (#{currency_abbr(@loan.currency)})
+          th.money #{t("statement.headers.change_in_principal")} <br> (#{currency_abbr(@loan.currency)})
+          th.money #{t("statement.headers.interest_balance")} <br> (#{currency_abbr(@loan.currency)})
+          th.money #{t("statement.headers.principal_balance")} <br> (#{currency_abbr(@loan.currency)})
+          th.money #{t("statement.headers.total_balance")} <br> (#{currency_abbr(@loan.currency)})
     tbody
       - @transactions.each do |t|
         tr
