@@ -97,24 +97,6 @@ describe "loan flow", js: true do
       expect(page).to have_content "Copy of #{loan.display_name}"
       # TODO: continue this scenario to try editing copy's business planning responses two times
     end
-
-    describe "old system menu" do
-      context "as member" do
-        scenario "old system menu hidden" do
-          visit admin_loan_path(loan)
-          expect(page).not_to have_content("Transactions (old system)")
-        end
-      end
-
-      context "as admin" do
-        let(:division) { Division.root }
-        let(:user) { create_admin(division) }
-        scenario "old system menu shows" do
-          visit admin_loan_path(loan)
-          expect(page).to have_content("Transactions (old system)")
-        end
-      end
-    end
   end
 
   scenario "loan can not be created with the same person as pri and sec agent" do

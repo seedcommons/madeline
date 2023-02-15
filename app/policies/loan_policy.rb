@@ -9,10 +9,6 @@ class LoanPolicy < ProjectPolicy
     end
   end
 
-  def old_system_access?
-    division_admin(division: Division.root)
-  end
-
   def statement_access?
     division_admin(division: Division.root)
   end
