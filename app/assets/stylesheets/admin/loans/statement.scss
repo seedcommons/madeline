@@ -31,9 +31,16 @@ body.admin.print-view.statement {
   border: solid 1px #517b91; //seedcommons blue
   padding: 1em;
   margin-bottom: 2em;
+  text-indent: 20px;
   p {
     margin: 0 0 0 2px;
   }
+  .block-header {
+    font-weight: bold;
+    text-indent: 0px;
+    font-size: 16px;
+  }
+
 }
 
 .loan-info {
@@ -64,11 +71,9 @@ body.admin.print-view.statement {
   }
 }
 
-.loan-info {
-  .coop-name {
-    font-weight: bold;
-  }
-}
+
+
+
 
 .statement-dates {
   //float: right;
