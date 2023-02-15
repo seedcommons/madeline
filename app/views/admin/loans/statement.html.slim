@@ -9,14 +9,14 @@ div.statement
 
   div.block-container
     div.statement-block.loan-info
-      p.coop-name #{@loan.organization.name}
+      p.block-header #{@loan.organization.name}
       p #{t("statement.contract_loan_amount")}: #{format_currency(@loan.amount, @loan.currency, tooltip: false, show_country: false)}
       p #{t("statement.interest_rate")}: #{@loan.rate}
       p #{t("statement.loan_id")}: #{@loan.id}
 
 
     div.statement-block.statement-dates
-      p #{ldate(@start_date, format: "%b %-d, %Y")} - #{ldate(@end_date, format: "%b %-d, %Y")}
+      p.block-header #{ldate(@start_date, format: "%b %-d, %Y")} - #{ldate(@end_date, format: "%b %-d, %Y")}
       p #{t("statement.loan_statement")}
       // the following value is estimated, because it is total of change in interest in all txns Madeline classifies as repayments
       // it is possible that an organization could repay interest outside of these transactions (e.g. "other")
