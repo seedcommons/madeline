@@ -191,8 +191,7 @@ class Loan < Project
 
   def total_accrued_interest(start_date: nil, end_date: nil)
     return nil if transactions.standard_order.in_date_range(start_date, end_date).empty?
-    txns_that_accrued_interest = transactions.in_date_range(start_date, end_date).select { |t| t.change_in_interest && t.change_in_interest > 0 }
-    txns_that_accrued_interest.map { |t| t.change_in_interest }.sum
+    transactions.by_type("interest").in_date_range(start_date, end_date).map { |t| t.change_in_interest }.sum
   end
 
   def change_in_interest(start_date: nil, end_date: nil)
