@@ -180,10 +180,10 @@ describe "transaction flow", :accounting do
     end
 
     describe "filter transactions" do
-      let!(:txns_new) { create_list(:accounting_transaction, 2, description: "new txn", project: loan, txn_date: Time.zone.now) }
-      let!(:txn_old) { create_list(:accounting_transaction, 2, description: "old txn", project: loan, txn_date: 1.year.ago) }
-      let!(:beginning_of_year) { Time.zone.now.beginning_of_year }
-      let!(:end_of_year) { Time.zone.now.end_of_year }
+      let!(:txns_new) { create_list(:accounting_transaction, 2, description: "new txn", project: loan, txn_date: Date.parse("2020-03-01")) }
+      let!(:txn_old) { create_list(:accounting_transaction, 2, description: "old txn", project: loan, txn_date: Date.parse("2019-03-01")) }
+      let!(:beginning_of_year) { Date.parse("2020-01-01") }
+      let!(:end_of_year) { Date.parse("2020-12-31")}
 
       scenario "show only transactions from current year" do
         visit "/admin/loans/#{loan.id}/transactions"
