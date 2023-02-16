@@ -180,8 +180,8 @@ describe "transaction flow", :accounting do
     end
 
     describe "filter transactions" do
-      let!(:txns_new) { create_list(:accounting_transaction, 2, description: "new", project: loan, txn_date: Time.zone.now) }
-      let!(:txn_old) { create_list(:accounting_transaction, 2, description: "old", project: loan, txn_date: 1.year.ago) }
+      let!(:txns_new) { create_list(:accounting_transaction, 2, description: "new txn", project: loan, txn_date: Time.zone.now) }
+      let!(:txn_old) { create_list(:accounting_transaction, 2, description: "old txn", project: loan, txn_date: 1.year.ago) }
       let!(:beginning_of_year) { Time.zone.now.beginning_of_year }
       let!(:end_of_year) { Time.zone.now.end_of_year }
 
@@ -192,8 +192,8 @@ describe "transaction flow", :accounting do
         fill_in "transactions_f_txn_date_fr", with: beginning_of_year
         fill_in "transactions_f_txn_date_to", with: end_of_year
         click_on "Filter"
-        expect(page).to have_content "new"
-        expect(page).not_to have_content "old"
+        expect(page).to have_content "new txn"
+        expect(page).not_to have_content "old txn"
       end
     end
 
