@@ -285,6 +285,10 @@ describe Loan, type: :model do
         }
         let(:loan) { create(:loan, :active, rate: 3.0) }
         # dollar amounts in these transactions are not realistic
+        let!(:t_int) {
+          create(:accounting_transaction, loan_transaction_type_value: "interest", amount: 1.0,
+                                          project: loan, txn_date: "2018-12-31", change_in_interest: 1.0, change_in_principal: 0)
+        }
         let!(:t0) {
           create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.0,
                                           project: loan, txn_date: "2019-01-01", change_in_interest: 0.10, change_in_principal: 11)
@@ -326,11 +330,10 @@ describe Loan, type: :model do
           expect(loan.change_in_principal(start_date: Date.parse('2019-01-03'))).to eq(-2)
           expect(loan.change_in_interest(start_date: Date.parse('2019-01-03'), end_date: Date.parse('2019-01-05'))).to eq 0.4
           expect(loan.change_in_principal(start_date: Date.parse('2019-01-03'), end_date: Date.parse('2019-01-05'))).to eq 14
-          expect(loan.change_in_interest(end_date: Date.parse('2019-01-05'))).to eq 0.3
+          expect(loan.change_in_interest(end_date: Date.parse('2019-01-05'))).to eq 1.3
           expect(loan.change_in_principal(end_date: Date.parse('2019-01-05'))).to eq 13
-          expect(loan.total_accrued_interest(start_date: Date.parse('2018-01-01'), end_date: Date.parse('2020-01-01'))).to eq(0.9)
-          expect(loan.total_accrued_interest(start_date: Date.parse('2019-01-04'), end_date: Date.parse('2020-01-01'))).to eq(0.5)
-          expect(loan.total_accrued_interest(start_date: Date.parse('2019-01-05'), end_date: Date.parse('2020-01-01'))).to eq(0.5)
+          # total interest accrued excludes non-interest txns and only counts interest txns
+          expect(loan.total_accrued_interest(start_date: Date.parse('2018-01-01'), end_date: Date.parse('2020-01-01'))).to eq(1.0)
         end
 
         it "raises error if at least one transaction has nil value for change_in_interest" do
