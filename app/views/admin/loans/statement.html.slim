@@ -21,7 +21,7 @@ div.statement
       // the following value is estimated, because it is total of change in interest in all txns Madeline classifies as repayments
       // it is possible that an organization could repay interest outside of these transactions (e.g. "other")
       // but not all changes in interest across all txn types are repayments of interest either
-      p #{t("statement.estimated_interest_repaid")}: #{format_currency(@loan.total_interest_repaid(@start_date, @end_date), @loan.currency, tooltip: false, show_country: false)}
+      p #{t("statement.total_interest_accrued")}: #{format_currency(@loan.total_interest_accrued(@start_date, @end_date), @loan.currency, tooltip: false, show_country: false)}
 
   - if @is_draft
     div.draft-warning
