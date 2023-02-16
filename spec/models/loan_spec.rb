@@ -268,13 +268,14 @@ describe Loan, type: :model do
       end
     end
 
-    describe 'calculated fields: .sum_of_repayments, .sum_of_disbursements, .change_in_interest, .change_in_principal, .total_interest_repaid' do
+    describe 'calculated fields: .sum_of_repayments, .sum_of_disbursements, .change_in_interest, .change_in_principal, .total_interest_accrued' do
       context "no transactions" do
         it "returns nil" do
           expect(loan.sum_of_disbursements).to be_nil
           expect(loan.sum_of_repayments).to be_nil
           expect(loan.change_in_interest).to be_nil
           expect(loan.change_in_principal).to be_nil
+          expect(loan.total_accrued_interest).to be_nil
         end
       end
 
@@ -327,9 +328,9 @@ describe Loan, type: :model do
           expect(loan.change_in_principal(start_date: Date.parse('2019-01-03'), end_date: Date.parse('2019-01-05'))).to eq 14
           expect(loan.change_in_interest(end_date: Date.parse('2019-01-05'))).to eq 0.3
           expect(loan.change_in_principal(end_date: Date.parse('2019-01-05'))).to eq 13
-          expect(loan.total_interest_repaid(Date.parse('2018-01-01'), Date.parse('2020-01-01'))).to eq(1.2)
-          expect(loan.total_interest_repaid(Date.parse('2019-01-04'), Date.parse('2020-01-01'))).to eq(1.0)
-          expect(loan.total_interest_repaid(Date.parse('2019-01-05'), Date.parse('2020-01-01'))).to eq(0.6)
+          expect(loan.total_accrued_interest(start_date: Date.parse('2018-01-01'), end_date: Date.parse('2020-01-01'))).to eq(0.9)
+          expect(loan.total_accrued_interest(start_date: Date.parse('2019-01-04'), end_date: Date.parse('2020-01-01'))).to eq(0.5)
+          expect(loan.total_accrued_interest(start_date: Date.parse('2019-01-05'), end_date: Date.parse('2020-01-01'))).to eq(0.5)
         end
 
         it "raises error if at least one transaction has nil value for change_in_interest" do

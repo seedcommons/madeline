@@ -137,7 +137,7 @@ module Admin
       authorize(@loan, :statement_access?)
       @start_date = Date.parse(params[:start_date]) #Time.zone.today.last_year.beginning_of_year
       @end_date = Date.parse(params[:end_date]) #Time.zone.today.last_year.end_of_year
-      @transactions = @loan.transactions.in_date_range(@start_date, @end_date).most_recent_first.reverse
+      @transactions = @loan.transactions.in_date_range(@start_date, @end_date).standard_order
       @print_view = true
       @for_statement = true
       @is_draft = @loan.division.shared_closed_books_date.nil? || @end_date > @loan.division.shared_closed_books_date

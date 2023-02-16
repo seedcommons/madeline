@@ -33,9 +33,9 @@ describe Question, :type => :model do
     end
 
     context "when questions from different divisions are present" do
-      let!(:div_a1) { create(:division, parent: root_division) }
-      let!(:div_b) { create(:division, parent: div_a1) }
-      let!(:div_a2) { create(:division, parent: root_division) }
+      let!(:div_a1) { create(:division, parent: root_division, name: "a1") }
+      let!(:div_b) { create(:division, parent: div_a1, name: "b") }
+      let!(:div_a2) { create(:division, parent: root_division, name: "a2") }
 
       context "when no questions from same division depth are present" do
         let!(:f33) { create_question(set: set, division: div_b, parent: f3, name: "f33", type: "text") }
@@ -198,9 +198,9 @@ describe Question, :type => :model do
 
   describe "validations" do
     describe "group division depth check" do
-      let!(:div_a) { create(:division, parent: root_division) }
-      let!(:div_b) { create(:division, parent: div_a) }
-      let!(:div_c) { create(:division, parent: div_b) }
+      let!(:div_a) { create(:division, parent: root_division, name: "div_a") }
+      let!(:div_b) { create(:division, parent: div_a, name: "div_b") }
+      let!(:div_c) { create(:division, parent: div_b, name: "div_c") }
       let!(:set) { create(:question_set) }
       let!(:group) { create_question(set: set, parent: set.root_group, division: div_b, type: "group") }
       subject(:question) do

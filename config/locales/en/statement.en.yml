@@ -3,7 +3,7 @@ en:
     annual: "%{year} Statement"
     contract_loan_amount: "Contract Loan Amount"
     draft_warning: "WARNING: This is a DRAFT. Information subject to change."
-    estimated_interest_repaid: "Estimated Interest Repaid"
+    total_accrued_interest: "Total Interest Accrued"
     historical: "Historical Loan Schedule"
     interest_rate: "Interest Rate"
     last_year_statement: "Statement for Last Year"
