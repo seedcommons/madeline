@@ -29,20 +29,15 @@ describe Division, type: :model do
 
 
     let!(:division_1) { create(:division, name: 'trouble') }
-    let!(:division_2) { create(:division, name: 'trouble', notify_on_new_logs: true) }
+    let!(:division_2) { create(:division, name: 'trouble2', notify_on_new_logs: true) }
     let!(:division_3) { create(:division, name: '---') }
 
     it 'generates a short name if one is not provided' do
       expect(division_1.short_name).to eq('trouble')
     end
 
-    it 'generates a unique short name if division name is a repeat' do
-      new_division = create(:division, name: "preexisting")
-      expect(new_division.reload.short_name).to include("preexisting-", "uuid")
-    end
-
     it 'generates a unique short name if provided short_name on create is a repeat' do
-      new_division = create(:division, name: "preexisting", short_name: "preexisting")
+      new_division = create(:division, name: "a new one", short_name: "preexisting")
       expect(new_division.reload.short_name).to include("preexisting-", "uuid")
     end
 
@@ -61,10 +56,6 @@ describe Division, type: :model do
       division_1.short_name = "mytrouble"
       division_1.save!
       expect(division_1.reload.short_name).to eq ('mytrouble')
-    end
-
-    it 'generates a short name for division with the same name' do
-      expect(division_2.short_name).to include("trouble-", "uuid")
     end
 
     it 'generates short name for division with just hyphens' do

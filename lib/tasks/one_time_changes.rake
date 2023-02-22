@@ -1,4 +1,5 @@
 namespace :one_time_changes do
+<<<<<<< HEAD
   desc "A one time task to create Answers for all existing response sets"
   task migrate_from_response_custom_data_to_answers: :environment do
     ResponseSet.find_each do |rs|
@@ -12,6 +13,69 @@ namespace :one_time_changes do
         puts e.message
         Rails.logger.info e.message
         # don't re-raise, keep going
+=======
+  desc "A one time task responding to Oct 2022 request to update stautuses."
+
+  task update_loan_statuses_oct_22: :environment do
+    ActiveRecord::Base.transaction do
+      loan_status = OptionSet.find_by(division: Division.root, model_type: Loan.name, model_attribute: 'status')
+
+      # rename prospective to possible and add position
+      possible = loan_status.options.find_by(value: 'prospective')
+      if possible.present?
+        possible.update(value: 'possible', position: 20)
+      end
+
+      # create in_process status
+      in_process = loan_status.options.find_or_create_by(value: 'in_process')
+      in_process.update(value: 'in_process', position: 30)
+
+      # rename dormant_prospective to dormant and add position
+      dormant = loan_status.options.find_by(value: 'dormant_prospective')
+      if dormant.present?
+        dormant.update(value: 'dormant', position: 40)
+      end
+
+      # create dead status
+      dead = loan_status.options.find_or_create_by(value: 'dead')
+      dead.update(value: 'dead', position: 50)
+
+      # create approved status
+      approved = loan_status.options.find_or_create_by(value: 'approved')
+      approved.update(value: 'approved', position: 60)
+
+      # update translations using new value
+      statuses_to_update = %w(possible in_process dormant dead approved)
+
+      statuses_to_update.each do |status_value|
+        status = loan_status.options.find_by(value: status_value)
+        status.update(label_translations: {
+          en: I18n.t("database.option_sets.loan_status.#{status_value}", locale: 'en'),
+          es: I18n.t("database.option_sets.loan_status.#{status_value}", locale: 'es')
+          })
+      end
+
+      active = loan_status.options.find_by(value: 'active')
+      active.update(position: 70)
+
+      refinanced = loan_status.options.find_by(value: 'refinanced')
+      refinanced.update(position: 80)
+
+      completed = loan_status.options.find_by(value: 'completed')
+      completed.update(position: 90)
+
+      # update all loans with renamed status values
+      Loan.where(status_value: "prospective").update(status_value: "possible")
+      Loan.where(status_value: "dormant_prospective").update(status_value: "dormant")
+
+      # assign all loans w a relationship status in Seed Commons division to possible
+      seed_commons_division_ids = Division.find_by(name: "Seed Commons").self_and_descendants.pluck(:id)
+      relationship_statuses = %w(relationship relationship_active)
+      loans_to_update = Loan.where(division_id: seed_commons_division_ids, status_value: relationship_statuses)
+
+      loans_to_update.each do |l|
+        l.update(status_value: "possible")
+>>>>>>> develop
       end
     end
   end

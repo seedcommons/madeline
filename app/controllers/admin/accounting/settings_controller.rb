@@ -1,4 +1,6 @@
 class Admin::Accounting::SettingsController < Admin::AdminController
+  before_action :set_cache_headers
+
   def show
     authorize :setting
 
@@ -24,5 +26,11 @@ class Admin::Accounting::SettingsController < Admin::AdminController
   def settings_params
     params.require(:division).permit(:principal_account_id, :interest_receivable_account_id,
       :interest_income_account_id, :closed_books_date, :qb_read_only)
+  end
+
+  private
+
+  def set_cache_headers
+    response.headers["Cache-Control"] = "no-cache, no-store"
   end
 end

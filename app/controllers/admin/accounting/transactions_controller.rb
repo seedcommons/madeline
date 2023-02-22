@@ -1,4 +1,6 @@
 class Admin::Accounting::TransactionsController < Admin::AdminController
+  before_action :set_cache_headers
+
   def new
     @loan = Loan.find_by(id: params[:project_id])
     @transaction = ::Accounting::Transaction.new(project: @loan, txn_date: Time.zone.today, managed: true)
@@ -133,5 +135,9 @@ class Admin::Accounting::TransactionsController < Admin::AdminController
 
   def settings_link
     view_context.link_to(t("menu.accounting_settings"), admin_accounting_settings_path)
+  end
+
+  def set_cache_headers
+    response.headers["Cache-Control"] = "no-cache, no-store"
   end
 end

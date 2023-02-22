@@ -89,7 +89,7 @@ class StandardLoanDataExport < DataExport
       sum_of_repayments: loan.sum_of_repayments(start_date: start_date, end_date: end_date),
       repayments_of_principal: loan.repayments_of_principal(start_date: start_date, end_date: end_date),
       repayments_of_interest: loan.repayments_of_interest(start_date: start_date, end_date: end_date),
-      accrued_interest: loan.accrued_interest(start_date: start_date, end_date: end_date),
+      accrued_interest: loan.total_accrued_interest(start_date: start_date, end_date: end_date),
       change_in_principal: loan.change_in_principal(start_date: start_date, end_date: end_date),
       change_in_interest: loan.change_in_interest(start_date: start_date, end_date: end_date),
       final_principal_balance: loan.final_principal_balance(start_date: start_date, end_date: end_date),

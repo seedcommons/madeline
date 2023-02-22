@@ -1,42 +1,43 @@
-- content_for(:title, @loan.display_name)
-- content_for(:per_page_js) do
-  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+div.print-loan-memo
+  - content_for(:title, @loan.display_name)
+  - content_for(:per_page_js) do
+    = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
 
-section data-container="loan"
+  section data-container="loan"
 
-  - if @mode != "criteria-only"
-    section.loan.details.show-view
-      h2 = t('loan.details')
-      = render "admin/loans/details", loan: @loan
+    - if @mode != "criteria-only"
+      section.loan.details.show-view
+        h2 = t('loan.details')
+        = render "admin/loans/details", loan: @loan
 
-    - if @images
-      - if featured_image = @images.find_by(featured: true)
-        section.featured-image
-          = media_image(featured_image)
+      - if @images
+        - if featured_image = @images.find_by(featured: true)
+          section.featured-image
+            = media_image(featured_image)
 
-      - unless @image_list.empty?
-        - @image_list.each_with_index do |images, index|
-          section.images
-            = render "admin/loans/questionnaires/page_header"
-            .image-list
-              - images.each do |image|
-                .img-container
-                  = media_image(image)
+        - unless @image_list.empty?
+          - @image_list.each_with_index do |images, index|
+            section.images
+              = render "admin/loans/questionnaires/page_header"
+              .image-list
+                - images.each do |image|
+                  .img-container
+                    = media_image(image)
 
-  - if @mode != "details-only"
-    section.loan.questionnaire.show-view
-      = render "admin/loans/questionnaires/page_header"
-      h2 = t('question_sets.loan_criteria')
+    - if @mode != "details-only"
+      section.loan.questionnaire.show-view
+        = render "admin/loans/questionnaires/page_header"
+        h2 = t('question_sets.loan_criteria')
 
-      - if @response_set
-        h3 = t('loan.toc')
-        = render "admin/loans/questionnaires/questionnaire_toc",
-          group: @root,
-          response_set: @response_set
-        - if @response_set.question_set.summary_questions?
+        - if @response_set
+          h3 = t('loan.toc')
+          = render "admin/loans/questionnaires/questionnaire_toc",
+            group: @root,
+            response_set: @response_set
+          - if @response_set.question_set.summary_questions?
+            = render "admin/loans/questionnaires/questionnaire_form",
+              response_set: @response_set, summary_view: true
           = render "admin/loans/questionnaires/questionnaire_form",
-            response_set: @response_set, summary_view: true
-        = render "admin/loans/questionnaires/questionnaire_form",
-          response_set: @response_set, summary_view: false
-      - else
-        = t('loan.criteria_not_entered')
+            response_set: @response_set, summary_view: false
+        - else
+          = t('loan.criteria_not_entered')
