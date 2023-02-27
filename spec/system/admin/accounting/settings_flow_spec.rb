@@ -18,7 +18,7 @@ describe "settings flow", :accounting do
       scenario do
         visit "/admin/accounting/settings"
         expect(page).to have_content "Not Connected"
-        click_on "Click To Connect"
+        click_on "click_to_connect"
         expect(page).to have_content "Connected to "
         expect(page).to have_content "QuickBooks data import pending"
         expect(page).not_to have_content "outstanding issues"
@@ -35,7 +35,7 @@ describe "settings flow", :accounting do
       scenario do
         visit "/admin/accounting/settings"
         expect(page).to have_content "Not Connected"
-        click_on "Click To Connect"
+        click_on "click_to_connect"
         expect(page).to have_content "Connected to "
         expect(page).to have_content "QuickBooks data import pending"
       end

@@ -55,6 +55,50 @@ describe Loan, type: :model do
   context 'model methods' do
     let(:loan) { create(:loan) }
 
+    describe ".top_level_division" do
+      before do
+        @top_level_division_A = create(:division, parent: root_division)
+        @top_level_division_B = create(:division, parent: root_division)
+        @div_A_1 = create(:division, parent: @top_level_division_A)
+        @div_B_1 = create(:division, parent: @top_level_division_B)
+        @div_B_1_a = create(:division, parent: @div_B_1)
+        @div_B_1_b = create(:division, parent: @div_B_1)
+        @div_B_1_a_i = create(:division, parent: @div_B_1_a)
+      end
+
+      context "root division" do
+        before do
+          @loan = create(:loan, division: root_division)
+        end
+
+        it "returns nil" do
+          expect(@loan.top_level_division).to be_nil
+        end
+      end
+
+      context "loan belongs to top level division" do
+        before do
+          @loan = create(:loan, division: @top_level_division_A)
+        end
+
+        it "returns own division" do
+          puts @loan.division.ancestry_path
+          expect(@loan.top_level_division).to eq @top_level_division_A
+        end
+      end
+
+      context "loan belongs to grandchild division of a top level" do
+        before do
+          @loan = create(:loan, division: @div_B_1_a_i)
+        end
+
+        it "returns returns child of root this loan's division descended from" do
+          puts @loan.division.ancestry_path
+          expect(@loan.top_level_division).to eq @top_level_division_B
+        end
+      end
+    end
+
     describe '.country' do
       context 'with country' do
         before do
@@ -89,23 +133,12 @@ describe Loan, type: :model do
         create(
           :loan,
           organization: create(:organization, country: @country_us, city: 'Ann Arbor'),
-          division: create(:division, parent: root_division, organization: create(:organization, country: @country_us))
+          division: create(:division, parent: root_division)
         )
       end
       it 'returns city and country' do
         expect(loan.location).to eq "Ann Arbor, United States"
       end
-
-      context 'without city' do
-        before { pending 'confirm if the default country is still relevant and desireable' }
-        let(:loan) { create(:loan, organization: create(:organization, country: @country_us, city: "")) }
-
-        it 'returns country' do
-          expect(loan.location).to eq loan.country.name
-        end
-      end
-
-      ## JE todo: confirm if a need to implement and test logic to inherit country from divisions associated org
     end
 
     describe '.signing_date_long' do
@@ -234,13 +267,14 @@ describe Loan, type: :model do
       end
     end
 
-    describe 'calculated fields: .sum_of_repayments, .sum_of_disbursements, .change_in_interest, .change_in_principal' do
+    describe 'calculated fields: .sum_of_repayments, .sum_of_disbursements, .change_in_interest, .change_in_principal, .total_interest_accrued' do
       context "no transactions" do
         it "returns nil" do
           expect(loan.sum_of_disbursements).to be_nil
           expect(loan.sum_of_repayments).to be_nil
           expect(loan.change_in_interest).to be_nil
           expect(loan.change_in_principal).to be_nil
+          expect(loan.total_accrued_interest).to be_nil
         end
       end
 
@@ -250,6 +284,10 @@ describe Loan, type: :model do
         }
         let(:loan) { create(:loan, :active, rate: 3.0) }
         # dollar amounts in these transactions are not realistic
+        let!(:t_int) {
+          create(:accounting_transaction, loan_transaction_type_value: "interest", amount: 1.0,
+                                          project: loan, txn_date: "2018-12-31", change_in_interest: 1.0, change_in_principal: 0)
+        }
         let!(:t0) {
           create(:accounting_transaction, loan_transaction_type_value: "disbursement", amount: 10.0,
                                           project: loan, txn_date: "2019-01-01", change_in_interest: 0.10, change_in_principal: 11)
@@ -291,8 +329,10 @@ describe Loan, type: :model do
           expect(loan.change_in_principal(start_date: Date.parse('2019-01-03'))).to eq(-2)
           expect(loan.change_in_interest(start_date: Date.parse('2019-01-03'), end_date: Date.parse('2019-01-05'))).to eq 0.4
           expect(loan.change_in_principal(start_date: Date.parse('2019-01-03'), end_date: Date.parse('2019-01-05'))).to eq 14
-          expect(loan.change_in_interest(end_date: Date.parse('2019-01-05'))).to eq 0.3
+          expect(loan.change_in_interest(end_date: Date.parse('2019-01-05'))).to eq 1.3
           expect(loan.change_in_principal(end_date: Date.parse('2019-01-05'))).to eq 13
+          # total interest accrued excludes non-interest txns and only counts interest txns
+          expect(loan.total_accrued_interest(start_date: Date.parse('2018-01-01'), end_date: Date.parse('2020-01-01'))).to eq(1.0)
         end
 
         it "raises error if at least one transaction has nil value for change_in_interest" do

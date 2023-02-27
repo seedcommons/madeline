@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2022_07_18_191508) do
+=======
+ActiveRecord::Schema.define(version: 2023_01_30_223046) do
+
+>>>>>>> 12179_answers_migration
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,7 +197,6 @@ ActiveRecord::Schema.define(version: 2022_07_18_191508) do
     t.text "homepage"
     t.integer "interest_income_account_id"
     t.integer "interest_receivable_account_id"
-    t.string "internal_name"
     t.jsonb "locales"
     t.string "logo"
     t.string "logo_content_type"
@@ -203,7 +207,6 @@ ActiveRecord::Schema.define(version: 2022_07_18_191508) do
     t.string "membership_status", default: "ally", null: false
     t.string "name"
     t.boolean "notify_on_new_logs", default: false
-    t.integer "organization_id"
     t.integer "parent_id"
     t.integer "principal_account_id"
     t.boolean "public", default: false, null: false
@@ -217,7 +220,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_191508) do
     t.index ["currency_id"], name: "index_divisions_on_currency_id"
     t.index ["interest_income_account_id"], name: "index_divisions_on_interest_income_account_id"
     t.index ["interest_receivable_account_id"], name: "index_divisions_on_interest_receivable_account_id"
-    t.index ["organization_id"], name: "index_divisions_on_organization_id"
+    t.index ["name"], name: "index_divisions_on_name", unique: true
     t.index ["principal_account_id"], name: "index_divisions_on_principal_account_id"
     t.index ["short_name"], name: "index_divisions_on_short_name", unique: true
   end
@@ -439,6 +442,7 @@ ActiveRecord::Schema.define(version: 2022_07_18_191508) do
     t.integer "question_set_id"
     t.datetime "updated_at", null: false
     t.index "question_set_id, ((parent_id IS NULL))", name: "index_questions_on_question_set_id_parent_id_IS_NULL", unique: true, where: "(parent_id IS NULL)", comment: "Ensures max one root per question set"
+    t.index ["internal_name"], name: "index_questions_on_internal_name", unique: true
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
@@ -567,7 +571,6 @@ ActiveRecord::Schema.define(version: 2022_07_18_191508) do
   add_foreign_key "divisions", "accounting_accounts", column: "interest_receivable_account_id"
   add_foreign_key "divisions", "accounting_accounts", column: "principal_account_id"
   add_foreign_key "divisions", "currencies"
-  add_foreign_key "divisions", "organizations"
   add_foreign_key "documentations", "divisions"
   add_foreign_key "loan_health_checks", "projects", column: "loan_id"
   add_foreign_key "loan_question_requirements", "questions"

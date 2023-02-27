@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         get :questionnaires
         get :print
         get :duplicate
+        get :statement
       end
     end
     resources :questions do

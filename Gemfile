@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "bundler", ">= 2.0.1"
 
-gem "rails", "~> 6.1.4"
+gem "rails", "~> 6.1.7.2"
 
 # Database
 gem "pg", "~> 1.1"
@@ -12,6 +12,7 @@ gem "bootstrap-datepicker-rails"
 gem "bootstrap-sass"
 gem "coffee-rails", "~> 5.0.0"
 gem "font-awesome-rails"
+gem "font-awesome-sass", "~> 6.2.1"
 gem "fullcalendar-rails"
 gem "jquery-rails"
 gem "momentjs-rails"
@@ -48,9 +49,7 @@ gem "route_translator", "~> 10.0"
 gem "closure_tree", "~> 7.3"
 
 # Tables
-gem "font-awesome-sass", "~> 5.12"
 gem "jquery-ui-rails"
-
 gem "wice_grid", git: "https://github.com/sassafrastech/wice_grid.git", branch: "fix/all"
 
 gem "active_model_serializers" # Generating JSON data
@@ -63,7 +62,7 @@ gem "chronic" # For parsing human readable dates
 gem "exception_notification" # Send email on errors
 gem "goldiloader" # Eager loading
 gem "gon" # Passing controller data to JS
-gem "nokogiri", "1.12.5"
+gem "nokogiri", "1.13.10"
 gem "quickbooks-ruby", "= 1.0.10"
 gem "remotipart", "~> 1.2" # File uploads for remote: true forms
 gem "sassc-rails"

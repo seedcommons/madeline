@@ -3,7 +3,10 @@ class Answer < ApplicationRecord
   belongs_to :question, optional: false
   delegate :data_type, to: :question
   validate :question_is_not_group
+<<<<<<< HEAD
   validates_presence_of :question_id
+=======
+>>>>>>> 12179_answers_migration
   validate :question_set_matches
 
   before_save :ensure_json_format
@@ -30,6 +33,9 @@ class Answer < ApplicationRecord
         clean_fixed_costs << fc unless fc.values.reject(&:blank?).empty?
       end
       breakeven_data["fixed_costs"] = clean_fixed_costs
+    end
+    unless question.question_set_id == response_set.question_set_id
+      raise "ERROR for answer #{id}: question set has id #{question.question_set_id}, response set has qset id #{response_set.question_set_id}"
     end
   end
 
@@ -87,6 +93,7 @@ class Answer < ApplicationRecord
     business_canvas_data.symbolize_keys if business_canvas_data
   end
 
+<<<<<<< HEAD
   def breakeven_report
     @breakeven_report ||= breakeven_table.report
   end
@@ -108,6 +115,39 @@ class Answer < ApplicationRecord
       LinkedDocument.new(linked_document_data.symbolize_keys)
     else
       nil
+=======
+  def question_set_matches
+    question.question_set_id == response_set.question_set_id
+  end
+
+  # temp method for spr 2022 overhaul
+  def raw_value
+    json = {}
+    json["not_applicable"] = self.not_applicable ? "yes" : "no"
+    if self.text_data.present?
+      json["text"] = self.text_data
+    end
+    unless self.boolean_data.nil?
+      json["boolean"] =  self.boolean_data ? "yes" : "no"
+    end
+    if self.breakeven_data.present?
+      json["breakeven"] = self.breakeven_data
+    end
+    if self.business_canvas_data.present?
+      json["business_canvas"] = self.business_canvas_data
+    end
+    if self.numeric_data.present?
+      if self.question.data_type == "range"
+        json["rating"] = self.numeric_data
+      else
+        json["number"] = self.numeric_data
+      end
+    end
+    if self.linked_document_data.present?
+      json["url"] = self.linked_document_data["url"]
+      json["start_cell"] = self.linked_document_data["start_cell"]
+      json["end_cell"] = self.linked_document_data["end_cell"]
+>>>>>>> 12179_answers_migration
     end
   end
 

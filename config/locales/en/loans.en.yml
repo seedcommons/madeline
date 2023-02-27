@@ -62,6 +62,7 @@ en:
     print_details: "Details Only"
     print_header_title: "Investment Profile and Credit Memo"
     print_memo: "Print Loan Memo"
+    print_statement: "Print Loan Statement"
     projected_end_date: "Projected End Date"
     public:
       not_authorized: "You are not authorized to view the loan you requested."

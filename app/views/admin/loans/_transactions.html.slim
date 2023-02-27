@@ -12,12 +12,36 @@ section.transactions
   - if @errors.empty?
     .show-actions.hidden-print
       - if policy(@sample_transaction).sync?
-        = link_to t(".sync_data"),
-            sync_admin_accounting_transactions_path(project_id: @loan.id), class: "btn btn-default",
-            data: {action: "sync-data"}, method: :post
+          = link_to sync_admin_accounting_transactions_path(project_id: @loan.id), data: {action: "sync-data"}, method: :post
+              i.fa.fa-pencil.fa-large>
+              = t(".sync_data")
+      - if @loan.transactions.count > 0 && policy(@loan).statement_access?
+        span.dropdown
+          a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+            i.fa.fa-print>
+            => t('loan.print_statement')
+            span.caret
+          ul.dropdown-menu.dropdown-menu-right.print-actions
+            li = link_to(t('statement.last_year_statement'), statement_admin_loan_url(start_date: Time.zone.today.last_year.beginning_of_year, end_date: Time.zone.today.last_year.end_of_year),
+              data: {project_id: @loan.id}, target: '_blank')
+            li.divider role="separator"
+            li = link_to(t('statement.historical'), statement_admin_loan_url(start_date: (@loan.signing_date || Date.parse("01-01-2000")), end_date: Time.zone.today),
+              data: {project_id: @loan.id}, target: '_blank')
+            /! # links to add'l statements, waiting for go ahead (Jan 2023)
+              li.divider role="separator"
+              - @loan.annual_statement_ranges.each do |range|
+                li = link_to(statement_name(range[0]), statement_admin_loan_url(start_date: range[0], end_date: range[1]),
+                  data: {project_id: @loan.id}, target: '_blank')
+              li.divider role="separator"
+              - @loan.quarterly_statement_ranges.each do |range|
+                li = link_to(statement_name(range[0], is_quarterly: true), statement_admin_loan_url(start_date: range[0], end_date: range[1]),
+                  data: {project_id: @loan.id}, target: '_blank')
+
+
       - if policy(@sample_transaction).create?
         = link_to t(".new_transaction"), "#", class: "btn btn-primary",
           data: {action: "new-transaction", project_id: @loan.id}
+
     - if @transactions.empty?
       .no-records-msg = t('common.no_records')
     - else

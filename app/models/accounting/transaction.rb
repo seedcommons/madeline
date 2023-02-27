@@ -159,6 +159,10 @@ class Accounting::Transaction < ApplicationRecord
     line_items.detect { |li| li.account == account }
   end
 
+  def interest_paid
+    net_credit_for_account(qb_division&.interest_receivable_account_id)
+  end
+
   # Finds first line item with the given ID or builds a new one.
   # Guaranteed that the LineItem object returned will exist in the current
   # Transaction's line_items array (not a separate copy).
@@ -210,6 +214,16 @@ class Accounting::Transaction < ApplicationRecord
     line_items.to_a.sum do |item|
       if item.accounting_account_id == account_id
         (item.credit? ? -1 : 1) * item.amount
+      else
+        0
+      end
+    end
+  end
+
+  def net_credit_for_account(account_id)
+    line_items.to_a.sum do |item|
+      if item.accounting_account_id == account_id
+        (item.debit? ? -1 : 1) * item.amount
       else
         0
       end

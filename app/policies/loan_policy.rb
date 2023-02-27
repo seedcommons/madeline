@@ -13,6 +13,10 @@ class LoanPolicy < ProjectPolicy
     division_admin(division: Division.root)
   end
 
+  def statement_access?
+    division_admin(division: Division.root)
+  end
+
   class Scope < DivisionOwnedScope
     def resolve
       if user # madeline, so use divisionowned
