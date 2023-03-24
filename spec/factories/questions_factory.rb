@@ -8,6 +8,7 @@ FactoryBot.define do
     question_set
     data_type { Question::DATA_TYPES.sample }
     active { true }
+    internal_name { "#{Faker::Name.unique.name}_field" }
 
     after(:build) do |model|
       model.parent ||= model.question_set.root_group

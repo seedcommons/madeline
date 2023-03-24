@@ -1,5 +1,5 @@
 namespace :one_time_changes do
-<<<<<<< HEAD
+
   desc "A one time task to create Answers for all existing response sets"
   task migrate_from_response_custom_data_to_answers: :environment do
     ResponseSet.find_each do |rs|
@@ -13,7 +13,10 @@ namespace :one_time_changes do
         puts e.message
         Rails.logger.info e.message
         # don't re-raise, keep going
-=======
+      end
+    end
+  end
+
   desc "A one time task responding to Oct 2022 request to update stautuses."
 
   task update_loan_statuses_oct_22: :environment do
@@ -75,10 +78,10 @@ namespace :one_time_changes do
 
       loans_to_update.each do |l|
         l.update(status_value: "possible")
->>>>>>> develop
       end
     end
   end
+
 
   desc "A one time task responding to Nov 2019 request to update loan date fields."
   task adjust_loan_dates: :environment do

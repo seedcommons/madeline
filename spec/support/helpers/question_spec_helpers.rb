@@ -71,7 +71,6 @@ module QuestionSpecHelpers
     create(:question,
       question_set: set,
       active: active,
-      internal_name: name,
       data_type: type,
       override_associations: override,
       loan_types: loan_types || (required ? [lt1] : []),
