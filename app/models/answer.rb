@@ -3,10 +3,7 @@ class Answer < ApplicationRecord
   belongs_to :question, optional: false
   delegate :data_type, to: :question
   validate :question_is_not_group
-<<<<<<< HEAD
   validates_presence_of :question_id
-=======
->>>>>>> 12179_answers_migration
   validate :question_set_matches
 
   before_save :ensure_json_format
@@ -93,13 +90,12 @@ class Answer < ApplicationRecord
     business_canvas_data.symbolize_keys if business_canvas_data
   end
 
-<<<<<<< HEAD
   def breakeven_report
     @breakeven_report ||= breakeven_table.report
   end
 
   def linked_document_data_blank?
-    linked_document_data.blank? || linked_document_data.values.all?{|v| v.blank?}
+    linked_document_data.blank? || linked_document_data.values.all?{ |v| v.blank? }
   end
 
   def business_canvas_blank?
@@ -115,7 +111,10 @@ class Answer < ApplicationRecord
       LinkedDocument.new(linked_document_data.symbolize_keys)
     else
       nil
-=======
+    end
+  end
+
+  #TODO: can remove after answers migration?
   def question_set_matches
     question.question_set_id == response_set.question_set_id
   end
@@ -147,7 +146,6 @@ class Answer < ApplicationRecord
       json["url"] = self.linked_document_data["url"]
       json["start_cell"] = self.linked_document_data["start_cell"]
       json["end_cell"] = self.linked_document_data["end_cell"]
->>>>>>> 12179_answers_migration
     end
   end
 

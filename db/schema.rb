@@ -10,12 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2022_07_18_191508) do
-=======
-ActiveRecord::Schema.define(version: 2023_01_30_223046) do
 
->>>>>>> 12179_answers_migration
+ActiveRecord::Schema.define(version: 2022_07_18_191508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"

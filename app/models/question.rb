@@ -41,6 +41,7 @@ class Question < ApplicationRecord
 
   validates :data_type, presence: true
   validate :parent_division_depth_must_be_less_than_or_equal_to_ours
+  validate :internal_name_contains_field
 
   after_create_commit :adjust_position_by_division
   before_save :prepare_numbers
@@ -226,6 +227,22 @@ class Question < ApplicationRecord
     self.number = nil if active_changed? && !active?
     @old_parent_id = parent_id_changed? ? parent_id_was : nil
     true
+  end
+
+  # temporary for biz dev data migration
+  def ensure_internal_name
+    if !internal_name
+      self.update! internal_name: "field_#{id}"
+    end
+  end
+
+  # temporary for biz dev data migration
+  # all non-group qs need to have "field" for their Answers to save
+  def internal_name_contains_field
+    return if internal_name.nil? # will then go to ensure_internal_name
+    return if data_type == "group"
+    return if internal_name.include?("field")
+    errors.add(:base, :invalid_internal_name)
   end
 
   def parent_division_depth_must_be_less_than_or_equal_to_ours
