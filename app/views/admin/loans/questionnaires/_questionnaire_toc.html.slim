@@ -2,8 +2,7 @@ ul.toc
   - if @response_set.question_set.summary_questions? && group == @root
     li = t("loan.summary")
   - group.child_groups.each do |child|
-    - response = response_set.response(child)
-    li data-level=child.depth data-type=child.data_type class=('hidden-print' if response.blank? || response.not_applicable?)
+    li data-level=child.depth data-type=child.data_type class=('hidden-print' if child.blank? || child.not_applicable?)
       = child.full_number_and_label
       - if child.group?
         = render("admin/loans/questionnaires/questionnaire_toc", group: child, response_set: response_set)

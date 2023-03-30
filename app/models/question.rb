@@ -33,7 +33,7 @@ class Question < ApplicationRecord
   # note, the custom field form layout can be hierarchically nested
   has_closure_tree order: 'position', numeric_order: true, dependent: :destroy
 
-  delegate :depth, to: :division, prefix: true
+
 
   # define accessor like convenience methods for the fields stored in the Translations table
   translates :label
@@ -41,12 +41,13 @@ class Question < ApplicationRecord
 
   validates :data_type, presence: true
   validate :parent_division_depth_must_be_less_than_or_equal_to_ours
-  validate :internal_name_contains_field
-
-  after_save :ensure_internal_name
 
   after_create_commit :adjust_position_by_division
   before_save :prepare_numbers
+
+  # cache division depth to avoid inner join/count sql query when reading questions from db
+  before_save :set_division_depth
+
   after_commit :set_numbers
 
   def top_level?
@@ -70,14 +71,6 @@ class Question < ApplicationRecord
     @depth ||= root? ? 0 : parent.depth + 1
   end
 
-  def name
-    "#{question_set.kind}-#{internal_name}"
-  end
-
-  def attribute_sym
-    internal_name.to_sym
-  end
-
   def group?
     data_type == 'group'
   end
@@ -95,6 +88,38 @@ class Question < ApplicationRecord
 
   def business_canvas?
     data_type == 'business_canvas'
+  end
+
+  def range?
+    data_type == 'range'
+  end
+
+  def boolean?
+    data_type == "boolean"
+  end
+
+  def breakeven?
+    data_type == "breakeven"
+  end
+
+  def has_text?
+    %w(text range).include?(data_type)
+  end
+
+  def has_number?
+    %w(number currency percentage range).include?(data_type)
+  end
+
+  def has_currency?
+    data_type == "currency"
+  end
+
+  def has_percentage?
+    data_type == "percentage"
+  end
+
+  def has_rating?
+    data_type == "range"
   end
 
   def first_child?
@@ -156,6 +181,10 @@ class Question < ApplicationRecord
 
   protected
 
+  def set_division_depth
+    self.division_depth = division.depth
+  end
+
   def set_numbers
     update_numbers_for_parent(parent_id) if parent_id
     update_numbers_for_parent(@old_parent_id) if @old_parent_id
@@ -197,22 +226,6 @@ class Question < ApplicationRecord
     self.number = nil if active_changed? && !active?
     @old_parent_id = parent_id_changed? ? parent_id_was : nil
     true
-  end
-
-  # temporary for biz dev data migration
-  def ensure_internal_name
-    if !internal_name
-      self.update! internal_name: "field_#{id}"
-    end
-  end
-
-  # temporary for biz dev data migration
-  # all non-group qs need to have "field" for their Answers to save
-  def internal_name_contains_field
-    return if internal_name.nil? # will then go to ensure_internal_name
-    return if data_type == "group"
-    return if internal_name.include?("field")
-    errors.add(:base, :invalid_internal_name)
   end
 
   def parent_division_depth_must_be_less_than_or_equal_to_ours

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_29_191508) do
+ActiveRecord::Schema.define(version: 2023_03_30_303404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -425,9 +425,9 @@ ActiveRecord::Schema.define(version: 2023_03_29_191508) do
     t.datetime "created_at", null: false
     t.string "data_type", null: false
     t.boolean "display_in_summary", default: false, null: false
+    t.integer "division_depth", null: false
     t.integer "division_id", null: false
     t.boolean "has_embeddable_media", default: false, null: false
-    t.string "internal_name"
     t.integer "legacy_id"
     t.integer "migration_position"
     t.integer "number"
@@ -437,13 +437,11 @@ ActiveRecord::Schema.define(version: 2023_03_29_191508) do
     t.integer "question_set_id"
     t.datetime "updated_at", null: false
     t.index "question_set_id, ((parent_id IS NULL))", name: "index_questions_on_question_set_id_parent_id_IS_NULL", unique: true, where: "(parent_id IS NULL)", comment: "Ensures max one root per question set"
-    t.index ["internal_name"], name: "index_questions_on_internal_name", unique: true
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
   create_table "response_sets", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.jsonb "custom_data"
     t.integer "legacy_id"
     t.integer "loan_id", null: false
     t.integer "lock_version", default: 0, null: false

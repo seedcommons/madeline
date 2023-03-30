@@ -1,33 +1,34 @@
+- index = f.index
 .business-model-canvas-wrapper
   .business-model-canvas
     .canvas-row
       .canvas-col: .canvas-cell
         = render 'admin/loans/questionnaires/business_model_canvas_cell',
-            section: :key_partners, question: question, data: data
+            section: :key_partners, question: question, data: data, index: index
       .canvas-col
         .canvas-cell.half-height
           = render 'admin/loans/questionnaires/business_model_canvas_cell',
-              section: :key_activities, question: question, data: data
+              section: :key_activities, question: question, data: data, index: index
         .canvas-cell.half-height
           = render 'admin/loans/questionnaires/business_model_canvas_cell',
-              section: :key_resources, question: question, data: data
+              section: :key_resources, question: question, data: data, index: index
       .canvas-col: .canvas-cell
         = render 'admin/loans/questionnaires/business_model_canvas_cell',
-            section: :value_propositions, question: question, data: data
+            section: :value_propositions, question: question, data: data, index: index
       .canvas-col
         .canvas-cell.half-height
           = render 'admin/loans/questionnaires/business_model_canvas_cell',
-              section: :customer_relationships, question: question, data: data
+              section: :customer_relationships, question: question, data: data, index: index
         .canvas-cell.half-height
           = render 'admin/loans/questionnaires/business_model_canvas_cell',
-              section: :channels, question: question, data: data
+              section: :channels, question: question, data: data, index: index
       .canvas-col: .canvas-cell
         = render 'admin/loans/questionnaires/business_model_canvas_cell',
-            section: :customer_segments, question: question, data: data
+            section: :customer_segments, question: question, data: data, index: index
     .canvas-row
       .canvas-col: .canvas-cell
         = render 'admin/loans/questionnaires/business_model_canvas_cell',
-            section: :cost_structure, question: question, data: data
+            section: :cost_structure, question: question, data: data, index: index
       .canvas-col: .canvas-cell
         = render 'admin/loans/questionnaires/business_model_canvas_cell',
-            section: :revenue_streams, question: question, data: data
+            section: :revenue_streams, question: question, data: data, index: index

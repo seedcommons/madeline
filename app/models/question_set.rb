@@ -27,7 +27,7 @@ class QuestionSet < ApplicationRecord
     -1
   end
 
-  # Gets a Question by its id, internal_name, or the Question itself.
+  # Gets a Question by its id, or the Question itself.
   # Uses the node_lookup_table so that it does not trigger any new database queries once the table is built.
   def question(question_identifier, required: true)
     # Return immediately if we are passed a Question or FilteredQuestion.
@@ -62,19 +62,17 @@ class QuestionSet < ApplicationRecord
       question_set_id: id,
       parent: nil,
       data_type: "group",
-      internal_name: "root_#{id}",
       division_id: division_id
     )
   end
 
   # Recursive method to construct @node_lookup_table, which is a hash of
-  # node IDs and internal_names to the nodes themselves.
+  # node IDs to the nodes themselves.
   # If the `node` argument was retrieved using root_group_including_tree, then this method
   # should not trigger any additional queries.
   def build_node_lookup_table_for(node)
     @node_lookup_table ||= {}
     @node_lookup_table[node.id] = node
-    @node_lookup_table[node.internal_name] = node if node.internal_name.present?
 
     node.children.includes(:children).each { |child| build_node_lookup_table_for(child) }
   end

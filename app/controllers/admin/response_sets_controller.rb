@@ -18,7 +18,6 @@ class Admin::ResponseSetsController < Admin::AdminController
       handle_conflict
     else
       @response_set.save!
-      @response_set.save_answers(response_set_params)
       redirect_to display_path, notice: I18n.t(:notice_created)
     end
   end
@@ -36,6 +35,7 @@ class Admin::ResponseSetsController < Admin::AdminController
 
     # Add updater id to params
     adjusted_params = response_set_params.merge(updater_id: current_user.id)
+    #adjusted_params = handle_json_attr_values(adjusted_params, params)
     # If there was a conflict and "Overwrite" was clicked, update the lock version to the one pulled
     # from the database when the warning was displayed. We do this instead of just ignoring the
     # lock_version in case someone made further changes since the warning was displayed. This way,
@@ -46,7 +46,6 @@ class Admin::ResponseSetsController < Admin::AdminController
       redirect_to display_path
     else
       @response_set.update!(adjusted_params)
-      @response_set.save_answers(adjusted_params)
       redirect_to display_path, notice: I18n.t(:notice_updated)
     end
   rescue ActiveRecord::StaleObjectError
@@ -62,6 +61,10 @@ class Admin::ResponseSetsController < Admin::AdminController
 
   private
 
+  def handle_json_attr_values(adjusted_params, params)
+
+  end
+
   def handle_conflict
     @conflict = true
     @tab = 'questions'
@@ -76,7 +79,32 @@ class Admin::ResponseSetsController < Admin::AdminController
   end
 
   def response_set_params
-    params.require(:response_set).permit!
+    params.require(:response_set).permit(:id, :loan_id, :question_set_id, :lock_version,
+      answers_attributes: [:id,
+        :question_id,
+        :text_data,
+        :numeric_data,
+        :not_applicable,
+        :boolean_data,
+        linked_document_data: [:url, :start_cell, :end_cell],
+        business_canvas_data: [
+          :key_partners,
+          :key_activities,
+          :key_resources,
+          :value_propositions,
+          :customer_relationships,
+          :channels,
+          :customer_segments,
+          :cost_structure,
+          :revenue_streams
+        ],
+        breakeven_data: [
+          :periods,
+          :units,
+          fixed_costs: [:name, :amount],
+          products: [:name, :description, :unit, :price, :percentage_of_sales, :quantity, :cost]
+        ]
+      ])
   end
 
   def display_path

@@ -1,0 +1,111 @@
+= f.fields_for :answer do |answer_form_fields|
+  = answer_form_fields.hidden_field_tag(:question_id, question.id, hidden: true)
+
+  .not-applicable
+    - if answer && answer.not_applicable?
+      .view-element.answer = t("loan.not_applicable")
+
+    .form-element
+      / This is the 'not applicable' checkbox.
+      / The boolean field above uses a select box so we need a different treatment here.
+      / However it makes sense to maintain the same underlying boolean values (yes/no)
+      / in the response data. It is easiest to do a manual checkbox, plus a hidden tag
+      / so that if the box is unchecked, the submitted value will be 'no'. This is a
+      / standard Rails trick:
+      / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
+      / # TODO bring back the hidden field & checkbox, but with nested attrs. otherwise
+      / we'll have an answer for every single question after the first save, forever.
+      = check_box_tag 'not_applicable', true, (answer && answer.not_applicable?)
+
+  - if question.has_rating?
+    - if answer && answer.rating.present? && !answer.not_applicable?
+      .view-element.answer = "#{I18n.t('loan.rating')}: #{answer.rating}"
+    = f.input_field :"#{question.attribute_sym}[rating]", as: :select,
+      selected: (answer.present? ? answer.rating : nil), collection: Array(1..5), prompt: I18n.t("select_prompt"),
+      data: {rating: true}
+
+  - if question.has_number?
+    - if answer && answer.number.present? && !answer.not_applicable?
+      - display_value = display_value_for_number(question, answer: answer, response_set: response_set)
+      .view-element.answer.hidden-print = display_value
+      .view-element.answer.numerical-answer.visible-print-block
+        table.table class=(@previous_number_table ? 'sibling-table' : '')
+          caption.sr-only
+            = t("questions.table.caption", number: question.full_number)
+          tr
+            td.question-number = question.full_number
+            td.number-question-label = question.label
+            td.number-response = display_value
+    = answer_form_fields.input_field :numeric_data, as: :decorated_numeric,
+      value: (answer.present? ? answer.number : nil), prefix: prefix(question, response_set), postfix: postfix(question, response_set)
+
+  - if question.has_text?
+    / Display response as rich text.
+
+    / Specify which html tags are allowed.
+    - tags = %w(table tbody tr td b i u ol ul li p br img a iframe)
+
+    / Specify which attributes are allowed.
+    - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
+
+    a.form-element.edit-rt-response.edit-action(aria-label="#{t("questions.edit_rich_text")}")
+      =t("questions.edit_rich_text")
+
+    - answer_content = answer.present? ? answer.text : nil
+    - if answer_content && !answer.not_applicable?
+      .view-element.answer = sanitize(answer_content, tags: tags, attributes: attrs)
+
+    .form-element.answer.rt-answer = sanitize(answer_content, tags: tags, attributes: attrs)
+    .form-element.answer.no-response class=(answer_content.present? ? "" : "hidden")
+       = t("loan.no_answer")
+
+    = answer_form_fields.input_field :text_data,
+      value: sanitize(answer_content, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
+
+  - if question.boolean?
+    - if answer && answer.boolean.present? && !answer.not_applicable?
+      .view-element.answer = t(answer.boolean == "yes" ? "reply_true" : "reply_false")
+    = f.input_field :"#{question.attribute_sym}[boolean]", as: :select,
+      selected: (answer.present? ? answer.boolean : nil), collection: %i(yes no),
+      label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
+      data: {boolean: true}
+
+  - if question.breakeven?
+    - if answer && answer.breakeven_report.present? && !answer.not_applicable?
+      .view-element
+        = render "admin/loans/questionnaires/breakeven_table_report",
+          report: answer.breakeven_report
+        = render "admin/loans/questionnaires/breakeven_charts",
+          report: answer.breakeven_report, id: question.id
+        - if answer.breakeven_report[:periods] > 1
+          = render "admin/loans/questionnaires/breakeven_rampup/main",
+            report: answer.breakeven_report
+      .form-element
+        = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
+          question: question, data: answer.breakeven_hash,
+          total_fixed_costs: answer.breakeven_report[:total_fixed_costs]
+    - else
+      .form-element
+        = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
+          question: question, data: {}, total_fixed_costs: 0
+
+  - if question.has_embeddable_media?
+    = render 'admin/loans/questionnaires/linked_document', f: f,
+      question: question, document: (answer.present? ? answer.linked_document : nil),
+      not_applicable: (answer && answer.not_applicable?)
+
+  - if question.business_canvas?
+    - unless answer.nil? || answer.not_applicable? || answer.business_canvas_blank?
+      .view-element.answer
+        = render 'admin/loans/questionnaires/business_model_canvas', f: f,
+          question: question, data: answer.business_canvas
+    / The form element will always show in edit mode
+    .form-element
+      = render 'admin/loans/questionnaires/business_model_canvas', f: f,
+        question: question, data: (answer.present? ? answer.business_canvas : nil)
+  - if display_context != "summary" && !question.group? && answer.blank? && question.required?
+    .view-element.answer.blank
+      = fa_icon "exclamation-circle"
+      = t("questions.missing_required_answer")
+
+  hr class="solid"

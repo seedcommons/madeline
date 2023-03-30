@@ -5,6 +5,10 @@ describe ResponseSet do
   let!(:question_set) { create(:question_set, :with_questions, kind: "loan_criteria", division: division)}
   let(:loan) { create(:loan, division: division) }
 
+  describe "embedded urls" do
+    
+  end
+
   describe "question_blank?" do
     context "answer to this question is blank" do
       it "should be true" do

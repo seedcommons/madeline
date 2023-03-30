@@ -1,13 +1,14 @@
 class FilteredQuestionSerializer < ApplicationSerializer
-  attributes :id, :name, :children, :parent_id, :division_id, :division_depth, :fieldset, :optional,
+  attributes :id, :name, :children, :parent_id, :division_id, :fieldset, :optional,
              :data_type, :required_loan_types, :active, :can_edit
   # inheritance info is only needed in questions editing view, but this serializer is also used in the questionnaire view
   # calculating inheritance info adds significant db queries. this flag makes it so we can limit running those queries to where they are needed
-  attribute :inheritance_info, if: -> { self.include_inheritance }
-  attr_accessor :include_inheritance
+  attribute :inheritance_info, if: -> { self.for_questions_view }
+  attribute :division_depth, if: -> { self.for_questions_view }
+  attr_accessor :for_questions_view
 
   def initialize(*args, **options)
-    self.include_inheritance = options[:include_inheritance]
+    self.for_questions_view = options[:for_questions_view]
     super(*args, options)
   end
 
@@ -28,7 +29,7 @@ class FilteredQuestionSerializer < ApplicationSerializer
   def children
     if object.children.present?
       # Recursively apply this serializer to children
-      object.children.map { |node| self.class.new(node) }
+      object.children.map { |node| self.class.new(node, for_questions_view: self.for_questions_view) }
     end
   end
 
