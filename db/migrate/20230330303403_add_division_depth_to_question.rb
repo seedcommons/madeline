@@ -4,7 +4,6 @@ class AddDivisionDepthToQuestion < ActiveRecord::Migration[6.1]
     Question.find_each do |q|
       q.save!
     end
-    change_column_null :questions, :division_depth, false
   end
 
   def down
