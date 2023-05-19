@@ -1,7 +1,40 @@
 # Madeline
 
+## Overview
+Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Vivir, and People's Solary Energy Fund to administrate non-extractive lending supporting cooperatives. Due to budget constraints, the repository is very customized and not in shape for general use as open source software. 
+
+### Key features
+* a tree (or heirarchy) of divisions, where each member is a cooperative of loan funds or a loan fund, called the elsewhere here 'division tree'. 
+* Users 
+* Projects
+* Loans
+  * auto duplication of loans and associated data
+* a custom SaSS integration that facilitates accounting for loans in SeedCommons
+* Questionnaires: a custom form system. Each loan or project has one response per questionnaire. 
+  * Business Planning - the answers to this special form automatically populate loan memos, and progress on this form is included in calculating 'loan health,' another feature
+  * Post Analysis questionnaires
+  * The form system is integrated into the division tree. It keeps questionnaires consistant within a group of loan funds while allowing individual funds to add customized questions. 
+  * The form system supports loan funds marking questions required or not based on the loan type, and overriding this choice elsewhere.
+  * The form system supports 8 different types of questions, including a business canvas and breakeven table. 
+  * The form system supports arranging questions into nested groups. 
+  * Overwrite prevention
+  * Progress calculations on the questionnaire taking into account required status of questions
+* Localization: Madeline is multilingual and supports multilingual user input in most places
+* Printable Loan Memo (mentioned above because it is populated with data from the Business Planning Questionnaire)
+* Logs for projects and loans 
+* Project Steps 
+* Calendar 
+* Timeline
+* Documentation: a system-wide feature allowing authorized users to add and edit helper text for most parts of Madeline
+* Data Exports - provide csv exports about loans, including accounting data and answers to questionnaires
+  * these are organized by division
+  * these can be filtered by daterange
+* A user dashboard
+* Additional customization based on division (e.g. log behavior, colors in browser, logo)
+
+
 ## Requirements
-* ruby 2.2.x
+* ruby 2.7.3
 * postgresql
 * PhantomJS 2.1.x or higher
 * ImageMagick for image processing
