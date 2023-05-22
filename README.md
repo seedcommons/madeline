@@ -4,12 +4,26 @@
 Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Vivir, and People's Solary Energy Fund to administrate non-extractive lending supporting cooperatives. Due to budget constraints, the repository is very customized and not in shape for general use as open source software. 
 
 ### Key features
-* a tree (or heirarchy) of divisions, where each member is a cooperative of loan funds or a loan fund, called the elsewhere here 'division tree'. 
+* Divisions
+  * Each division represents an organization. In practice each division is a cooperative of loan funds or a loan fund. 
+  * Divisions are arranged in  a tree (or heirarchy) called the elsewhere here 'division tree'. This structure affects other parts of the system. 
+* Cooperatives (aka Organizaitons)
+  * belong to a division
+  * have loans 
 * Users 
+  * associated with divisions, cooperatives, loans and projects
+  * receive system emails for certain events (e.g. log updates)
+  * different permissions for different users
 * Projects
 * Loans
+  * Loans have types. These types affect behavior in Questionnaires (below)
+  * Loan have statuses. These affect behavior in the accounting integration (see below)
   * auto duplication of loans and associated data
-* a custom SaSS integration that facilitates accounting for loans in SeedCommons
+* a custom QuickBooks integration that facilitates accounting for loans in SeedCommons
+  * automatic interest calculation
+  * ability to create and edit transactions 
+  * syncs data from QuickBooks to create up to date loan schedules
+  * printable Loan Schedule 
 * Questionnaires: a custom form system. Each loan or project has one response per questionnaire. 
   * Business Planning - the answers to this special form automatically populate loan memos, and progress on this form is included in calculating 'loan health,' another feature
   * Post Analysis questionnaires
@@ -19,7 +33,7 @@ Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Viv
   * The form system supports arranging questions into nested groups. 
   * Overwrite prevention
   * Progress calculations on the questionnaire taking into account required status of questions
-* Localization: Madeline is multilingual and supports multilingual user input in most places
+* Localization: Madeline is multilingual and supports multilingual user input in many places (e.g. questionnaires, logs, documentation)
 * Printable Loan Memo (mentioned above because it is populated with data from the Business Planning Questionnaire)
 * Logs for projects and loans 
 * Project Steps 
@@ -32,11 +46,14 @@ Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Viv
 * A user dashboard
 * Additional customization based on division (e.g. log behavior, colors in browser, logo)
 
+## Outstanding maintenance work as of Spring 2023
+* Ruby upgrade 
+* replacing wice_grid library that is out of date. wice_grid provides grid view, sorting, filtering, csv export, and pagination for loans list, projects list, members list, divisions list, transactions list, and dashboard. There is no equivalent successor to wice_grid, so we will need to replace it with a collection of tools. 
+* Rails upgrade
 
 ## Requirements
-* ruby 2.7.3
-* postgresql
-* PhantomJS 2.1.x or higher
+* Ruby (see .ruby-version)
+* Postgres
 * ImageMagick for image processing
 * Redis for Sidekiq job queue
 
