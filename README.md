@@ -6,7 +6,7 @@ Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Viv
 ### Key features
 * Divisions
   * Each division represents an organization. In practice each division is a cooperative of loan funds or a loan fund. 
-  * Divisions are arranged in  a tree (or heirarchy) called the elsewhere here 'division tree'. This structure affects other parts of the system. 
+  * Divisions are arranged in a tree (or heirarchy) called the 'division tree' later in this list. This structure affects behavior in several other parts of the system. 
 * Cooperatives (aka Organizaitons)
   * belong to a division
   * have loans 
@@ -44,6 +44,7 @@ Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Viv
   * these are organized by division
   * these can be filtered by daterange
 * A user dashboard
+* Support for various forms of media attachments on projects, loans, users, organizations, and logs. 
 * Additional customization based on division (e.g. log behavior, colors in browser, logo)
 
 ## Outstanding maintenance work as of Spring 2023
