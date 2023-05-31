@@ -1,7 +1,7 @@
 # Madeline
 
 ## Overview
-Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Vivir, and People's Solary Energy Fund to administrate non-extractive lending supporting cooperatives. Due to budget constraints, the repository is very customized and not in shape for general use as open source software. 
+Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Vivir, La Base Nicaragua, and People's Solar Energy Fund to administrate non-extractive lending supporting cooperatives. Due to budget constraints, the repository is very customized and not in shape for general use as open source software. 
 
 ### Key features
 * Divisions
@@ -19,6 +19,7 @@ Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Viv
   * Loans have types. These types affect behavior in Questionnaires (below)
   * Loan have statuses. These affect behavior in the accounting integration (see below)
   * auto duplication of loans and associated data
+  * can be public or private
 * a custom QuickBooks integration that facilitates accounting for loans in SeedCommons
   * automatic interest calculation
   * ability to create and edit transactions 
@@ -46,6 +47,7 @@ Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Viv
 * A user dashboard
 * Support for various forms of media attachments on projects, loans, users, organizations, and logs. 
 * Additional customization based on division (e.g. log behavior, colors in browser, logo)
+* Public view (that does not require login) of divisions displaying 'public' loans in that division & using division customizations 
 
 ## Outstanding maintenance work as of Spring 2023
 * Ruby upgrade 
