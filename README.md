@@ -1,7 +1,7 @@
 # Madeline
 
 ## Overview
-Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Vivir, and People's Solary Energy Fund to administrate non-extractive lending supporting cooperatives. Due to budget constraints, the repository is very customized and not in shape for general use as open source software. 
+Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Vivir, La Base Nicaragua, and People's Solary Energy Fund to administrate non-extractive lending supporting cooperatives. Due to budget constraints, the repository is very customized and not in shape for general use as open source software. 
 
 ### Key features
 * Divisions
