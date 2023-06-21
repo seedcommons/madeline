@@ -49,10 +49,11 @@ Madeline is a software platform used by SeedCommons, La Base Argentina, Buen Viv
 * Additional customization based on division (e.g. log behavior, colors in browser, logo)
 * Public view (that does not require login) of divisions displaying 'public' loans in that division & using division customizations 
 
-## Outstanding maintenance work as of Spring 2023
+## Maintenance work needed 
 * Ruby upgrade 
 * replacing wice_grid library that is out of date. wice_grid provides grid view, sorting, filtering, csv export, and pagination for loans list, projects list, members list, divisions list, transactions list, and dashboard. There is no equivalent successor to wice_grid, so we will need to replace it with a collection of tools. 
 * Rails upgrade
+* staying ahead of changes to Intuit QuickBooks app and API requirements 
 
 ## Requirements
 * Ruby (see .ruby-version)
