@@ -19,7 +19,7 @@ gem "momentjs-rails"
 gem "rails-backbone"
 gem "select2-rails"
 gem "strip_attributes", "< 2.0"
-gem "therubyracer", platforms: :ruby
+gem "mini_racer"
 gem "uglifier", ">= 1.3.0"
 gem "uri-js-rails" # URI manipulation
 
@@ -104,9 +104,8 @@ group :development, :test do
   gem "poltergeist", "~> 1.0"
   gem "pundit-matchers"
   gem "rspec-rails"
-  gem "selenium-webdriver", "~> 3.0"
+  gem "selenium-webdriver"
   gem "simplecov"
-  gem "webdrivers", "~> 4.0"
 
   # Dump data to Rails commands
   gem "seed_dump"

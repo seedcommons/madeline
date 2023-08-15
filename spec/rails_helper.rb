@@ -21,9 +21,6 @@ require "pundit/rspec"
 require "pundit/matchers"
 require "sidekiq/testing"
 
-# Automatically downloads chromedriver, which is used use for JS feature specs
-require "webdrivers/chromedriver"
-
 # So we don't need to prepare test db every time
 ActiveRecord::Migration.maintain_test_schema!
 

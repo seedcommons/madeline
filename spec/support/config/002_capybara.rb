@@ -5,7 +5,7 @@ RSpec.configure do |config|
     args = %w(disable-gpu no-sandbox headless disable-site-isolation-trials window-size=1280x2048)
     options = Selenium::WebDriver::Chrome::Options.new(
       args: args,
-      loggingPrefs: {browser: "ALL", client: "ALL", driver: "ALL", server: "ALL"},
+      "goog:loggingPrefs": {browser: "ALL", client: "ALL", driver: "ALL", server: "ALL"},
     )
     options.add_preference(:download, prompt_for_download: false,
                                       default_directory: DownloadHelpers::PATH.to_s)
