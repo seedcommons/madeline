@@ -219,6 +219,7 @@ en:
           no_summary: "Summary is required."
         question:
           invalid_parent_division_depth: "Parent must be in same or ancestor division."
+          invalid_internal_name: "Internal name must include the string 'field'"
         organization:
           attributes:
             primary_contact:

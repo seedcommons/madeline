@@ -186,7 +186,6 @@ describe Loan, type: :model do
       end
 
       xit 'it should return all future events and past events if they are complete or have logs' do
-        # puts project_steps.awesome_inspect
         events = loan.project_steps
         expect(events.size).to eq 8
         events.each do |event|

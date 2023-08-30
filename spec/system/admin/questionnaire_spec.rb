@@ -37,6 +37,9 @@ describe "questionnaire", js: true do
 
         # save changes button is visible in edit mode
         fill_and_save("1337")
+        expect(loan.response_sets.first.reload.answers.first.numeric_data).to eq "1337"
+        expect(page).not_to have_content("Now editing")
+        expect(page).to have_content("1,337", wait: 20)
         expect(page).to have_css(".view-element", text: "1,337")
 
         # test outline expansion
@@ -55,7 +58,9 @@ describe "questionnaire", js: true do
         field.set("31337")
         find("body").click
         click_button("Save Changes")
-        expect(page).to have_css(".view-element", text: "31,337")
+        click_on("Post-Analysis")
+        expect(loan.response_sets.last.answers.first.reload.numeric_data).to eq "31337"
+        expect(page).to have_css(".view-element", text: "31,337", wait: 20)
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_30_223046) do
+ActiveRecord::Schema.define(version: 2023_03_29_191508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,23 @@ ActiveRecord::Schema.define(version: 2023_01_30_223046) do
     t.index ["qb_id", "qb_object_type"], name: "index_accounting_transactions_on_qb_id_and_qb_object_type", unique: true
     t.index ["qb_id"], name: "index_accounting_transactions_on_qb_id"
     t.index ["qb_object_type"], name: "index_accounting_transactions_on_qb_object_type"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.boolean "boolean_data"
+    t.json "breakeven_data"
+    t.json "business_canvas_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.json "linked_document_data"
+    t.boolean "not_applicable", default: false, null: false
+    t.string "numeric_data"
+    t.bigint "question_id", null: false
+    t.bigint "response_set_id", null: false
+    t.string "text_data"
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["response_set_id", "question_id"], name: "index_answers_on_response_set_id_and_question_id", unique: true
+    t.index ["response_set_id"], name: "index_answers_on_response_set_id"
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
@@ -420,6 +437,7 @@ ActiveRecord::Schema.define(version: 2023_01_30_223046) do
     t.integer "question_set_id"
     t.datetime "updated_at", null: false
     t.index "question_set_id, ((parent_id IS NULL))", name: "index_questions_on_question_set_id_parent_id_IS_NULL", unique: true, where: "(parent_id IS NULL)", comment: "Ensures max one root per question set"
+    t.index ["internal_name"], name: "index_questions_on_internal_name", unique: true
     t.index ["question_set_id"], name: "index_questions_on_question_set_id"
   end
 
@@ -541,6 +559,8 @@ ActiveRecord::Schema.define(version: 2023_01_30_223046) do
   add_foreign_key "accounting_transactions", "accounting_accounts"
   add_foreign_key "accounting_transactions", "currencies"
   add_foreign_key "accounting_transactions", "projects"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "response_sets"
   add_foreign_key "countries", "currencies", column: "default_currency_id"
   add_foreign_key "data_exports", "divisions"
   add_foreign_key "divisions", "accounting_accounts", column: "interest_income_account_id"

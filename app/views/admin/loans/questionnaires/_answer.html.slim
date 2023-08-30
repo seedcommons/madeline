@@ -10,6 +10,7 @@
     / so that if the box is unchecked, the submitted value will be 'no'. This is a
     / standard Rails trick:
     / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
+    / attribute_sym is the internal name
     = hidden_field_tag :"response_set[#{question.attribute_sym}][not_applicable]",
       "no"
     = check_box_tag :"response_set[#{question.attribute_sym}][not_applicable]",
@@ -57,6 +58,8 @@
   .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden")
      = t("loan.no_answer")
 
+     / attribute_sym is the internal name
+     / does the [text] create something like nested attrs?
   = f.input_field :"#{question.attribute_sym}[text]",
     value: sanitize(response.text, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
 

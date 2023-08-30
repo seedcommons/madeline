@@ -6,9 +6,9 @@ FactoryBot.define do
 
     division { root_division }
     question_set
-    internal_name { Faker::Lorem.words(2).join('_').downcase }
     data_type { Question::DATA_TYPES.sample }
     active { true }
+    internal_name { "#{Faker::Name.unique.name}_field" }
 
     after(:build) do |model|
       model.parent ||= model.question_set.root_group

@@ -37,6 +37,7 @@ class FilteredQuestion < SimpleDelegator
       end
   end
 
+
   def visible?
     selected_division.self_or_descendant_of?(question.division) ||
       include_descendant_divisions && selected_division.self_or_ancestor_of?(question.division)

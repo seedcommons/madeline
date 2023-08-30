@@ -18,7 +18,6 @@ class Response
     @loan = loan
     @question = question
     @response_set = response_set
-
     ALL_VALUE_TYPES.each do |type|
       instance_variable_set("@#{type}", data[type.to_sym])
     end
@@ -58,14 +57,13 @@ class Response
     end
   end
 
+  def not_applicable?
+    not_applicable == "yes"
+  end
+
   # Checks if response is blank, including any descendants if this is a group.
   def blank?
-    if group?
-      children.all?(&:blank?) || children.all?(&:not_applicable?)
-    else
-      !not_applicable? && text.blank? && number.blank? && rating.blank? &&
-        boolean.blank? && url.blank? && breakeven_report.blank? && business_canvas_blank?
-    end
+    @response_set.present? && @response_set.question_blank?(@question)
   end
 
   def business_canvas_blank?
@@ -79,12 +77,6 @@ class Response
   # Allows for one line string field to also be presented for 'rating' typed fields
   def text_form_field_type
     question.data_type == 'text' ? :text : :string
-  end
-
-  # Boolean attributes are currently stored as "yes"/"no" in the ResponseSet data. This could
-  # get refactored in future to use actual booleans.
-  def not_applicable?
-    not_applicable == "yes"
   end
 
   private
