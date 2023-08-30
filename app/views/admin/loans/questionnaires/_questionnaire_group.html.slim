@@ -8,8 +8,8 @@ div
   - group.children.each do |question|
     / Add page break for top-level groups with answered questions
     / Also add page break for business model canvas answered question
-    - response = response_set.response(question)
-    - if response.present? && (question.business_canvas? || question.top_level_group?)
+    - answer = question.answer
+    - if question.business_canvas? || question.top_level_group?
       / Close and reopen fieldset with new group/page
       - if optional_encountered && @print_view
         </fieldset>
@@ -19,14 +19,14 @@ div
       = render "admin/loans/questionnaires/page_header"
 
     - start_of_optional_group = !optional_encountered && optionals_exist && requireds_exist && !question.required?
-    - if @print_view && (reopen_fieldset || (start_of_optional_group && response.present?))
+    - if @print_view && (reopen_fieldset || start_of_optional_group)
       - optional_encountered = true; reopen_fieldset = false
       <fieldset class="optional_questions"><legend>#{t 'questionnaires.optional_questions'}</legend>
 
     - css_class = question.required? ? 'required' : 'optional'
 
     / Don't print unanswered questions or groups
-    - css_class += ' hidden-print' if response.blank? || response.not_applicable?
+    - css_class += ' hidden-print' if response_set.question_blank?(question) || answer.nil? || answer.not_applicable?
     - css_class += " #{question.active? ? 'active' : 'inactive'}"
 
     .question data-level=question.depth data-type=question.data_type data-id=question.id class=css_class
@@ -45,11 +45,11 @@ div
           // the question's answer.
           - header_tag = {tag: %i(h2 h3 h4 h5)[question.depth] || :h5}
           *header_tag
-            .question-label class=(response.has_number? ? 'hidden-print' : '')
+            .question-label class=(question.has_number? ? 'hidden-print' : '')
               = question.full_number_and_label
         - if !question.leaf?
-          = render "admin/loans/questionnaires/progress", object: response, display_pct: true
-        - if policy(@loan).update?
+          = render "admin/loans/questionnaires/progress", object: question, display_pct: true
+        - if editing_allowed
           a.edit-action.edit-all(
             href="javascript:void(0)"
             aria-label="#{t("questions.edit_all")}"
@@ -74,13 +74,16 @@ div
       / Recurse if group, else render
       - if question.group? && !question.leaf?
         = render("admin/loans/questionnaires/questionnaire_group", f: f,
-          response_set: response_set, group: question, parents: parents + [question])
-
+          response_set: response_set, group: question, parents: parents + [question], editing_allowed: editing_allowed)
+      - elsif !question.group? # a leaf can be a group if it has no active questions
+        .answer-wrapper.tree-view
+          - answer ||= Answer.new(response_set: response_set, question: question.question)
+          = render("admin/loans/questionnaires/answer", f: f, answer: answer, question: question, response_set: response_set, display_context: "memo")
       - else
         .answer-wrapper.tree-view
-          = render("admin/loans/questionnaires/answer", f: f, response: response, question: question, display_context: "memo")
+          = "This question group has no active questions."
 
-    = render("admin/loans/questionnaires/number_handling", response: response)
+    = render("admin/loans/questionnaires/number_handling", answer: answer, question: question)
 
   - if optional_encountered && @print_view
     </fieldset>

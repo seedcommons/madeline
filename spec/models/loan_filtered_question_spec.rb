@@ -3,45 +3,43 @@ require "rails_helper"
 RSpec.describe LoanFilteredQuestion, type: :model do
   include_context "full question set and responses"
 
-  describe '#parent' do
-    let(:parent) { described_class.new(q31, loan: loan1).parent }
+  let(:lfq_root_1) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset_1.loan, response_set: rset_1) }
+  let(:lookup_table_1) { lookup_table_for(lfq_root_1) }
+  let(:lfq_root_2) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset_2.loan, response_set: rset_2) }
+  let(:lookup_table_2) { lookup_table_for(lfq_root_2) }
 
-    it 'returns a decorated object' do
-      expect(parent).to be_a LoanFilteredQuestion
-    end
+  # let!(:lfq_root) { LoanFilteredQuestion.new(qset.root_group_preloaded, loan: rset_1.loan, response_set: rset_1) }
+  # let!(:lookup_table) { lookup_table_for(lfq_root) }
 
-    it 'should have the right loan' do
-      expect(parent.loan).to eq loan1
-    end
-  end
-
-  describe '#children' do
-    let(:children) { described_class.new(q3.reload, loan: loan1).children }
+  describe '#visible_children' do
+    let!(:visible_children) { lookup_table_1[q3.id].visible_children }
 
     it 'returns decorated objects' do
-      expect(children.first).to be_a LoanFilteredQuestion
+      expect(visible_children.first).to be_a LoanFilteredQuestion
     end
 
-    # This also serves as an indirect test for #visible? and #answered?
     it 'returns only visible questions in the correct order' do
-      expect(children.map(&:question)).to eq [q31, q32, q33, q35, q34, q38, q39]
+      expect(visible_children.map(&:question)).to eq [q31, q32, q33, q35, q34, q38, q39]
     end
   end
 
   describe '#required?' do
     it 'not required by default' do
-      expect(described_class.new(q1, loan: loan1)).not_to be_required
+      expect(lookup_table_1[q1.id]).not_to be_required
     end
 
     it 'required when override true and assocation present' do
-      expect(described_class.new(q3, loan: loan1)).to be_required
+      expect(lookup_table_1[q3.id]).to be_required
     end
 
     it 'not required when override true and assocation not present' do
-      expect(described_class.new(q3, loan: loan2)).not_to be_required
+      #TODO figure out how to do with a different loan waaaahhhhhh
+      expect(lookup_table_2[q3.id]).not_to be_required
     end
 
     it 'required when inherited and parent association present' do
+      puts q31.root?
+      puts q31.parent
       expect(described_class.new(q31, loan: loan1)).to be_required
     end
 

@@ -165,7 +165,7 @@ RSpec.describe ProjectDuplicator, type: :model do
       new_criteria = ResponseSet.find_with_loan_and_kind(new_loan, "loan_criteria")
       # different response set with same data
       expect(new_criteria.id).not_to eq old_criteria.id
-      expect(new_criteria.custom_data).to eq old_criteria.custom_data
+      expect(new_criteria.answers.first.text_data).to eq old_criteria.answers.first.text_data
       # same question set
       expect(new_criteria.question_set.id).to eq old_criteria.question_set.id
     end

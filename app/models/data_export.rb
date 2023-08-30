@@ -76,7 +76,12 @@ class DataExport < ApplicationRecord
   protected
 
   def insert_in_row(header_symbol, row_array, value)
-    row_array[header_symbols_to_indices[header_symbol]] = value
+    index = header_symbols_to_indices[header_symbol]
+    if index.nil?
+      raise "Header symbol #{header_symbol} not found in #{header_symbols_to_indices}. Failed to add #{value}"
+    else
+      row_array[index] = value
+    end
   end
 
   private
@@ -89,7 +94,7 @@ class DataExport < ApplicationRecord
 
   # Builds a hash of header symbols to their appropriate indices in the row arrays.
   def header_symbols_to_indices
-    @header_symbols_to_indices = header_symbols.each_with_index.to_h
+    @header_symbols_to_indices ||= header_symbols.each_with_index.to_h
   end
 
   def set_name

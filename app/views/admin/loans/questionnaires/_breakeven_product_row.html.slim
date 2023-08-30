@@ -1,6 +1,6 @@
 - hidden ||= false
 - product ||= {}
-- prefix = "response_set[#{question.attribute_sym}][breakeven][products][]"
+- prefix = "response_set[answers_attributes][#{index}][breakeven_data][products][]"
 
 tr.ui-state-default data-group="product" class=("hidden" if hidden)
   td

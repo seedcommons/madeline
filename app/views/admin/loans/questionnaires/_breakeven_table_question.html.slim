@@ -1,3 +1,4 @@
+- index = f.index
 .editable-tables.breakeven-tables
   .table-container
     h4.title = t("loan.breakeven.products", count: 2)
@@ -20,13 +21,13 @@
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-        = render 'admin/loans/questionnaires/breakeven_product_row', hidden: true, question: question, total_fixed_costs: 0
+        = render 'admin/loans/questionnaires/breakeven_product_row', hidden: true, question: question, total_fixed_costs: 0, index: index
 
         - if data && data[:products]
           - data[:products].each do |product|
-            = render 'admin/loans/questionnaires/breakeven_product_row', product: product, question: question, total_fixed_costs: total_fixed_costs
+            = render 'admin/loans/questionnaires/breakeven_product_row', product: product, question: question, total_fixed_costs: total_fixed_costs, index: index
 
-        = render 'admin/loans/questionnaires/breakeven_product_row', question: question, total_fixed_costs: 0
+        = render 'admin/loans/questionnaires/breakeven_product_row', question: question, total_fixed_costs: 0, index: index
 
         = render 'admin/loans/questionnaires/breakeven_product_totals', total_fixed_costs: total_fixed_costs, question: question
 
@@ -42,9 +43,9 @@
         tr.ui-state-default data-group="rampup"
           td
             input.form-control.form-element (type="number" value=data[:periods]
-              name="response_set[#{question.attribute_sym}][breakeven][periods]")
+              name="response_set[answers_attributes][#{index}][breakeven_data][periods]")
           td
-            = select_tag("response_set[#{question.attribute_sym}][breakeven][units]",
+            = select_tag("response_set[answers_attributes][#{index}][breakeven_data][units]",
               options_for_select(BreakevenTableQuestion.period_type_names.insert(0, ""), data[:units]),
               class: "select form-element form-control")
 
@@ -60,10 +61,10 @@
       tbody
         / Hidden row is used to generate new rows
         / Is at top instead of bottom to not affect striped rows
-        = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', hidden: true, question: question
+        = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', hidden: true, question: question, index: index
 
         - if data && data[:fixed_costs]
           - data[:fixed_costs].each do |cost|
-            = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', cost: cost, question: question
+            = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', cost: cost, question: question, index: index
 
-        = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', question: question
+        = render 'admin/loans/questionnaires/breakeven_fixed_cost_row', question: question, index: index

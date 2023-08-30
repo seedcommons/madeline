@@ -1,9 +1,8 @@
 - group.children.each do |question|
-  - response = response_set.response(question)
 
   - css_class = question.required? ? 'required' : 'optional'
   / Don't print unanswered questions or groups
-  - css_class += ' hidden-print' if response.blank? || response.not_applicable?
+  - css_class += ' hidden-print' if question.blank? || question.not_applicable?
   - css_class += " #{question.active ? 'active' : 'inactive'}"
   - display_group = question.summary_group?
   - display_question = question.display_in_summary == true || display_group
@@ -20,7 +19,7 @@
         - else
           // For numerical questions in print view, the question's label is displayed with
           // the question's answer.
-          .question-label class=(response.has_number? ? 'hidden-print' : '')
+          .question-label class=(question.has_number? ? 'hidden-print' : '')
             = question.full_number_and_label
 
       // Recurse if group, else render
@@ -30,6 +29,7 @@
 
       - elsif display_question
         .answer-wrapper.tree-view
-          = render("admin/loans/questionnaires/answer", f: f, response: response, question: question, display_context: "summary")
+          = answer = question.answer || Answer.new(response_set: response_set, question: question.question)
+          = render("admin/loans/questionnaires/answer", f: f, answer: answer, question: question, display_context: "summary")
 
-    = render("admin/loans/questionnaires/summary_number_handling", response: response)
+    = render("admin/loans/questionnaires/summary_number_handling", question: question)

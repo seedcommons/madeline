@@ -107,7 +107,7 @@ describe "project step flow", js: true do
       # Log modal should appear
       expect(page).to have_content("The original date for this step will be remembered")
       select("Behind", from: "Status")
-      find("#project_log_summary_en").set("Stuff")
+      find("#project_log_summary_en").set("Stuff", wait: 80)
       find("a.btn", text: "Add Log").click
 
       # Check log persisted

@@ -2,11 +2,18 @@ class ResponseSet < ApplicationRecord
   belongs_to :loan
   belongs_to :updater, class_name: 'User'
   belongs_to :question_set, inverse_of: :response_sets
+  has_many :answers, dependent: :destroy
+  accepts_nested_attributes_for :answers
+
+  # amoeba gem needed here to include answers in project duplication
+  amoeba do
+    enable
+    propagate
+  end
 
   validates :loan, presence: true
 
   delegate :division, :division=, to: :loan
-  delegate :progress, :progress_pct, :progress_type, to: :root_response
 
   after_commit :recalculate_loan_health
 
@@ -18,29 +25,30 @@ class ResponseSet < ApplicationRecord
     RecalculateLoanHealthJob.perform_later(loan_id: loan_id)
   end
 
+  def answer_for_question(question)
+    @answers ||= answers
+    @answers.select{ |a| a.question_id == question.id }.try(:first)
+  end
+
+  def question_blank?(question)
+    if question.group?
+      question.children.all?{|c| question_blank?(c)}
+    else
+      answer_for_question(question).blank?
+    end
+  end
+
+  # supporting specs
   def root_response
-    response(question(:root))
+    root = LoanFilteredQuestion.new(question_set.root_group_preloaded, loan: loan, response_set: self)
+    # todo: there must be a better way to 'ensure decorated'
+    root
   end
 
-  # Fetches a custom value from the json field.
-  # Ensures `question` is decorated before passing to Response.
-  def response(question)
-    question = ensure_decorated(question)
-    raw_value = (custom_data || {})[question.json_key]
-    Response.new(loan: loan, question: question, response_set: self, data: raw_value)
-  end
-
-  # Change/assign custom field value, but don't save.
-  def set_response(question, value)
-    self.custom_data ||= {}
-    custom_data[question.json_key] = value
-    custom_data
-  end
-
-  # Fetches urls of all embeddable media in the whole custom value set
-  def embedded_urls
-    return [] if custom_data.blank?
-    custom_data.values.map { |v| v["url"].presence }.compact
+  # call only in background (currently used in loan health check);
+  # very expensive method
+  def progress_pct
+    root_response.progress_pct
   end
 
   # Defines dynamic method handlers for custom fields as if they were natural attributes, including special
@@ -55,59 +63,14 @@ class ResponseSet < ApplicationRecord
   # def foo=(value)
   #   set_response('foo', value)
   # end
-  def method_missing(method_sym, *arguments, &block)
-    attribute_name, action, field = match_dynamic_method(method_sym)
-    if action
-      q = question(attribute_name)
-      case action
-      when :get then return response(q)
-      when :set then return set_response(q, arguments.first)
-      end
-    end
-    super
-  end
-
-  def respond_to_missing?(method_sym, include_private = false)
-    attribute_name, action = match_dynamic_method(method_sym)
-    action ? true : super
-  end
+  # This method is used to save response_sets in the controler. They come
+  # back to the server with params that are internal names of questions e.g. "field_110="
+  # Rails calls method_missing since these aren't attrs of a response set,
+  # and this method then calls response(q) and set_response(q) instead of erroring.
+  # it uses Rail's under the hood iteration over params from the request
+  # As of May 2022 'get' action not used anywhere.
 
   private
-
-  # Gets the question for the given identifier. Decorates it if it's not already.
-  def question(identifier, required: true)
-    ensure_decorated(question_set.question(identifier, required: required))
-  end
-
-  def ensure_decorated(question)
-    question.nil? || question.decorated? ? question : LoanFilteredQuestion.new(question, loan: loan)
-  end
-
-  # Determines attribute name and implied operations for dynamic methods as documented above
-  def match_dynamic_method(method_sym)
-    method_name = method_sym.to_s
-
-    # avoid problems with nested attribute methods and form helpers
-    return nil if method_name.end_with?('came_from_user?')
-    return nil if method_name.end_with?('before_type_cast')
-    return nil if method_name == 'policy_class'
-    return nil if method_name == 'to_ary'
-
-    if method_name.ends_with?('=')
-      attribute_name = method_name.chomp('=')
-      action = :set
-    else
-      attribute_name = method_name
-      action = :get
-    end
-
-    field = question(attribute_name, required: false)
-    if field
-      [attribute_name, action, field]
-    else
-      nil
-    end
-  end
 
   def is_number?(object)
     true if Float(object) rescue false

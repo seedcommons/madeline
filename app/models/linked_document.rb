@@ -14,10 +14,10 @@ class LinkedDocument
   attr_accessor :document_key
   attr_accessor :sheet_number
 
-  def initialize(url, start_cell: nil, end_cell: nil)
-    self.url = url
-    self.start_cell = start_cell
-    self.end_cell = end_cell
+  def initialize(linked_document_data)
+    self.url = linked_document_data[:url]
+    self.start_cell = linked_document_data[:start_cell]
+    self.end_cell = linked_document_data[:end_cell]
   end
 
   # Display url logic from legacy PHP system (which didn't seem to work as desired)

@@ -1,109 +1,114 @@
-.not-applicable
-  - if response.not_applicable?
-    .view-element.answer = t("loan.not_applicable")
 
-  .form-element
-    / This is the 'not applicable' checkbox.
-    / The boolean field above uses a select box so we need a different treatment here.
-    / However it makes sense to maintain the same underlying boolean values (yes/no)
-    / in the response data. It is easiest to do a manual checkbox, plus a hidden tag
-    / so that if the box is unchecked, the submitted value will be 'no'. This is a
-    / standard Rails trick:
-    / https://apidock.com/rails/ActionView/Helpers/FormHelper/check_box
-    = hidden_field_tag :"response_set[#{question.attribute_sym}][not_applicable]",
-      "no"
-    = check_box_tag :"response_set[#{question.attribute_sym}][not_applicable]",
-      "yes", response.not_applicable?
-    = label_tag "response_set[#{question.attribute_sym}][not_applicable]",
-      t("loan.not_applicable")
+= f.fields_for :answers, answer do |answer_form_fields|
+  - if display_context != "summary" && !question.group? && answer.blank? && question.required?
+    .view-element.answer.blank
+      = fa_icon "exclamation-circle"
+      = t("questions.missing_required_answer")
 
-- if response.has_rating?
-  - if response.rating.present? && !response.not_applicable?
-    .view-element.answer = "#{I18n.t('loan.rating')}: #{response.rating}"
-  = f.input_field :"#{question.attribute_sym}[rating]", as: :select,
-    selected: response.rating, collection: Array(1..5), prompt: I18n.t("select_prompt"),
-    data: {rating: true}
+  = p
+    = "Answer id #{answer.present? ? answer.id: "none"}; Question id: #{question.id}; Answer question id: #{answer.present? ? answer.question.id : "none"}"
+  = answer_form_fields.input_field :question_id, value:question.id, hidden: true
+  .not-applicable
+    - if answer.not_applicable?
+      .view-element.answer = t("loan.not_applicable")
+    .form-element
+      = answer_form_fields.input_field :not_applicable, value: answer.not_applicable, inline_label: "Not Applicable", checked_value: "true", unchecked_value: "false"
 
-- if response.has_number?
-  - if response.number.present? && !response.not_applicable?
-    .view-element.answer.hidden-print = display_value_for_number(response)
-    .view-element.answer.numerical-answer.visible-print-block
-      table.table class=(@previous_number_table ? 'sibling-table' : '')
-        caption.sr-only
-          = t("questions.table.caption", number: question.full_number)
-        tr
-          td.question-number = question.full_number
-          td.number-question-label = question.label
-          td.number-response = display_value_for_number(response)
-  = f.input_field :"#{question.attribute_sym}[number]", as: :decorated_numeric,
-    value: response.number, prefix: prefix(response), postfix: postfix(response)
-
-- if response.has_text?
-  / Display response as rich text.
-
-  / Specify which html tags are allowed.
-  - tags = %w(table tbody tr td b i u ol ul li p br img a iframe)
-
-  / Specify which attributes are allowed.
-  - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
-
-  a.form-element.edit-rt-response.edit-action(aria-label="#{t("questions.edit_rich_text")}")
-    =t("questions.edit_rich_text")
-
-  - if response.text.present? && !response.not_applicable?
-    .view-element.answer = sanitize(response.text, tags: tags, attributes: attrs)
-
-  .form-element.answer.rt-answer = sanitize(response.text, tags: tags, attributes: attrs)
-  .form-element.answer.no-response class=(!response.text.present? ? "" : "hidden")
-     = t("loan.no_answer")
-
-  = f.input_field :"#{question.attribute_sym}[text]",
-    value: sanitize(response.text, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
-
-- if response.has_boolean?
-  - if response.boolean.present? && !response.not_applicable?
-    .view-element.answer = t(response.boolean == "yes" ? "reply_yes" : "reply_no")
-  = f.input_field :"#{question.attribute_sym}[boolean]", as: :select,
-    selected: response.boolean, collection: %i(yes no),
+  - if question.boolean?
+    - unless answer.boolean_data.nil? || answer.not_applicable?
+      .view-element.answer = t(answer.boolean_data ? "reply_true" : "reply_false")
+    .form-element
+      = answer_form_fields.input_field :boolean_data, as: :select,
+    selected: (answer.boolean_data.nil? ? nil : answer.boolean_data), collection: %i(true false),
     label_method: ->(i) { t("reply_#{i}") }, prompt: I18n.t("select_prompt"),
     data: {boolean: true}
 
-- if response.has_breakeven?
-  - if response.breakeven_report.present? && !response.not_applicable?
-    .view-element
-      = render "admin/loans/questionnaires/breakeven_table_report",
-        report: response.breakeven_report
-      = render "admin/loans/questionnaires/breakeven_charts",
-        report: response.breakeven_report, id: question.id
-      - if response.breakeven_report[:periods] > 1
-        = render "admin/loans/questionnaires/breakeven_rampup/main",
-          report: response.breakeven_report
+  - if question.has_rating?
+    - if answer.rating.present? && answer.applicable?
+      .view-element.answer = "#{I18n.t('loan.rating')}: #{answer.rating}"
     .form-element
-      = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-        question: question, data: response.breakeven_hash,
-        total_fixed_costs: response.breakeven_report[:total_fixed_costs]
-  - else
+      = answer_form_fields.input_field :numeric_data, as: :select,
+        selected: (answer.present? ? answer.rating : nil), collection: Array(1..5), prompt: I18n.t("select_prompt"),
+        data: {rating: true}
+
+  - if question.has_number? && !question.has_rating?
+    - if answer && answer.number.present? && !answer.not_applicable?
+      - display_value = display_value_for_number(question, answer: answer, response_set: response_set)
+      .view-element.answer.hidden-print = display_value
+      .view-element.answer.numerical-answer.visible-print-block
+        table.table class=(@previous_number_table ? 'sibling-table' : '')
+          caption.sr-only
+            = t("questions.table.caption", number: question.full_number)
+          tr
+            td.question-number = question.full_number
+            td.number-question-label = question.label
+            td.number-response = display_value
+    = answer_form_fields.input_field :numeric_data, as: :decorated_numeric,
+      value: (answer.present? ? answer.number : nil), prefix: prefix(question, response_set), postfix: postfix(question, response_set)
+
+  - if question.business_canvas?
+    - unless answer.nil? || answer.not_applicable? || answer.business_canvas_blank?
+      .view-element.answer
+        = render 'admin/loans/questionnaires/business_model_canvas', f: answer_form_fields,
+          question: question, data: answer.business_canvas
+    / The form element will always show in edit mode
     .form-element
-      = render 'admin/loans/questionnaires/breakeven_table_question', f: f,
-        question: question, data: response.breakeven_hash, total_fixed_costs: 0
+      = render 'admin/loans/questionnaires/business_model_canvas', f: answer_form_fields,
+        question: question, data: (answer.present? ? answer.business_canvas : nil)
 
-- if question.has_embeddable_media?
-  = render 'admin/loans/questionnaires/linked_document', f: f,
-    question: question, document: response.linked_document,
-    not_applicable: response.not_applicable?
 
-- if response.has_business_canvas?
-  - unless response.not_applicable? || response.business_canvas_blank?
-    .view-element.answer
-      = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-        question: question, data: response.business_canvas
-  / The form element will always show in edit mode
-  .form-element
-    = render 'admin/loans/questionnaires/business_model_canvas', f: f,
-      question: question, data: response.business_canvas
-- if display_context != "summary" && !response.group? && response.blank? && question.required?
-  .view-element.answer.blank
-    = fa_icon "exclamation-circle"
-    = t("questions.missing_required_answer")
+  - if question.breakeven?
+    - if answer && answer.breakeven_report.present? && !answer.not_applicable?
+      .view-element
+        = render "admin/loans/questionnaires/breakeven_table_report",
+          report: answer.breakeven_report, index: answer_form_fields.index
+        = render "admin/loans/questionnaires/breakeven_charts",
+          report: answer.breakeven_report, id: question.id
+        - if answer.breakeven_report[:periods] > 1
+          = render "admin/loans/questionnaires/breakeven_rampup/main",
+            report: answer.breakeven_report
+      .form-element
+        = render 'admin/loans/questionnaires/breakeven_table_question', f: answer_form_fields,
+          question: question, data: answer.breakeven_hash,
+          total_fixed_costs: answer.breakeven_report[:total_fixed_costs]
+    - elsif answer && answer.breakeven_report.present?
+      .form-element
+        = render 'admin/loans/questionnaires/breakeven_table_question', f: answer_form_fields,
+          question: question, data: answer.breakeven_hash,
+          total_fixed_costs: answer.breakeven_report[:total_fixed_costs]
+    - else
+      .form-element
+        = render 'admin/loans/questionnaires/breakeven_table_question', f: answer_form_fields,
+          question: question, data: {},
+          total_fixed_costs: 0
 
-hr class="solid"
+  - if question.has_text?
+    / Display response as rich text.
+
+    / Specify which html tags are allowed.
+    - tags = %w(table tbody tr td b i u ol ul li p br img a iframe)
+
+    / Specify which attributes are allowed.
+    - attrs = %w(class style src data-filename _moz_resizing href target frameborder width height)
+
+    a.form-element.edit-rt-response.edit-action(aria-label="#{t("questions.edit_rich_text")}")
+      =t("questions.edit_rich_text")
+
+    - answer_content = answer.present? ? answer.text : nil
+    - if answer_content && !answer.not_applicable?
+      .view-element.answer = sanitize(answer_content, tags: tags, attributes: attrs)
+
+    .form-element.answer.rt-answer = sanitize(answer_content, tags: tags, attributes: attrs)
+    .form-element.answer.no-response class=(answer_content.present? ? "hidden" : "")
+       = t("loan.no_answer")
+
+    = answer_form_fields.input_field :text_data,
+      value: sanitize(answer_content, tags: tags, attributes: attrs), as: :hidden, class: "rt-response"
+
+
+  - if question.has_embeddable_media?
+    = render 'admin/loans/questionnaires/linked_document', f: answer_form_fields,
+      question: question, document: (answer.present? ? answer.linked_document : nil),
+      not_applicable: (answer && answer.not_applicable?)
+
+  hr class="solid"

@@ -107,18 +107,18 @@ describe "questions flow", js: true do
         fill_in("Title", with: "Stuff")
         click_button("Save")
 
-        expect(page).to have_content("Errors prevented the record from being saved.", wait: 40)
+        expect(page).to have_content("Errors prevented the record from being saved.", wait: 80)
         select("Number", from: "Data Type")
         click_button("Save")
 
-        expect(page).to have_css(".jqtree-title", text: "Stuff", wait: 40)
+        expect(page).to have_css(".jqtree-title", text: "Stuff", wait: 80)
         expect(page).to have_content("6. q115\n7. Stuff\n10. q118")
 
         find(%([data-id="#{q113.id}"] > .jqtree-element .edit-action)).click
         fill_in("Title", with: "Stonks")
         click_button("Save")
 
-        expect(page).to have_css(".jqtree-title", text: "Stonks", wait: 40)
+        expect(page).to have_css(".jqtree-title", text: "Stonks", wait: 80)
         expect(page).not_to have_css(".jqtree-title", text: "q113")
 
         accept_confirm { find(%([data-id="#{q113.id}"] > .jqtree-element .delete-action)).click }

@@ -17,8 +17,6 @@ class Option < ApplicationRecord
 
   def ensure_value_assigned
     unless value
-      # puts "defaulting value to id: #{self.id}"
-      # make sure we don't have any recursive callbacks
       self.update_column(:value, self.id)
     end
   end

@@ -7,7 +7,10 @@ module QuestionSpecHelpers
     let!(:loan2) { create(:loan, loan_type_value: lt2.value)}
     let!(:qset) { create(:question_set, kind: 'loan_criteria') }
     let!(:root) { qset.root_group }
-    let(:rset) { build(:response_set, loan: loan1, question_set: qset) }
+    let!(:rset_1) { create(:response_set, loan: loan1, question_set: qset) }
+    let!(:rset_2) { create(:response_set, loan: loan2, question_set: qset) }
+
+
   end
 
   shared_context "full question set and responses" do
@@ -44,17 +47,17 @@ module QuestionSpecHelpers
     let!(:q52) { create_question(parent: q5, name: "q52", type: "boolean", required: false) }
 
     before do
-      rset.set_response(q1, {"text" => "foo"})
-      rset.set_response(q2, {"text" => ""}) # required
-      rset.set_response(q31, {"text" => "junk"}) # required
-      rset.set_response(q32, {"boolean" => "no"}) # required
-      rset.set_response(q331, {"boolean" => "yes"})
-      rset.set_response(q39, {"text" => "inactive question"})
-      rset.set_response(q41, {"text" => ""})
-      rset.set_response(q42, {"text" => "pants"})
-      rset.set_response(q43, {"text" => ""})
-      rset.set_response(q51, {"text" => "inactive group"})
-      rset.save!
+      create(:answer, response_set: rset_1, question: q1, text_data: "foo")
+      create(:answer, response_set: rset_1, question: q2, text_data: "") # required
+      create(:answer, response_set: rset_1, question: q31, text_data: "junk") # required
+      create(:answer, response_set: rset_1, question: q32, boolean_data: false) # required
+      create(:answer, response_set: rset_1, question: q331, boolean_data: true)
+      create(:answer, response_set: rset_1, question: q39, text_data: "inactive question")
+      create(:answer, response_set: rset_1, question: q41, text_data: "")
+      create(:answer, response_set: rset_1, question: q42, text_data: "pants")
+      create(:answer, response_set: rset_1, question: q43, text_data: "")
+      create(:answer, response_set: rset_1, question: q51, text_data: "inactive group")
+      rset_1.save!
 
       # Reload groups so they see their children!
       [q3, q33, q38, q4, q5].each(&:reload)
@@ -65,16 +68,26 @@ module QuestionSpecHelpers
     create_question(type: "group", **args)
   end
 
+  def lookup_table_for(node)
+    @node_lookup_table ||= {}
+    @node_lookup_table[node.id] = node
+
+    node.children.each { |child| lookup_table_for(child) }
+    @node_lookup_table
+  end
+
+
+
   def create_question(set: qset, active: true, name: "", type:, override: true, required: false,
     loan_types: nil, **args)
 
     create(:question,
       question_set: set,
       active: active,
-      internal_name: name,
       data_type: type,
       override_associations: override,
       loan_types: loan_types || (required ? [lt1] : []),
+      label: name,
       **args
     )
   end

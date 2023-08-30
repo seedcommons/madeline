@@ -164,7 +164,12 @@ FactoryBot.define do
     trait :with_criteria_responses do |loan|
       after(:create) do |loan|
         qset = QuestionSet.find_or_create_by!(division: loan.division, kind: "loan_criteria")
-        create(:response_set, question_set: qset, loan: loan, custom_data: {summary: 'foo', workers: 5})
+        rs = create(:response_set, question_set: qset, loan: loan)
+        root_q = create(:question, question_set: qset, data_type: :group)
+        text_q = create(:question, question_set: qset, data_type: :text, parent: root_q)
+        number_q = create(:question, question_set: qset, data_type: :number, parent: root_q)
+        create(:answer, response_set: rs, question: text_q, text_data: "foo")
+        create(:answer, response_set: rs, question: number_q, numeric_data: 5)
       end
     end
   end

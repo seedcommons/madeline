@@ -1,24 +1,35 @@
 # Wraps Question and delegates most methods, but enables filtering by loan and division via subclasses.
+
+# Filters questions in a question set based on division. See LoanFilteredQuestion for requirements based on loan type and
+# pairing of question set with a response set, which in turn contains answers.
+
+# This FilteredQuestion logic is used where admins edit questions, whereas
+# LoanFilteredQuestion has the logic used where users answer questions in a questionnaire on a loan.
 class FilteredQuestion < SimpleDelegator
   attr_accessor :selected_division
 
   # include_descendant_divisions means we want to show a question if it belongs to a division that
   # is a descendant of selected_division. We ALWAYS include questions that are from divisions that are
   # ancestors of the selected_division.
-  def initialize(question, selected_division:, include_descendant_divisions: false, **args)
+  def initialize(question, selected_division: nil, include_descendant_divisions: false)
     super(question)
-    self.selected_division = selected_division
-    self.include_descendant_divisions = include_descendant_divisions
+    @selected_division = selected_division
+    @include_descendant_divisions = include_descendant_divisions
 
-    raise ArgumentError.new("Division cannot be nil") unless selected_division
-
+    raise ArgumentError.new("Division cannot be nil") unless @selected_division
     # We save these so we can reuse them when decorating children and parents.
-    @args = args
   end
 
-  def self.decorate_collection(collection, **args)
-    collection.map { |q| self.new(q, **args) }
+  # CLASS METHODS
+  def self.decorate_collection(collection, selected_division, include_descendant_divisions)
+    collection.map do |q|
+      self.new(q,
+               selected_division: selected_division,
+               include_descendant_divisions: include_descendant_divisions)
+    end
   end
+
+  # INSTANCE METHODS
 
   def inspect
     "#<#{self.class} object: #{super}>"
@@ -31,17 +42,20 @@ class FilteredQuestion < SimpleDelegator
       if question.parent.nil?
         nil
       else
-        self.class.new(question.parent, selected_division: selected_division,
-                                        include_descendant_divisions: include_descendant_divisions,
-                                        **@args)
+        self.class.new(question.parent, selected_division: @selected_division,
+                                        include_descendant_divisions: @include_descendant_divisions)
       end
   end
 
+
+  # Based on the current division and question rules, is this visible ?
+  # include_descendant_divisions is nil or false when called from LoanFil
   def visible?
     selected_division.self_or_descendant_of?(question.division) ||
       include_descendant_divisions && selected_division.self_or_ancestor_of?(question.division)
   end
 
+  # NOTE: treats a question group with no active children as a leaf
   def children
     @children ||= decorated_children.select(&:visible?).sort_by(&:sort_key)
   end
@@ -74,13 +88,9 @@ class FilteredQuestion < SimpleDelegator
     raise NotImplementedError
   end
 
-  protected
-
   def decorated_children
-    self.class.decorate_collection(question.children,
-                                   selected_division: selected_division,
-                                   include_descendant_divisions: include_descendant_divisions,
-                                   **@args)
+    @decorated_children ||
+      self.class.decorate_collection(question.children, @selected_division, @include_descendant_divisions)
   end
 
   private

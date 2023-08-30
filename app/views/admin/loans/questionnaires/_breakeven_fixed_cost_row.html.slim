@@ -1,6 +1,6 @@
 - hidden ||= false
 - cost ||= {}
-- prefix = "response_set[#{question.attribute_sym}][breakeven][fixed_costs][]"
+- prefix = "response_set[answers_attributes][#{index}][breakeven_data][fixed_costs][]"
 
 tr.ui-state-default data-group="fixed_cost" class=("hidden" if hidden)
   td: input.form-control.form-element name="#{prefix}[name]" value=cost[:name]

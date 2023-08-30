@@ -55,5 +55,6 @@
       = render "admin/loans/questionnaires/summary_group",
         f: f, response_set: response_set, group: @root, parents: [], indices: []
     - else
+      - editing_allowed = policy(@loan).update?
       = render "admin/loans/questionnaires/questionnaire_group",
-        f: f, response_set: response_set, group: @root, parents: [], indices: []
+        f: f, response_set: response_set, group: @root, parents: [], indices: [],  editing_allowed: editing_allowed

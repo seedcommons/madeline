@@ -1,9 +1,9 @@
-- if response.has_number?
-  - if response.number.present? && !response.not_applicable?
+- if question.has_number?
+  - if answer && answer.number.present? && !answer.not_applicable?
     - @previous_number_table = true
   - else
-    / Empty and not applicable responses do not show in print loan memo
-    / If a number table was displayed before the current response, keep track of previous table
+    / Empty and not applicable answers do not show in print loan memo
+    / If a number table was displayed before the current answer, keep track of previous table
     - if @previous_number_table
       - @previous_number_table = true
     - else

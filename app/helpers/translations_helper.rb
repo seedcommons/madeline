@@ -24,7 +24,7 @@ module TranslationsHelper
   end
 
   def translate_boolean(bool)
-    t(bool ? "reply_yes" : "reply_no")
+    t(bool ? "reply_true" : "reply_false")
   end
 end
 
