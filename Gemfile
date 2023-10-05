@@ -37,7 +37,7 @@ gem "slim", "~> 4.1" # Slim template language
 
 # Jobs and tasks
 gem "daemons"
-gem "sidekiq", "<= 5.2.10"
+gem "sidekiq", "<= 6.5.11"
 
 # Internationalization
 gem "devise-i18n"
